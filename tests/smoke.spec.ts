@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { LANGS } from '../src/lib/i18n';
+import { getDict } from '../src/content';
 
 // PRD §13 scenario 3: root redirect by Accept-Language.
 test.describe('root redirect', () => {
@@ -32,8 +33,16 @@ for (const lang of LANGS) {
 }
 
 // PRD §13 scenario 10.
-test('unknown path → 404 page with noindex', async ({ page }) => {
+test('unknown path → 404 page with noindex, language from the path', async ({ page }) => {
   const res = await page.goto('/en/definitely-missing/');
   expect(res?.status()).toBe(404);
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(getDict('en').pages['404'].h1);
+  await expect(page.getByRole('link', { name: getDict('en').pages['404'].cta })).toHaveAttribute('href', '/en/');
+
+  await page.goto('/ru/definitely-missing/');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'ru');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(getDict('ru').pages['404'].h1);
+  await expect(page).toHaveTitle(new RegExp(getDict('ru').meta['404']));
 });

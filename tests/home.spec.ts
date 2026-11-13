@@ -139,7 +139,7 @@ test.describe('lead block', () => {
       Object.defineProperty(navigator, 'clipboard', { value: { writeText: () => Promise.reject(new Error('denied')) }, configurable: true });
       document.execCommand = () => false;
     });
-    await page.goto('/en/');
+    await page.goto('/en/contact/');
     const lead = page.locator('#lead');
     await lead.getByRole('button', { name: en.lead.copy }).click();
     await expect(lead.getByRole('status')).toHaveText(en.lead.copyFail);
@@ -149,8 +149,7 @@ test.describe('lead block', () => {
     await expect(lead.locator('textarea')).toBeFocused();
   });
 
-  // TODO(M5/M6): enable when inner pages get the Lead block
-  test.fixme('topic is preselected per page', async ({ page }) => {
+  test('topic is preselected per page', async ({ page }) => {
     for (const [p, i] of [['cards', 1], ['payments', 2], ['development', 3], ['about', 0]] as const) {
       await page.goto(pagePath('ru', p));
       await expect(page.locator('#lead textarea')).toHaveValue(getDict('ru').lead.tpl(getDict('ru').lead.topics[i]!));

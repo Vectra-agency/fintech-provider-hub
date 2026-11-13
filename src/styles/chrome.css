@@ -215,3 +215,47 @@
     font-weight: 500;
   }
 }
+
+@layer components {
+  /* ── 404 (P8 style), both languages in the HTML; html[data-lang] picks one */
+  .nf {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 100svh;
+    padding-block: 6rem;
+    overflow: hidden;
+  }
+
+  /* ── Company details (About) */
+  .company-details { display: grid; border-top: 1px solid var(--white-09); }
+  .company-details > div { display: grid; gap: 0.25rem; padding: 1rem 0; border-bottom: 1px solid var(--white-09); }
+  @media (min-width: 40rem) { .company-details > div { grid-template-columns: 16rem minmax(0, 1fr); gap: 1.5rem; } }
+  .company-details dt { font-size: 0.875rem; color: var(--text-dim); }
+  .company-details dd { color: var(--foreground); }
+
+  /* ── Projects gallery phones */
+  .gallery-phones {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.75rem;
+  }
+  @media (max-width: 60rem) {
+    .gallery-phones {
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      margin-inline: -1.5rem;
+      padding: 0 1.5rem 0.5rem;
+      scrollbar-width: none;
+    }
+    .gallery-phones::-webkit-scrollbar { display: none; }
+    .gallery-phones > * { scroll-snap-align: start; flex: none; }
+  }
+}
+
+/* Unlayered on purpose: must beat the `flex` utility on the same element. */
+html[data-lang='en'] .nf-ru,
+html[data-lang='ru'] .nf-en { display: none; }

@@ -230,9 +230,9 @@ export function HomeManaged({ lang }: { lang: Lang }) {
   );
 }
 
-export function AdminBlock({ lang, title, desc, note }: { lang: Lang; title?: string; desc?: string; note: string }) {
+export function AdminBlock({ lang, title, desc, note, className = 'mt-16' }: { lang: Lang; title?: string; desc?: string; note: string; className?: string }) {
   return (
-    <div className="mt-16 flex flex-col gap-6">
+    <div className={`flex flex-col gap-6 ${className}`}>
       {(title || desc) && (
         <div className="flex max-w-2xl flex-col gap-2">
           {title && <h3 className="font-display text-2xl tracking-tight text-foreground">{title}</h3>}

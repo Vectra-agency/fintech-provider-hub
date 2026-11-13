@@ -276,3 +276,9 @@
   gap: 10px;
   box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.8);
 }
+
+/* Narrow phones: shrink mockups so a single phone + frame padding fits 320px (inline --s is overridden). */
+@media (max-width: 25rem) {
+  .phone-stage .phone,
+  .gallery-phones .phone { --s: 0.5 !important; }
+}
