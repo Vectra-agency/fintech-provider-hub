@@ -77,8 +77,8 @@ export function Header({ lang, labels }: { lang: Lang; labels: HeaderLabels }) {
     <>
       <header className={`site-header ${scrolled ? 'is-scrolled' : ''}`}>
         <div className="frame-container site-header-bar">
-          <div className="flex h-12 items-center justify-between gap-6 px-5">
-            <Link href={pagePath(lang, 'home')} className="shrink-0" aria-label="Fintech Provider Hub">
+          <div className="flex h-12 items-center justify-between gap-3 px-4 sm:gap-6 sm:px-5">
+            <Link href={pagePath(lang, 'home')} className="shrink-0">
               <LogoLockup gradientId="logo-g-header" size={26} />
             </Link>
 
@@ -99,7 +99,10 @@ export function Header({ lang, labels }: { lang: Lang; labels: HeaderLabels }) {
             </nav>
 
             <div className="flex items-center gap-3">
-              <LangSwitch lang={lang} labels={labels} href={switchHref} page={current} />
+              {/* below 390px the switch lives in the mobile menu only */}
+              <div className="hidden xs:block">
+                <LangSwitch lang={lang} labels={labels} href={switchHref} page={current} />
+              </div>
               <Button
                 href={tgUrl()}
                 variant="outline"
@@ -266,7 +269,7 @@ function MobileMenu({
       }}
     >
       <div className="frame-container flex h-12 items-center justify-between px-5">
-        <Link href={pagePath(lang, 'home')} aria-label="Fintech Provider Hub">
+        <Link href={pagePath(lang, 'home')}>
           <LogoLockup gradientId="logo-g-menu" size={26} />
         </Link>
         <button type="button" className="icon-btn" aria-label={labels.close} onClick={() => onClose()}>

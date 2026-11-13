@@ -9,7 +9,8 @@
   --foreground: #ecebe7;
   --card: #020204;
   --muted: #040608;
-  --muted-foreground: #757168; /* second part of two-part H2, body copy in sections */
+  /* reference #757168 gives 4.3:1 on black — lifted (same hue) to pass WCAG AA on the page and on cards */
+  --muted-foreground: #837f76; /* second part of two-part H2, body copy in sections */
   --border: #101215;
   --black: #000;
   --white: #fff;
@@ -22,7 +23,8 @@
   --white-12: rgb(255 255 255 / 0.12);
   --white-15: rgb(255 255 255 / 0.15); /* page frame lines */
   --white-25: rgb(255 255 255 / 0.25);
-  --white-40: rgb(255 255 255 / 0.4); /* footer links */
+  --white-40: rgb(255 255 255 / 0.4); /* non-text only: borders, icons (3.6:1 fails AA for text) */
+  --text-dim: rgb(255 255 255 / 0.55); /* dimmest text allowed: 6.2:1 on black */
   --white-65: rgb(255 255 255 / 0.65);
   --white-70: rgb(255 255 255 / 0.7); /* nav links */
 
@@ -68,12 +70,3 @@
   --marquee-duration: 80s;
   --star-btn-duration: 3s;
 }
-
-/*
- * Brand palettes — apply ONLY inside mockups (PRD §4.3.3, §7.5).
- * TODO(M3): secondary shades come from the prototype's palette objects.
- */
-[data-brand='ember'] { --brand: #f04800; }
-[data-brand='ocean'] { --brand: #2f6bff; }
-[data-brand='mint'] { --brand: #0e9f6e; }
-[data-brand='iris'] { --brand: #7c3aed; }

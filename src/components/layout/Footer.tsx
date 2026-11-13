@@ -18,7 +18,7 @@ export function Footer({ lang }: { lang: Lang }) {
       <div className="section-inner relative z-10">
         <div className="footer-grid pt-16 pb-12 lg:pt-20">
           <div className="flex flex-col gap-5">
-            <Link href={pagePath(lang, 'home')} className="self-start" aria-label="Fintech Provider Hub">
+            <Link href={pagePath(lang, 'home')} className="self-start">
               <LogoLockup gradientId="logo-g-footer" />
             </Link>
             <p className="max-w-[24rem] text-sm leading-relaxed text-white/60">{d.footer.tag}</p>
@@ -51,7 +51,7 @@ export function Footer({ lang }: { lang: Lang }) {
             ]}
           />
         </div>
-        <div className="flex flex-col gap-4 border-t border-white/10 py-8 text-sm text-white/40 md:flex-row md:items-start md:justify-between md:gap-12">
+        <div className="flex flex-col gap-4 border-t border-white/10 py-8 text-sm text-white/55 md:flex-row md:items-start md:justify-between md:gap-12">
           <p className="max-w-[70ch] text-xs leading-relaxed text-white/50">{d.footer.disc}</p>
           <p className="shrink-0">{d.footer.rights}</p>
         </div>

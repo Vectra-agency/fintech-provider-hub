@@ -11,20 +11,23 @@ export function TwoPartHeading({
   as: Tag = 'h2',
   className = '',
   id,
+  second = 'muted',
 }: {
   text: HeadingText;
   as?: 'h1' | 'h2' | 'h3';
   className?: string;
   id?: string;
+  /** colour of part 2: muted (section H2s) or the hero gradient (H1, final CTA) */
+  second?: 'muted' | 'gradient';
 }): ReactNode {
   const parts = typeof text === 'string' ? [text] : text;
   return (
-    <Tag id={id} className={`heading-2 ${className}`}>
+    <Tag id={id} className={className || 'heading-2'}>
       <span className="block">{parts[0]}</span>
       {parts[1] && (
         <>
           {' '}
-          <span className="block text-muted-foreground">{parts[1]}</span>
+          <span className={`block ${second === 'gradient' ? 'heading-1-gradient' : 'text-muted-foreground'}`}>{parts[1]}</span>
         </>
       )}
     </Tag>

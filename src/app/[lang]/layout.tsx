@@ -1,5 +1,5 @@
 import type { Viewport } from 'next';
-import { Google_Sans } from 'next/font/google';
+import { Google_Sans, Inter } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { LANGS, isLang } from '@/lib/i18n';
 import { HEAD_BOOT, DEFAULT_BRAND } from '@/lib/brand';
@@ -23,6 +23,9 @@ const display = Google_Sans({
   adjustFontFallback: false,
 });
 
+// Font of the product screens inside the phone/admin mockups (prototype). Not preloaded: mockups are decorative.
+const inter = Inter({ subsets: ['latin', 'cyrillic'], variable: '--font-inter', display: 'swap', preload: false });
+
 export const dynamicParams = false;
 export function generateStaticParams() {
   return LANGS.map((lang) => ({ lang }));
@@ -45,7 +48,7 @@ export default async function RootLayout({ children, params }: LayoutProps<'/[la
     sol: d.sol.map(({ id, name, short }) => ({ id, name, short })),
   };
   return (
-    <html lang={lang} className={display.variable} data-brand={DEFAULT_BRAND} suppressHydrationWarning>
+    <html lang={lang} className={`${display.variable} ${inter.variable}`} data-brand={DEFAULT_BRAND} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: HEAD_BOOT }} />
       </head>

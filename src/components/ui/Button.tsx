@@ -6,11 +6,12 @@ import { ChevronsRightIcon, TelegramIcon, ArrowIcon } from './icons';
  * Reference buttons (PRD §4.3.3): labels are uppercased by CSS — dictionary texts stay as they are.
  *  - outline: black pill, hairline border with a light travelling along it
  *  - solid:   white pill, black text, thin top highlight
+ *  - ghost:   translucent pill with a light border (non-featured pricing buttons of the reference)
  * Telegram links get the Telegram glyph (as in the prototype) and open in a new tab.
  */
 type Props = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & {
   href: string;
-  variant?: 'outline' | 'solid';
+  variant?: 'outline' | 'solid' | 'ghost';
   size?: 'sm' | 'md';
   icon?: 'telegram' | 'chevrons' | 'arrow' | 'none';
   children: ReactNode;

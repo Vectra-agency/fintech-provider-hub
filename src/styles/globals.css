@@ -1,6 +1,8 @@
 @import 'tailwindcss';
 @import './tokens.css';
 @import './chrome.css';
+@import './mockups.css';
+@import './components.css';
 
 /* Fonts: `static` so the variables always exist on :root (used directly by component classes). */
 @theme static {
@@ -18,7 +20,6 @@
   --color-border: var(--border);
   --color-frame: var(--frame-border);
   --color-live: var(--live);
-  --color-brand: var(--brand);
 
   /* reference uses min-[390px] in hero CTAs */
   --breakpoint-xs: 390px;
@@ -50,6 +51,11 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* safety net like the reference (main.overflow-x-hidden); real overflow bugs are caught by the e2e check */
+  main {
+    overflow-x: clip;
   }
 
   :focus-visible {

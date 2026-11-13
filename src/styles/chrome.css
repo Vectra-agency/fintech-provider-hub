@@ -179,7 +179,7 @@
   }
   .footer-link {
     font-size: 0.875rem;
-    color: var(--white-40);
+    color: var(--text-dim);
     transition: color var(--dur-ui) var(--ease-standard);
   }
   .footer-link:hover { color: var(--white); }
