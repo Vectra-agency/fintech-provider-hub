@@ -31,8 +31,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
       - run: pnpm lint
-      # TODO(M2): enable once docs/prototype/index.html and dictionaries are in place
-      # - run: pnpm check:headings
+      - run: pnpm check:headings
       - name: check-placeholders (prod only)
         if: env.IS_PROD == 'true'
         run: pnpm check:placeholders

@@ -1,0 +1,217 @@
+/* Site chrome in the reference style: header, dropdown, mobile menu, footer, page hero, skip link. */
+@layer components {
+  /* ── Skip link (PRD §7.8) */
+  .skip-link {
+    position: fixed;
+    top: 0.75rem;
+    left: 1rem;
+    z-index: 100;
+    translate: 0 -200%;
+    border-radius: var(--radius-pill);
+    background: var(--white);
+    color: var(--black);
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  .skip-link:focus { translate: 0 0; }
+
+  /* ── Header: fixed, top-3, hairlines above and below, blur once scrolled (reference) */
+  .site-header {
+    position: fixed;
+    inset-inline: 0;
+    top: var(--header-top);
+    z-index: 50;
+  }
+  .site-header-bar {
+    position: relative;
+    transition: background-color var(--dur-header) var(--ease-standard), backdrop-filter var(--dur-header) var(--ease-standard);
+  }
+  .site-header-bar::before,
+  .site-header-bar::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    height: 1px;
+    background: rgb(236 235 231 / 0.1);
+    z-index: 1;
+  }
+  .site-header-bar::before { top: 0; }
+  .site-header-bar::after { bottom: 0; }
+  .site-header.is-scrolled .site-header-bar {
+    background: rgb(1 1 2 / 0.8);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
+
+  .nav-link {
+    position: relative;
+    font-size: 0.875rem;
+    color: var(--white-70);
+    transition: color var(--dur-ui) var(--ease-standard);
+    white-space: nowrap;
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.25rem;
+    width: 0;
+    height: 1px;
+    background: var(--white);
+    transition: width var(--dur-ui) var(--ease-standard);
+  }
+  .nav-link:hover,
+  .nav-link[aria-current='page'],
+  .nav-link[aria-expanded='true'] { color: var(--white); }
+  .nav-link:hover::after,
+  .nav-link[aria-current='page']::after { width: 100%; }
+  button.nav-link::after { display: none; }
+
+  .lang-switch {
+    display: inline-flex;
+    height: 2rem;
+    padding: 2px;
+    gap: 2px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--white-15);
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  .lang-switch > * {
+    display: grid;
+    place-items: center;
+    min-width: 2.25rem;
+    border-radius: var(--radius-pill);
+    color: var(--white-70);
+    transition: color var(--dur-ui) var(--ease-standard);
+  }
+  .lang-switch > [aria-current] { background: var(--white-12); color: var(--white); }
+  .lang-switch > a:hover { color: var(--white); }
+
+  .icon-btn {
+    display: inline-grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--white-15);
+    color: var(--white);
+  }
+
+  /* Solutions dropdown — frame surface of the reference */
+  .dropdown-panel {
+    position: absolute;
+    top: calc(100% + 1rem);
+    left: -1.25rem;
+    width: min(36rem, calc(100vw - 2rem));
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    padding: 6px;
+    border-radius: var(--radius-frame);
+    border: 1px solid var(--frame-border);
+    background: var(--frame-fill);
+    box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.8);
+    animation: dropdown-in 180ms var(--ease-standard);
+  }
+  .dropdown-panel::before {
+    /* hover bridge between the trigger and the panel */
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    top: -1rem;
+    height: 1rem;
+  }
+  .dropdown-panel[hidden] { display: none; }
+  @keyframes dropdown-in {
+    from { opacity: 0; translate: 0 -4px; }
+  }
+  .dropdown-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    padding: 0.875rem 1rem;
+    border-radius: 10px;
+    transition: background-color var(--dur-ui) var(--ease-standard);
+  }
+  .dropdown-item:hover,
+  .dropdown-item:focus-visible { background: var(--white-05); }
+  .dropdown-item b { font-weight: 500; font-size: 0.875rem; color: var(--foreground); }
+  .dropdown-item span { font-size: 0.75rem; line-height: 1.5; color: var(--muted-foreground); }
+
+  /* Mobile menu: full screen, above the frame lines */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    overflow-y: auto;
+    padding-top: var(--header-top);
+    background: var(--background);
+    animation: dropdown-in 200ms var(--ease-standard);
+  }
+  .mobile-link {
+    display: block;
+    padding-block: 0.875rem;
+    border-bottom: 1px solid var(--white-09);
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    letter-spacing: -0.01em;
+    color: var(--foreground);
+  }
+  .mobile-sub {
+    padding-left: 1rem;
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    color: var(--white-70);
+  }
+
+  /* ── Footer */
+  .footer-grid {
+    display: grid;
+    gap: 2.5rem;
+    grid-template-columns: 1fr 1fr;
+  }
+  .footer-grid > :first-child { grid-column: 1 / -1; }
+  @media (min-width: 64rem) {
+    .footer-grid { grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 3rem; }
+    .footer-grid > :first-child { grid-column: auto; }
+  }
+  .footer-link {
+    font-size: 0.875rem;
+    color: var(--white-40);
+    transition: color var(--dur-ui) var(--ease-standard);
+  }
+  .footer-link:hover { color: var(--white); }
+
+  /* ── Page hero (P1b) */
+  .page-hero {
+    position: relative;
+    overflow: hidden;
+    background: var(--black);
+  }
+  .heading-page {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.25rem, 7vw, 3rem);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    color: var(--white);
+    text-wrap: balance;
+  }
+  @media (min-width: 64rem) {
+    .heading-page { font-size: clamp(3rem, 4.2vw, 4rem); line-height: 0.95; }
+  }
+
+  /* ── Legal draft plaque (PRD §6.9) */
+  .draft-plaque {
+    align-self: flex-start;
+    border-radius: var(--radius-card);
+    border: 1px solid rgb(245 185 74 / 0.35);
+    background: rgb(245 185 74 / 0.08);
+    color: #f5c46a;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+}

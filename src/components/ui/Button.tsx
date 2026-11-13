@@ -1,21 +1,26 @@
 import type { AnchorHTMLAttributes, ReactNode } from 'react';
+import Link from 'next/link';
+import { ChevronsRightIcon, TelegramIcon, ArrowIcon } from './icons';
 
 /**
  * Reference buttons (PRD §4.3.3): labels are uppercased by CSS — dictionary texts stay as they are.
- *  - outline: black pill, hairline border with a light travelling along it, "»" glyph
+ *  - outline: black pill, hairline border with a light travelling along it
  *  - solid:   white pill, black text, thin top highlight
+ * Telegram links get the Telegram glyph (as in the prototype) and open in a new tab.
  */
-type Props = AnchorHTMLAttributes<HTMLAnchorElement> & {
+type Props = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & {
+  href: string;
   variant?: 'outline' | 'solid';
   size?: 'sm' | 'md';
-  external?: boolean;
+  icon?: 'telegram' | 'chevrons' | 'arrow' | 'none';
   children: ReactNode;
 };
 
-export function Button({ variant = 'solid', size = 'md', external, className = '', children, ...rest }: Props) {
-  const ext = external ? { target: '_blank', rel: 'noopener' } : {};
-  return (
-    <a {...ext} {...rest} className={`btn btn-${variant} btn-${size} ${className}`}>
+export function Button({ href, variant = 'solid', size = 'md', icon, className = '', children, ...rest }: Props) {
+  const external = /^https?:\/\//.test(href);
+  const glyph = icon ?? (href.startsWith('https://t.me/') ? 'telegram' : variant === 'outline' ? 'chevrons' : 'none');
+  const inner = (
+    <>
       {variant === 'outline' && (
         <>
           <span className="btn-star-light" aria-hidden="true" />
@@ -24,18 +29,21 @@ export function Button({ variant = 'solid', size = 'md', external, className = '
       )}
       {variant === 'solid' && <span className="btn-solid-highlight" aria-hidden="true" />}
       <span className="btn-label">
+        {glyph === 'telegram' && <TelegramIcon size={size === 'sm' ? 14 : 16} />}
         {children}
-        {variant === 'outline' && <ChevronsRight />}
+        {glyph === 'chevrons' && <ChevronsRightIcon />}
+        {glyph === 'arrow' && <ArrowIcon size={14} />}
       </span>
-    </a>
+    </>
   );
-}
-
-function ChevronsRight() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-      <path d="M12.5 18s6-4.42 6-6-6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M5.5 18s6-4.42 6-6-6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
+  const cls = `btn btn-${variant} btn-${size} ${className}`;
+  return external ? (
+    <a href={href} target="_blank" rel="noopener" className={cls} {...rest}>
+      {inner}
+    </a>
+  ) : (
+    <Link href={href} className={cls} {...rest}>
+      {inner}
+    </Link>
   );
 }
