@@ -1,4 +1,4 @@
-import type { Viewport } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Google_Sans, Inter } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { LANGS, isLang } from '@/lib/i18n';
@@ -11,11 +11,11 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { SkipLink } from '@/components/layout/SkipLink';
 import { AnalyticsListener } from '@/components/layout/AnalyticsListener';
+import { jsonLd } from '@/lib/seo';
 import '@/styles/globals.css';
 
 // Display face of the design reference. Self-hosted by next/font at build time; has Cyrillic (Q11).
-// TODO(M7): Next ships no metrics for Google Sans, so there is no size-adjusted fallback face.
-// Add a manual fallback @font-face (size-adjust / ascent-override over Arial) to keep CLS ≤ 0.05.
+// Next ships no metrics for Google Sans → the size-adjusted fallback face lives in globals.css.
 const display = Google_Sans({
   subsets: ['latin', 'cyrillic'],
   variable: '--font-google-sans',
@@ -30,6 +30,10 @@ export const dynamicParams = false;
 export function generateStaticParams() {
   return LANGS.map((lang) => ({ lang }));
 }
+
+export const metadata: Metadata = {
+  icons: { icon: '/favicon.svg', apple: '/apple-touch-icon.png' },
+};
 
 export const viewport: Viewport = {
   themeColor: '#000000',
@@ -53,6 +57,7 @@ export default async function RootLayout({ children, params }: LayoutProps<'/[la
         <script dangerouslySetInnerHTML={{ __html: HEAD_BOOT }} />
       </head>
       <body>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd(lang, d.footer.tag)).replace(/</g, '\\u003c') }} />
         <SkipLink label={d.nav.skip} />
         <FrameLines />
         <Header lang={lang} labels={labels} />

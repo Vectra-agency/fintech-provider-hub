@@ -126,6 +126,8 @@ export function HomeSolutions({ lang }: { lang: Lang }) {
                   <p className="plan-desc">{s.short}</p>
                   <Button href={pagePath(lang, s.id)} variant={featured ? 'outline' : 'ghost'} icon="arrow" className="mt-auto w-full normal-case">
                     {S.more}
+                    {/* descriptive link text for AT/SEO without changing the visible copy */}
+                    <span className="sr-only">: {s.name}</span>
                   </Button>
                 </div>
               </article>

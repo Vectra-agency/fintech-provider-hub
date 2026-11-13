@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && tsx scripts/finalize-headers.ts",
     "build:prod": "pnpm check:placeholders && next build",
     "start": "npx --yes serve@14 out -l 3000",
     "preview:cf": "wrangler pages dev out --port 8788",
@@ -21,7 +21,9 @@
     "test:e2e": "playwright test",
     "lhci": "lhci autorun",
     "prepare:hero": "tsx scripts/prepare-hero-media.ts",
-    "check:js-budget": "tsx scripts/check-js-budget.ts"
+    "check:js-budget": "tsx scripts/check-js-budget.ts",
+    "finalize:headers": "tsx scripts/finalize-headers.ts",
+    "make:brand-assets": "tsx scripts/make-brand-assets.ts"
   },
   "dependencies": {
     "next": "16.4.6",

@@ -39,6 +39,12 @@ jobs:
         env:
           # TODO(Q9): hero footage/poster only on previews until the template licence is confirmed.
           NEXT_PUBLIC_HERO_MEDIA: ${{ env.IS_PROD == 'true' && 'off' || 'on' }}
+          # TODO(Q3): production domain (canonical, hreflang, sitemap, OG, JSON-LD)
+          NEXT_PUBLIC_SITE_URL: ${{ vars.SITE_URL }}
+          # TODO(Q2): plausible | umami; endpoint origin is also added to CSP connect-src
+          NEXT_PUBLIC_ANALYTICS_PROVIDER: ${{ vars.ANALYTICS_PROVIDER }}
+          NEXT_PUBLIC_ANALYTICS_ENDPOINT: ${{ vars.ANALYTICS_ENDPOINT }}
+          NEXT_PUBLIC_ANALYTICS_SITE: ${{ vars.ANALYTICS_SITE }}
       - run: pnpm check:js-budget
       - name: Strip hero media from production output (Q9)
         if: env.IS_PROD == 'true'

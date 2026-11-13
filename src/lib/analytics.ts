@@ -1,7 +1,9 @@
 /**
- * PRD §11. Pushes to window.dataLayer and forwards to the provider adapter (TODO(Q2): Plausible or Umami).
+ * PRD §11. Pushes to window.dataLayer and forwards to the provider adapter (see analytics-providers.ts).
  * Never pass personal data.
  */
+import { providerAdapter } from './analytics-providers';
+
 export type AnalyticsEvent =
   | 'page_view'
   | 'explore_solutions'
@@ -17,7 +19,7 @@ export type AnalyticsEvent =
 type Props = Record<string, string | number | boolean | undefined>;
 type Adapter = (event: AnalyticsEvent, props: Props) => void;
 
-let adapter: Adapter | null = null;
+let adapter: Adapter | null = typeof window === 'undefined' ? null : providerAdapter();
 export function setAnalyticsAdapter(a: Adapter) {
   adapter = a;
 }
