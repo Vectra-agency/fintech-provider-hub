@@ -1,0 +1,3 @@
+# "/" is handled by functions/index.ts (Accept-Language → /en/ or /ru/).
+# Fallback if the function is disabled — uncomment:
+# /  /en/  302

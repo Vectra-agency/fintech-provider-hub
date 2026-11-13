@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fintech Provider Hub (Copy)</title>
+<meta name="description" content="White-label crypto wallets, virtual card programs, global payments and custom fintech development from Hong Kong.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&family=Manrope:wght@500..800&display=swap" rel="stylesheet">
+<style>
+/* layout idea: cold graphite "infrastructure" shell, warm product screens as the only hot color; light paper sections for reading */
+:root{
+  --bg:#070B14; --bg-2:#0C1220; --bg-3:#121A2C; --line:rgba(150,168,214,.14); --line-2:rgba(150,168,214,.24);
+  --fg:#EDF0F7; --fg-2:#9EA8BF;
+  --blue:#5B8CFF; --violet:#A07EFF; --blue-ink:#2A55D6;
+  --paper:#F2F4F9; --paper-fg:#0B1120; --paper-2:#4A5367; --paper-line:#DCE1EB; --card:#FFFFFF;
+  --ok:#3DD39A; --ok-ink:#0C7A52;
+  --display:'Manrope',ui-sans-serif,system-ui,sans-serif; --body:'Inter',ui-sans-serif,system-ui,-apple-system,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 var(--body);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img,svg{max-width:100%}
+h1,h2,h3,h4{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-.02em}
+p{margin:0}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:6px}
+.skip{position:absolute;left:-999px;top:8px;background:var(--fg);color:var(--bg);padding:8px 14px;border-radius:8px;z-index:100}
+.skip:focus{left:16px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+.sec{padding:104px 0;position:relative}
+.sec.tight{padding:72px 0}
+.light{background:var(--paper);color:var(--paper-fg)}
+.light .muted{color:var(--paper-2)}
+.muted{color:var(--fg-2)}
+.sec-head{max-width:760px;display:flex;flex-direction:column;gap:16px;margin-bottom:52px}
+.h2{font-size:clamp(30px,4.2vw,50px);font-weight:800;line-height:1.06;letter-spacing:-.035em}
+.h3{font-size:22px;font-weight:700;line-height:1.2}
+.lead-p{font-size:clamp(17px,1.5vw,19px);line-height:1.55;max-width:62ch}
+.eyebrow{font:600 13px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--blue);display:inline-flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:8px;height:8px;border-radius:2px;background:linear-gradient(135deg,var(--blue),var(--violet))}
+.light .eyebrow{color:var(--blue-ink)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 24px;border-radius:14px;font:600 16px/1 var(--body);text-decoration:none;border:1px solid transparent;cursor:pointer;transition:transform .15s ease,background .2s ease,border-color .2s ease;white-space:nowrap}
+.btn:hover{transform:translateY(-1px)}
+.btn-p{background:var(--fg);color:var(--bg)}
+.btn-p:hover{background:#fff}
+.btn-g{border-color:var(--line-2);color:var(--fg);background:rgba(255,255,255,.03)}
+.btn-g:hover{border-color:rgba(150,168,214,.45)}
+.btn-blue{background:var(--blue);color:#fff}
+.btn-blue:hover{background:#6E9AFF}
+.light .btn-g{border-color:var(--paper-line);color:var(--paper-fg);background:#fff}
+.btn-sm{height:40px;padding:0 16px;border-radius:11px;font-size:14px}
+.tg-ico{width:20px;height:20px;flex:none}
+.arrow-link{display:inline-flex;align-items:center;gap:8px;font-weight:600;text-decoration:none;color:var(--blue)}
+.light .arrow-link{color:var(--blue-ink)}
+.arrow-link svg{transition:transform .2s ease}
+.arrow-link:hover svg{transform:translateX(3px)}
+
+/* status pills */
+.pill{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:13px;font:600 12px/1 var(--body);letter-spacing:.01em;white-space:nowrap;border:1px solid}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.pill-core{color:var(--ok);border-color:rgba(61,211,154,.35);background:rgba(61,211,154,.08)}
+.pill-partner{color:#8EB0FF;border-color:rgba(91,140,255,.4);background:rgba(91,140,255,.08)}
+.pill-addon{color:#C3ABFF;border-color:rgba(160,126,255,.4);background:rgba(160,126,255,.08)}
+.pill-roadmap{color:#B7BFD0;border-color:rgba(183,191,208,.3);background:rgba(183,191,208,.06)}
+.light .pill-core{color:var(--ok-ink);border-color:#9FDDC4;background:#E7F7F0}
+.light .pill-partner{color:var(--blue-ink);border-color:#B9CBFA;background:#EDF2FF}
+.light .pill-addon{color:#5B37C9;border-color:#D2C3FB;background:#F3EEFF}
+.light .pill-roadmap{color:#4A5367;border-color:#D4D9E3;background:#EEF0F5}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+
+/* header */
+.hdr{position:sticky;top:0;z-index:50;background:rgba(7,11,20,.78);backdrop-filter:blur(16px) saturate(140%);border-bottom:1px solid var(--line)}
+.hdr-in{height:70px;display:flex;align-items:center;gap:28px}
+.logo{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font:800 16px/1.1 var(--display);letter-spacing:-.01em;flex:none}
+.logo small{display:block;font:500 11px/1 var(--body);color:var(--fg-2);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+.nav{display:flex;align-items:center;gap:4px;margin-left:auto}
+.nav>a,.nav .dd>button{height:40px;padding:0 12px;border-radius:10px;display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--fg-2);font:500 15px/1 var(--body);background:none;border:0;cursor:pointer}
+.nav>a:hover,.nav .dd>button:hover,.nav>a[aria-current="page"]{color:var(--fg);background:rgba(255,255,255,.05)}
+.dd{position:relative}
+.dd-panel{position:absolute;top:100%;left:-12px;width:560px;padding:10px;margin-top:8px;border-radius:18px;background:var(--bg-2);border:1px solid var(--line-2);box-shadow:0 30px 60px -20px rgba(0,0,0,.7);display:grid;grid-template-columns:1fr 1fr;gap:4px;opacity:0;visibility:hidden;transform:translateY(-4px);transition:opacity .18s ease,transform .18s ease,visibility .18s}
+.dd-panel::before{content:"";position:absolute;left:0;right:0;top:-12px;height:12px}
+.dd:hover .dd-panel,.dd:focus-within .dd-panel{opacity:1;visibility:visible;transform:none}
+.dd-panel a{display:flex;flex-direction:column;gap:4px;padding:14px;border-radius:12px;text-decoration:none}
+.dd-panel a:hover{background:rgba(255,255,255,.05)}
+.dd-panel b{font:700 15px/1.2 var(--display)}
+.dd-panel span{font-size:13px;line-height:1.45;color:var(--fg-2)}
+.hdr-r{display:flex;align-items:center;gap:10px}
+.lang{display:inline-flex;height:40px;border:1px solid var(--line-2);border-radius:11px;padding:3px;gap:2px}
+.lang a,.lang span{min-width:38px;display:flex;align-items:center;justify-content:center;border-radius:8px;font:600 13px/1 var(--body);text-decoration:none;color:var(--fg-2)}
+.lang span{background:rgba(255,255,255,.1);color:var(--fg)}
+.lang a:hover{color:var(--fg)}
+.menu-btn{display:none;width:44px;height:44px;border-radius:12px;border:1px solid var(--line-2);background:none;color:var(--fg);align-items:center;justify-content:center;cursor:pointer}
+.mnav{display:none}
+@media (max-width:1060px){
+  .nav,.hdr-r .btn{display:none}
+  .menu-btn{display:inline-flex}
+  .hdr-r{margin-left:auto}
+  .hdr.open .mnav{display:flex}
+  .mnav{position:absolute;top:70px;left:0;right:0;height:calc(100dvh - 70px);overflow:auto;background:var(--bg);flex-direction:column;padding:16px 24px 32px;gap:4px;border-top:1px solid var(--line)}
+  .mnav a{padding:14px 4px;text-decoration:none;font:600 18px/1.2 var(--display);border-bottom:1px solid var(--line)}
+  .mnav .sub{font:500 16px/1.2 var(--body);color:var(--fg-2);padding-left:16px}
+  .mnav .btn{margin-top:20px;border-bottom:0;font:600 16px/1 var(--body)}
+}
+
+/* hero */
+.hero{position:relative;overflow:hidden;padding:72px 0 88px}
+.grid-bg{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;-webkit-mask-image:radial-gradient(70% 80% at 70% 40%,#000 0%,transparent 75%);mask-image:radial-gradient(70% 80% at 70% 40%,#000 0%,transparent 75%);opacity:.55;pointer-events:none}
+.hero-in{position:relative;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:48px;align-items:center}
+.hero h1{font-size:clamp(42px,6.4vw,82px);font-weight:800;line-height:.98;letter-spacing:-.045em;margin:22px 0 24px}
+.hero .lead-p{color:var(--fg-2)}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.specs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:56px;border-top:1px solid var(--line)}
+.specs div{padding:18px 18px 0 0;display:flex;flex-direction:column;gap:6px}
+.specs div+div{padding-left:18px;border-left:1px solid var(--line)}
+.specs dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-2)}
+.specs dd{margin:0;font:700 16px/1.3 var(--display)}
+.stage{position:relative;display:flex;flex-direction:column;align-items:center;gap:22px}
+.stage::before{content:"";position:absolute;width:120%;aspect-ratio:1;left:50%;top:44%;transform:translate(-50%,-50%);background:radial-gradient(closest-side,rgba(var(--halo),.34),rgba(var(--halo),.08) 55%,transparent 72%);pointer-events:none;transition:background .4s ease}
+.stage>*{position:relative}
+.hero .phone{animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
+@keyframes rise{from{transform:translateY(28px);opacity:.3}to{transform:none;opacity:1}}
+.swatches{display:flex;flex-direction:column;align-items:center;gap:10px}
+.swatches p{font-size:13px;color:var(--fg-2)}
+.sw-row{display:flex;gap:8px;padding:5px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.sw{height:38px;padding:0 12px 0 8px;border-radius:11px;border:1px solid transparent;background:none;color:var(--fg-2);display:flex;align-items:center;gap:8px;font:600 13px/1 var(--body);cursor:pointer}
+.sw i{width:20px;height:20px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
+.sw[aria-pressed="true"]{background:rgba(255,255,255,.08);border-color:var(--line-2);color:var(--fg)}
+.sw:hover{color:var(--fg)}
+.light .sw-row{background:#fff;border-color:var(--paper-line)}
+.light .sw{color:var(--paper-2)}
+.light .sw[aria-pressed="true"]{background:var(--paper);border-color:var(--paper-line);color:var(--paper-fg)}
+.light .swatches p{color:var(--paper-2)}
+@media (max-width:960px){
+  .hero-in{grid-template-columns:minmax(0,1fr)}
+  .specs{grid-template-columns:1fr 1fr}
+  .specs div:nth-child(3){padding-left:0;border-left:0}
+  .specs div:nth-child(n+3){border-top:1px solid var(--line);margin-top:18px}
+}
+
+/* showcase */
+.tabs{display:inline-flex;flex-wrap:wrap;gap:4px;padding:5px;border-radius:16px;background:var(--bg-2);border:1px solid var(--line);margin-bottom:44px}
+.tab{height:44px;padding:0 18px;border-radius:12px;border:0;background:none;color:var(--fg-2);font:600 15px/1 var(--body);cursor:pointer}
+.tab[aria-selected="true"]{background:var(--fg);color:var(--bg)}
+.tab:not([aria-selected="true"]):hover{color:var(--fg)}
+.show{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:56px;align-items:center}
+.show-cap{display:flex;flex-direction:column;gap:20px}
+.show-cap h3{font-size:clamp(26px,2.8vw,34px);font-weight:800;line-height:1.1;letter-spacing:-.03em}
+.checks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+.checks li{display:flex;gap:12px;align-items:flex-start;line-height:1.45}
+.checks li svg{flex:none;margin-top:2px;color:var(--ok)}
+.light .checks li svg{color:var(--ok-ink)}
+.demo-note{font-size:13px;color:var(--fg-2);display:flex;gap:8px;align-items:center}
+.duo{display:flex;gap:28px;justify-content:center;align-items:flex-start}
+.duo .phone:nth-child(2){margin-top:64px}
+.duo.three .phone:nth-child(3){margin-top:24px}
+@media (max-width:960px){
+  .show{grid-template-columns:minmax(0,1fr);gap:36px}
+  .duo{justify-content:flex-start;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -24px;padding:8px 24px 24px;scrollbar-width:none}
+  .duo::-webkit-scrollbar{display:none}
+  .duo .phone{scroll-snap-align:center}
+  .duo .phone:nth-child(n){margin-top:0}
+  .tabs{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-left:-24px;margin-right:-24px;border-radius:0;border-left:0;border-right:0;padding:5px 24px}
+  .tab{flex:none}
+}
+
+/* cards / grids */
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:960px){.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:1fr 1fr}}
+@media (max-width:620px){.g2,.g3,.g4{grid-template-columns:minmax(0,1fr)}}
+.box{border-radius:22px;padding:28px;background:var(--bg-2);border:1px solid var(--line);display:flex;flex-direction:column;gap:12px}
+.light .box{background:var(--card);border-color:var(--paper-line)}
+.sol{text-decoration:none;min-height:250px;justify-content:space-between;gap:28px;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+.sol:hover{transform:translateY(-3px);box-shadow:0 24px 48px -28px rgba(11,17,32,.35);border-color:#C3CCDD}
+.sol h3{font-size:clamp(22px,2.2vw,28px);font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.sol-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.sol-ico{width:52px;height:52px;border-radius:14px;background:var(--paper-fg);color:#fff;display:flex;align-items:center;justify-content:center;flex:none}
+.feat h3{font-size:18px;font-weight:700;line-height:1.25}
+.feat p{font-size:15px;line-height:1.5;color:var(--fg-2)}
+.light .feat p{color:var(--paper-2)}
+.feat .pill{align-self:flex-start}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;counter-reset:st;position:relative}
+.step{padding:0 24px 0 0;display:flex;flex-direction:column;gap:12px;position:relative}
+.step-n{font:800 15px/1 var(--display);width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--paper-fg);color:#fff;position:relative;z-index:1}
+.step::before{content:"";position:absolute;top:22px;left:44px;right:0;height:1px;background:var(--paper-line)}
+.step:last-child::before{display:none}
+.dark .step-n,.sec:not(.light) .step-n{background:var(--fg);color:var(--bg)}
+.sec:not(.light) .step::before{background:var(--line-2)}
+.step h3{font-size:19px;font-weight:700;margin-top:6px}
+.step p{font-size:15px;line-height:1.5}
+@media (max-width:860px){.steps{grid-template-columns:1fr 1fr;gap:32px}.step::before{display:none}}
+@media (max-width:520px){.steps{grid-template-columns:minmax(0,1fr)}}
+
+/* managed diagram */
+.flow{display:grid;grid-template-columns:1fr 44px 1fr 44px 1fr;align-items:stretch}
+.flow-col{border-radius:22px;padding:26px;border:1px solid var(--line);background:var(--bg-2);display:flex;flex-direction:column;gap:14px}
+.flow-col.mid{border-color:rgba(91,140,255,.45);background:linear-gradient(180deg,rgba(91,140,255,.10),rgba(160,126,255,.05));box-shadow:0 0 0 4px rgba(91,140,255,.06)}
+.flow-col h3{font-size:18px;font-weight:800}
+.flow-col ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.flow-col li{font-size:15px;line-height:1.45;color:var(--fg-2);padding-left:18px;position:relative}
+.flow-col li::before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:50%;background:var(--blue)}
+.flow-col li.keep{color:var(--fg)}
+.flow-col li.keep::before{background:var(--violet)}
+.flow-ar{display:flex;align-items:center;justify-content:center;color:var(--fg-2)}
+@media (max-width:900px){.flow{grid-template-columns:minmax(0,1fr)}.flow-ar{height:40px;transform:rotate(90deg)}}
+.fit{width:100%;overflow:hidden}
+.fit>*{transform-origin:0 0}
+.admin-wrap{margin-top:48px;display:flex;flex-direction:column;gap:14px}
+.admin-wrap header{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+
+/* projects */
+.proj{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:40px;align-items:center;border-radius:28px;background:#fff;border:1px solid var(--paper-line);padding:44px;overflow:hidden}
+.proj h3{font-size:clamp(26px,2.8vw,36px);font-weight:800;letter-spacing:-.03em;line-height:1.08}
+.proj .duo{gap:18px}
+.proj-phones{display:flex;gap:16px;justify-content:center;align-items:flex-start}
+.proj-phones .phone:nth-child(2){margin-top:40px}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.tag{height:30px;padding:0 12px;border-radius:15px;background:var(--paper);border:1px solid var(--paper-line);display:inline-flex;align-items:center;font-size:13px;font-weight:600;color:var(--paper-2)}
+@media (max-width:960px){.proj{grid-template-columns:minmax(0,1fr);padding:28px}.proj-phones{justify-content:flex-start;overflow-x:auto;margin:0 -28px;padding:0 28px 8px;scrollbar-width:none}.proj-phones .phone:nth-child(n){margin-top:0}}
+
+/* about */
+.about{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:56px;align-items:start}
+.facts{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
+.facts div{padding:18px 0;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:4px}
+.facts div:nth-child(odd){padding-right:16px}
+.facts dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-2)}
+.facts dd{margin:0;font:700 18px/1.3 var(--display)}
+@media (max-width:860px){.about{grid-template-columns:minmax(0,1fr);gap:32px}}
+
+/* lead */
+.lead-box{border-radius:30px;border:1px solid var(--line-2);background:radial-gradient(80% 120% at 0% 0%,rgba(91,140,255,.16),transparent 60%),radial-gradient(60% 100% at 100% 100%,rgba(160,126,255,.12),transparent 60%),var(--bg-2);padding:56px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px}
+.lead-l{display:flex;flex-direction:column;gap:18px}
+.handle{display:inline-flex;align-items:center;gap:12px;margin-top:auto;padding-top:24px;font:700 22px/1 var(--display);text-decoration:none}
+.handle span{font:500 14px/1 var(--body);color:var(--fg-2)}
+.lead-form{border-radius:22px;background:rgba(7,11,20,.6);border:1px solid var(--line);padding:24px;display:flex;flex-direction:column;gap:16px}
+.lead-form label,.lead-form .lbl{font-size:14px;font-weight:600;color:var(--fg-2)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{height:38px;padding:0 14px;border-radius:19px;border:1px solid var(--line-2);background:none;color:var(--fg);font:500 14px/1 var(--body);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#fff}
+.lead-form textarea{width:100%;min-height:132px;resize:vertical;border-radius:14px;border:1px solid var(--line-2);background:var(--bg);color:var(--fg);font:15px/1.5 var(--body);padding:14px}
+.lead-actions{display:flex;flex-wrap:wrap;gap:10px}
+.lead-actions .btn{flex:1}
+.copy-st{font-size:13px;color:var(--ok);min-height:18px}
+@media (max-width:900px){.lead-box{grid-template-columns:minmax(0,1fr);padding:28px;gap:28px}}
+
+/* page hero */
+.phero{position:relative;overflow:hidden;padding:64px 0 80px;border-bottom:1px solid var(--line)}
+.phero-in{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:center}
+.phero h1{font-size:clamp(38px,5.2vw,66px);font-weight:800;line-height:1;letter-spacing:-.045em;margin:20px 0 22px}
+.phero.text .phero-in{grid-template-columns:minmax(0,1fr)}
+.phero.text h1{max-width:16ch}
+@media (max-width:960px){.phero-in{grid-template-columns:minmax(0,1fr)}}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center}
+@media (max-width:960px){.split{grid-template-columns:minmax(0,1fr);gap:32px}}
+.list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.list li{padding:14px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:16px;line-height:1.4}
+.light .list li{border-color:var(--paper-line)}
+.list li:first-child{border-top:1px solid var(--line)}
+.light .list li:first-child{border-top-color:var(--paper-line)}
+.bins{display:flex;flex-wrap:wrap;gap:10px}
+.bin{height:56px;padding:0 20px;border-radius:14px;border:1px solid var(--paper-line);background:#fff;display:flex;align-items:center;gap:10px;font:700 17px/1 var(--display)}
+.bin i{font:600 11px/1 var(--body);font-style:normal;color:var(--paper-2);letter-spacing:.08em}
+.note{border-radius:16px;padding:18px 20px;border:1px solid var(--line-2);background:rgba(255,255,255,.03);font-size:15px;line-height:1.5;display:flex;gap:12px;align-items:flex-start}
+.note svg{flex:none;margin-top:2px;color:var(--blue)}
+.light .note{background:#fff;border-color:var(--paper-line)}
+.light .note svg{color:var(--blue-ink)}
+.stack{display:flex;flex-direction:column;gap:10px;width:100%;max-width:460px;margin:0 auto}
+.stack div{height:64px;border-radius:16px;border:1px solid var(--line-2);background:var(--bg-2);display:flex;align-items:center;padding:0 20px;font:700 16px/1.2 var(--display);position:relative}
+.stack div:nth-child(4){border-color:rgba(91,140,255,.55);background:linear-gradient(90deg,rgba(91,140,255,.18),rgba(160,126,255,.12));}
+.stack div:nth-child(4)::after{content:"FPH";position:absolute;right:16px;font:700 11px/1 var(--body);letter-spacing:.1em;color:var(--blue)}
+.stack div:nth-child(1){width:70%;align-self:center}
+.stack div:nth-child(2){width:85%;align-self:center}
+.gallery{display:flex;flex-direction:column;gap:56px}
+.gal-row{display:flex;flex-direction:column;gap:20px}
+.gal-row .duo{justify-content:flex-start}
+.gal-row .duo .phone:nth-child(n){margin-top:0}
+.co{display:grid;grid-template-columns:220px 1fr;border-top:1px solid var(--paper-line)}
+.co dt,.co dd{padding:16px 0;border-bottom:1px solid var(--paper-line);margin:0}
+.co dt{color:var(--paper-2);font-size:14px}
+.co dd{font-weight:600}
+@media (max-width:620px){.co{grid-template-columns:minmax(0,1fr)}.co dt{border-bottom:0;padding-bottom:0}}
+.doc{max-width:760px;display:flex;flex-direction:column;gap:28px}
+.doc h2{font-size:22px;font-weight:700}
+.doc section{display:flex;flex-direction:column;gap:8px}
+.doc p{color:var(--paper-2);line-height:1.65}
+.draft{border-radius:14px;padding:14px 16px;background:#FFF4DB;color:#6B4700;font-size:14px;font-weight:600}
+.nf{min-height:60vh;display:flex;align-items:center}
+
+/* footer */
+.ftr{background:var(--bg-2);border-top:1px solid var(--line);padding:64px 0 40px;font-size:15px}
+.ftr-top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}
+.ftr h4{font:600 12px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--fg-2);margin-bottom:16px}
+.ftr ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.ftr ul a{text-decoration:none;color:var(--fg)}
+.ftr ul a:hover{color:var(--blue)}
+.ftr-disc{margin-top:48px;padding-top:24px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:12px;font-size:13px;line-height:1.6;color:var(--fg-2);max-width:900px}
+@media (max-width:860px){.ftr-top{grid-template-columns:1fr 1fr}.ftr-top>div:first-child{grid-column:1/-1}}
+.sol{justify-content:flex-start}
+.sol .arrow-link{margin-top:auto}
+.sec,.phero,.hero{overflow-x:clip}
+@media (max-width:480px){.hdr-in{gap:12px}.logo{font-size:14px}.logo small{display:none}.logo svg{width:30px;height:30px}.lang a,.lang span{min-width:34px}.hero .phone{--s:.68!important}}
+
+.s-qr svg{width:148px;height:148px}
+.box>.pill,.box>.pills{align-self:flex-start}
+.stage>.duo{align-self:stretch;width:100%}
+.tag-d{background:rgba(255,255,255,.04);border-color:var(--line-2);color:var(--fg);height:36px;font-size:14px}
+@media (max-width:960px){.duo .phone{scroll-snap-align:start}}
+@media (max-width:960px){.stage>.duo{width:calc(100% + 48px)}.duo{scroll-padding:0 24px}}
+
+/* projects gallery */
+.gallery{gap:24px}
+.gal-row{display:grid;grid-template-columns:260px minmax(0,1fr);gap:40px;align-items:center;background:#fff;border:1px solid var(--paper-line);border-radius:28px;padding:36px 40px}
+.gal-cap{display:flex;flex-direction:column;gap:12px}
+.gal-phones{display:flex;gap:28px;justify-content:center;flex-wrap:wrap}
+.gal-phones figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:14px}
+.gal-phones figcaption{font-size:14px;font-weight:600;color:var(--paper-2)}
+@media (max-width:960px){
+  .gal-row{grid-template-columns:minmax(0,1fr);padding:24px;gap:20px}
+  .gal-phones{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -24px;padding:0 24px 8px;scroll-padding:0 24px;scrollbar-width:none}
+  .gal-phones::-webkit-scrollbar{display:none}
+  .gal-phones figure{scroll-snap-align:start}
+}
+.split .swatches{align-items:flex-start}
+.stage::before{background:radial-gradient(closest-side,rgba(var(--halo),.46),rgba(var(--halo),.12) 55%,transparent 72%)}
+
+/* ===== Phone frame + app screens (recreated from the ParusPay canvas, brand-parametric) ===== */
+.br-ember{--b1:#F04800;--b2:#D63A00;--bi:#C83A00;--bt:#FFF1EA;--bd:#FFB892;--bs:rgba(214,58,0,.32);--g1:255,122,51;--g2:255,79,139;--g3:140,110,255;--t1:#FFE1CF;--t2:#F9ECF1;--halo:255,110,60}
+.br-ocean{--b1:#2F6BFF;--b2:#1C4FD8;--bi:#1D4ED8;--bt:#EAF1FF;--bd:#9DBBFF;--bs:rgba(28,79,216,.32);--g1:76,141,255;--g2:34,211,238;--g3:140,110,255;--t1:#DCE8FF;--t2:#EDF2FC;--halo:70,130,255}
+.br-mint{--b1:#0E9F6E;--b2:#047857;--bi:#047857;--bt:#E6F7EF;--bd:#86D9B6;--bs:rgba(4,120,87,.30);--g1:30,200,140;--g2:163,230,53;--g3:56,189,248;--t1:#D6F5E6;--t2:#EEF7F2;--halo:40,200,140}
+.br-iris{--b1:#7C3AED;--b2:#6025D1;--bi:#6D28D9;--bt:#F1EBFF;--bd:#C4B0FB;--bs:rgba(96,37,209,.32);--g1:167,139,250;--g2:236,72,153;--g3:99,102,241;--t1:#EBE2FF;--t2:#F4EEF9;--halo:150,110,255}
+
+.phone{--s:.7;width:calc(422px*var(--s));height:calc(894px*var(--s));position:relative;flex:none}
+.phone-in{position:absolute;left:0;top:0;width:422px;height:894px;box-sizing:border-box;padding:10px;border-radius:64px;background:#07090D;transform:scale(var(--s));transform-origin:0 0;box-shadow:0 0 0 1.5px #2B3346,inset 0 0 0 2px #1A1F2B,0 50px 90px -30px rgba(0,0,0,.7)}
+.phone.swap .scr{animation:scrSwap .35s ease}
+@keyframes scrSwap{from{filter:saturate(.4) brightness(1.08)}to{filter:none}}
+.island{position:absolute;top:21px;left:50%;transform:translateX(-50%);width:120px;height:34px;border-radius:20px;background:#000;z-index:6}
+
+.scr{width:402px;height:874px;border-radius:54px;overflow:hidden;position:relative;color:#121416;font-family:Inter,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;font-size:15px;line-height:1.3;text-align:left;
+  background:radial-gradient(60% 26% at 10% 3%,rgba(var(--g1),.9) 0%,rgba(var(--g1),0) 70%),radial-gradient(55% 24% at 92% 9%,rgba(var(--g2),.6) 0%,rgba(var(--g2),0) 70%),radial-gradient(70% 28% at 55% 30%,rgba(var(--g3),.32) 0%,rgba(var(--g3),0) 70%),linear-gradient(180deg,var(--t1) 0%,var(--t2) 28%,#F3F1F7 52%,#F3F3F6 100%)}
+.scr *{box-sizing:border-box}
+.s-status{position:absolute;top:22px;left:40px;right:34px;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:16px;z-index:5;pointer-events:none}
+.s-sb{display:flex;gap:6px;align-items:center}
+.s-body{padding:62px 16px 0;display:flex;flex-direction:column;gap:12px}
+.s-top{height:32px;display:flex;align-items:center;justify-content:space-between}
+.s-pill{height:32px;padding:0 14px;border:1px solid rgba(255,255,255,.85);border-radius:16px;background:rgba(255,255,255,.5);font-weight:600;font-size:14px;display:flex;align-items:center;gap:4px;backdrop-filter:blur(16px)}
+.s-pill.dots{width:44px;padding:0;justify-content:center}
+.s-glass{border-radius:26px;background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.9);box-shadow:inset 0 1px 0 #fff,0 10px 28px rgba(120,60,40,.10);backdrop-filter:blur(22px)}
+.s-white{background:#fff;border-radius:28px;box-shadow:0 8px 24px rgba(30,35,45,.05)}
+.s-title{padding:12px 4px 4px;display:flex;flex-direction:column;gap:4px}
+.s-h1{margin:0;font-size:30px;font-weight:700;letter-spacing:-.6px;line-height:1.1}
+.s-sub{font-size:15px;color:#3E434B;display:flex;align-items:center;gap:6px}
+.s-h2{font-size:22px;font-weight:700;letter-spacing:-.4px}
+.s-lbl{font-size:14px;font-weight:600;color:#3E434B}
+.s-muted{font-size:13px;color:#646973}
+.s-num{font-variant-numeric:tabular-nums}
+.s-link{font-size:15px;font-weight:600;color:var(--bi)}
+.s-grad{background:linear-gradient(90deg,var(--b1) 0%,rgb(var(--g2)) 55%,#7B3CF0 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.s-coins{display:flex}
+.s-coin{width:30px;height:30px;border-radius:50%;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:7.5px;font-weight:800;color:#fff;letter-spacing:-.2px}
+.s-coin+.s-coin{margin-left:-6px}
+.c-usdt{background:#1A7F5F}.c-sbp{background:#fff;color:#121416;box-shadow:0 0 0 1px #E1E4EA;font-size:8.5px}.c-rub{background:#121416;font-size:15px;font-weight:700}.c-ali{background:#1677FF;font-size:9px}.c-usd{background:#2B2F38;font-size:13px}.c-eur{background:#3B4A8F;font-size:13px}
+.s-row{display:flex;align-items:center;gap:12px;padding:10px 0}
+.s-ico{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;font-size:11px;font-weight:800}
+.s-rt{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.s-rt b{font-size:16px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.s-amt{font-size:16px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pos{color:#12805A}
+.s-seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:14px;background:#F0F1F4}
+.s-seg span{height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;color:#3E434B}
+.s-seg span.on{background:#fff;box-shadow:0 1px 4px rgba(30,35,45,.10);color:#121416;font-weight:600}
+.s-fade{position:absolute;left:0;right:0;bottom:0;height:150px;background:linear-gradient(to bottom,rgba(243,243,246,0),#F3F3F6 62%);pointer-events:none;z-index:3}
+.s-cta{position:absolute;left:16px;right:16px;bottom:28px;height:60px;border-radius:30px;background:linear-gradient(135deg,var(--b1),var(--b2));box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 12px 28px var(--bs);color:#fff;font-size:18px;font-weight:700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;z-index:4}
+.s-cta small{font-size:12px;font-weight:600;opacity:.9}
+.s-cta.narrow{left:69px;right:69px;flex-direction:row;gap:10px;font-size:19px;height:64px;border-radius:32px}
+.s-swipe{position:absolute;left:16px;right:16px;bottom:28px;height:64px;border-radius:32px;background:rgba(255,255,255,.92);box-shadow:0 12px 30px rgba(120,60,40,.14);display:flex;align-items:center;gap:14px;padding:0 6px;font-size:16px;font-weight:600;z-index:4}
+.s-swipe i{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--b1),var(--b2));color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px var(--bs)}
+.s-field{height:52px;border-radius:16px;background:#F0F1F4;padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:16px}
+.s-field.ph{color:#8A909B}
+.s-chipgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.s-chip{height:56px;border-radius:16px;background:#F0F1F4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font-weight:700;font-size:16px;border:1.5px solid transparent}
+.s-chip small{font-size:12px;font-weight:500;color:#646973}
+.s-chip.on{background:var(--bt);border-color:var(--bi)}
+.s-chip.wide{grid-column:1/-1}
+.s-kv{display:flex;justify-content:space-between;align-items:center;padding:12px 0;font-size:15px}
+.s-kv+.s-kv{border-top:1px solid #E6E8EC}
+.s-kv b{font-weight:700}
+.s-xbox{background:#F0F1F4;border-radius:20px;padding:16px 18px;display:flex;justify-content:space-between;align-items:center}
+.s-xbox .big{font-size:32px;font-weight:700;letter-spacing:-.6px;font-variant-numeric:tabular-nums}
+.s-cur{height:40px;padding:0 14px 0 6px;border-radius:20px;background:#fff;display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px}
+.s-cur .s-coin{width:28px;height:28px;border:0}
+.s-swap{position:absolute;left:50%;transform:translate(-50%,-50%);width:38px;height:38px;border-radius:50%;background:#fff;border:3px solid #F0F1F4;display:flex;align-items:center;justify-content:center}
+.s-timer{display:inline-flex;align-items:center;gap:6px;margin-left:8px;padding:2px 8px;border-radius:10px;background:#fff;font-size:13px;font-weight:600}
+.s-timer::before{content:"";width:12px;height:12px;border-radius:50%;border:2px solid var(--b1);border-right-color:transparent}
+.s-badge{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:11px;font-size:12px;font-weight:600}
+.bd-green{background:#E3F6EE;color:#0F6B4C}.bd-grey{background:#ECEEF2;color:#3E434B}.bd-red{background:#FDECEC;color:#B42318}.bd-brand{background:#fff;color:var(--bi);border:1px solid var(--bd)}
+.s-check{display:flex;gap:10px;align-items:center;font-size:15px}
+.s-check i{width:22px;height:22px;border-radius:50%;background:var(--bt);color:var(--bi);display:flex;align-items:center;justify-content:center;flex:none}
+.s-nav{position:absolute;left:16px;bottom:28px;width:296px;height:64px;border-radius:32px;background:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.95);box-shadow:inset 0 1px 0 #fff,0 12px 30px rgba(120,60,40,.14);backdrop-filter:blur(22px);display:grid;grid-template-columns:repeat(3,1fr);align-items:center;padding:0 5px;z-index:4}
+.s-nav span{height:54px;border-radius:27px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:12px;font-weight:600;color:#3E434B}
+.s-nav span.on{background:color-mix(in srgb,var(--b1) 11%,transparent);color:var(--bi);font-weight:700}
+.s-fab{position:absolute;right:16px;bottom:28px;width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--b1),var(--b2));box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 12px 28px var(--bs);color:#fff;display:flex;align-items:center;justify-content:center;z-index:4}
+.s-scrim{position:absolute;inset:0;background:rgba(18,20,22,.32);backdrop-filter:blur(6px);z-index:7}
+.s-sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:32px 32px 0 0;padding:10px 16px 40px;display:flex;flex-direction:column;gap:14px;z-index:8;box-shadow:0 -12px 40px rgba(18,20,22,.18)}
+.s-grab{align-self:center;width:40px;height:5px;border-radius:3px;background:#D9DCE2}
+.s-dark-btn{height:56px;border-radius:28px;background:#121416;color:#fff;font-weight:700;font-size:17px;display:flex;align-items:center;justify-content:center;gap:8px}
+.s-ghost-btn{height:52px;border-radius:26px;border:1px solid #E1E4EA;background:#fff;font-weight:600;font-size:16px;display:flex;align-items:center;justify-content:center;gap:8px}
+
+/* card art */
+.cart{width:340px;height:214px;border-radius:26px;padding:20px 22px;color:#fff;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;flex:none;box-shadow:0 14px 30px rgba(18,20,22,.18)}
+.cart::before,.cart::after{content:"";position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,.09);pointer-events:none}
+.cart::before{width:420px;height:420px;right:-250px;top:-120px;background:rgba(255,255,255,.035)}
+.cart::after{width:300px;height:300px;right:-210px;top:-40px}
+.ca-graphite{background:linear-gradient(135deg,#34373F 0%,#1B1D23 55%,#121318 100%)}
+.ca-flame{background:linear-gradient(135deg,#D9420E 0%,#9A1F06 60%,#6E1404 100%)}
+.ca-sunset{background:linear-gradient(120deg,#FF8A3D 0%,#F2557D 50%,#8B5CF6 100%)}
+.cart .t{font-size:14px;opacity:.8;display:flex;align-items:center;gap:6px;position:relative}
+.cart .bal{font-size:40px;font-weight:700;letter-spacing:-1px;font-variant-numeric:tabular-nums;position:relative}
+.cart .bt{display:flex;justify-content:space-between;align-items:flex-end;position:relative}
+.cart .nm{font-size:15px;font-weight:600;display:flex;flex-direction:column;gap:6px}
+.cart .nm span{font-size:15px;letter-spacing:1.5px;opacity:.85}
+.minicard{width:88px;height:58px;border-radius:13px;padding:8px 10px;display:flex;flex-direction:column;justify-content:space-between;font-size:15px;font-weight:500}
+.mc-silver{background:linear-gradient(125deg,#FBFBFC 0%,#E2E5E9 35%,#C8CDD4 55%,#EFF1F3 75%,#D3D7DD 100%);border:1px solid #E1E4EA}
+.mc-holo{background:linear-gradient(120deg,#8EF0CF 0%,#A9CCFF 38%,#E2B8FF 68%,#FFC99E 100%);border:1px solid #D5DEEC}
+.mc-add{background:var(--bt);border:1px dashed var(--bd);color:var(--bi);align-items:center;justify-content:center}
+.mc-chip{width:12px;height:9px;border-radius:2px;background:#A8AEB7}
+.dsw{flex:1;border-radius:16px;padding:6px;display:flex;flex-direction:column;gap:6px;align-items:center;font-size:14px;font-weight:600;border:1.5px solid #E6E8EC}
+.dsw.on{border-color:var(--bi);box-shadow:0 0 0 1px var(--bi)}
+.dsw i{width:100%;height:46px;border-radius:11px}
+
+/* admin panel */
+.adm{width:1120px;height:660px;border-radius:14px;overflow:hidden;background:#F6F7FA;color:#121416;font-family:Inter,system-ui,sans-serif;font-size:13px;display:flex;flex-direction:column;box-shadow:0 0 0 1px rgba(255,255,255,.08),0 40px 80px -30px rgba(0,0,0,.6);text-align:left}
+.adm *{box-sizing:border-box}
+.adm-bar{height:38px;background:#E9EBF0;display:flex;align-items:center;gap:8px;padding:0 14px;flex:none}
+.adm-bar i{width:11px;height:11px;border-radius:50%;background:#CDD1D9}
+.adm-bar span{margin-left:16px;flex:0 1 420px;height:24px;border-radius:7px;background:#fff;display:flex;align-items:center;padding:0 10px;color:#646973;font-size:12px}
+.adm-main{flex:1;display:grid;grid-template-columns:200px 1fr 300px;min-height:0}
+.adm-side{background:#fff;border-right:1px solid #E6E8EC;padding:18px 12px;display:flex;flex-direction:column;gap:2px}
+.adm-logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px;padding:0 8px 16px}
+.adm-logo i{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#F04800,#D63A00)}
+.adm-nav{height:36px;border-radius:9px;display:flex;align-items:center;gap:10px;padding:0 10px;color:#3E434B;font-weight:500}
+.adm-nav.on{background:#FFF1EA;color:#C83A00;font-weight:600}
+.adm-nav em{margin-left:auto;font-style:normal;background:#C83A00;color:#fff;border-radius:9px;padding:1px 7px;font-size:11px;font-weight:700}
+.adm-c{padding:18px 20px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.adm-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.adm-head h4{margin:0;font-size:20px;font-weight:700}
+.adm-search{width:280px;height:34px;border-radius:9px;background:#fff;border:1px solid #E1E4EA;display:flex;align-items:center;gap:8px;padding:0 10px;color:#8A909B}
+.adm-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.adm-kpi{background:#fff;border:1px solid #E6E8EC;border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:4px}
+.adm-kpi b{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums}
+.adm-kpi span{color:#646973;font-size:12px}
+.adm-table{background:#fff;border:1px solid #E6E8EC;border-radius:12px;overflow:hidden}
+.adm-table table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.adm-table th{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#646973;font-weight:600;text-align:left;padding:10px 12px;background:#FAFBFC;border-bottom:1px solid #E6E8EC}
+.adm-table td{padding:10px 12px;border-bottom:1px solid #F0F1F4;white-space:nowrap}
+.adm-table tr:last-child td{border-bottom:0}
+.adm-table tr.sel td{background:#FFF8F4}
+.st{display:inline-flex;height:20px;align-items:center;padding:0 7px;border-radius:10px;font-size:11px;font-weight:600}
+.st-ok{background:#E3F6EE;color:#0F6B4C}.st-wait{background:#FFF4DB;color:#8A5A00}.st-na{background:#ECEEF2;color:#3E434B}
+.adm-r{background:#fff;border-left:1px solid #E6E8EC;padding:18px 16px;display:flex;flex-direction:column;gap:12px;min-height:0}
+.adm-r h5{margin:0;font-size:14px;font-weight:700}
+.adm-msg{padding:10px 12px;border-radius:12px;background:#F0F1F4;line-height:1.4;max-width:240px}
+.adm-msg.me{align-self:flex-end;background:#FFF1EA}
+.adm-msg small{display:block;color:#646973;font-size:11px;margin-top:4px}
+.adm-reply{margin-top:auto;display:flex;flex-direction:column;gap:8px}
+.adm-reply span{height:64px;border-radius:10px;border:1px solid #E1E4EA;padding:10px;color:#8A909B}
+.adm-reply div{display:flex;gap:8px}
+.adm-reply b{flex:1;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:600}
+.adm-reply b.p{background:#121416;color:#fff}.adm-reply b.s{border:1px solid #E1E4EA}
+
+.adm-logo{white-space:nowrap;font-size:13px}
+
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* ===== App screens as HTML (EN/RU), brand via CSS vars on .phone ===== */
+const IC = {
+  back:'<path d="M15 5l-7 7 7 7"/>',
+  user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
+  copy:'<rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/>',
+  qr:'<path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><path d="M7 12h10"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  down:'<path d="M12 4v14M6 12l6 6 6-6"/>',
+  snow:'<path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M9.5 4.8L12 6.5l2.5-1.7M9.5 19.2L12 17.5l2.5 1.7"/>',
+  info:'<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 8v.5"/>',
+  card:'<rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 10h19"/>',
+  x:'<path d="M6 6l12 12M18 6L6 18"/>',
+  swap:'<path d="M7 4L4 7l3 3M4 7h13M17 20l3-3-3-3M20 17H7"/>',
+  wallet:'<path d="M4 7h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M4 7l11-3v3"/><circle cx="16" cy="13.5" r="1.2"/>',
+  grid:'<rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/>',
+  arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>',
+  paste:'<rect x="6" y="4" width="12" height="17" rx="2.5"/><path d="M9 4h6v3H9z"/>',
+  scan:'<path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/>',
+  bell:'<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 0 0 4 0"/>',
+  check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  eye:'<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/>',
+  pen:'<path d="M4 20h4L19 9l-4-4L4 16z"/>',
+  chev:'<path d="M6 9l6 6 6-6"/>',
+  bank:'<path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"/>',
+  share:'<path d="M12 15V4M7.5 8.5L12 4l4.5 4.5"/><path d="M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6"/>',
+  send:'<path d="M12 19V5M5.5 11.5L12 5l6.5 6.5"/>',
+  at:'<circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"/>'
+};
+function ic(n, s = 20, w = 2){ return `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[n]}</svg>`; }
+const DOTS = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5.5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="18.5" cy="12" r="1.7"/></svg>';
+/* neutral "your brand" mark — replaces client logos and card-scheme marks */
+function mark(s = 44, fill = 'var(--b1)'){ return `<svg width="${s}" height="${s}" viewBox="0 0 48 48" aria-hidden="true"><path d="M7 41C7 20 19 7 41 7C41 28 28 41 7 41Z" style="fill:${fill}"/><path d="M14 34L30 18" stroke="#fff" stroke-opacity=".6" stroke-width="2.4" stroke-linecap="round"/></svg>`; }
+
+/* deterministic pseudo-QR */
+const QR = (() => {
+  const n = 25, c = 6; let seed = 7, r = '';
+  const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  const finder = (x, y) => x < 7 && y < 7 || x >= n - 7 && y < 7 || x < 7 && y >= n - 7;
+  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) { if (finder(x, y)) continue; if (rnd() > .52) r += `M${x*c} ${y*c}h${c}v${c}h-${c}z`; }
+  const f = (x, y) => `<rect x="${x*c+3}" y="${y*c+3}" width="${6*c}" height="${6*c}" rx="7" fill="none" stroke="#121416" stroke-width="${c}"/><rect x="${x*c+2*c}" y="${y*c+2*c}" width="${3*c}" height="${3*c}" rx="3" fill="#121416"/>`;
+  return `<svg width="176" height="176" viewBox="0 0 ${n*c} ${n*c}" aria-hidden="true"><path d="${r}" fill="#121416"/>${f(0,0)}${f(n-7,0)}${f(0,n-7)}</svg>`;
+})();
+
+const SS = {
+  en: { close:'Close', back:'Back', topup:'Top up', topupSub:'USDT or card', withdraw:'Withdraw', withdrawSub:'USDT, AliPay', inWallet:'in wallet', onCards:'on cards', history:'History', all:'All', allOps:'All activity', walletTab:'Wallet', today:'Today', yesterday:'Yesterday',
+    h1n:'Cloud hosting', h1d:'Card •• 4137', h2n:'Bought USDT', h2d:'USD · via partner', h2a:'+100.00 USDT', h3n:'Received', h3d:'Wallet · TRC-20', h4n:'Swap USDT → TON', h4d:'Wallet', h5n:'App subscription', h5d:'Card •• 9021',
+    payQr:'Pay by QR', depTitle:'Deposit USDT', depSub:'To your wallet address', network:'Network', addrNote:'Send only USDT on TRC-20. Other assets sent to this address will be lost.', share:'Share address',
+    newCard:'New card', canIssue:'You can issue 1 more card of 3', virt:'Virtual card', instant:'Instant', virtDesc:'For online purchases, subscriptions and services.', v1:'Ready right after issue', v2:'Top up in USDT from the wallet', v3:'3-D Secure supported', issueFee:'Issue fee', monthly:'Monthly fee', yourPrice:'Set by you', issueBtn:'Issue card', phys:'Physical card', soon:'Coming soon', physDesc:'For payments in stores. Ordering requires identity verification (KYC).', notify:'Notify me at launch',
+    setupSub:'Choose a design and a name', balance:'Balance', design:'Design', graphite:'Graphite', flame:'Flame', sunset:'Sunset', cardName:'Card name', travel:'Travel', onlyYou:'Visible only to you', fromWallet:'From wallet', swipeIssue:'Swipe to issue',
+    myCards:'My cards', subs:'Subscriptions', of3:'2 of 3', main:'Main', topupC:'Top up', freeze:'Freeze', details:'Details', ops:'Transactions', o1:'Wallet top-up', o1d:'Today, 12:40', o2:'App subscription', o2d:'Today, 09:12', o3:'eSIM data plan', o3d:'Yesterday, 17:25', o4:'Hotel booking', o4d:'Oct 14, 06:34', declined:'Declined', nWallet:'Wallet', nCards:'Cards', nServices:'Services',
+    frzQ:'Freeze card •••• 4137?', frzD:'Payments and charges will be blocked, subscriptions won’t be billed. You can unfreeze at any time.', cancel:'Cancel',
+    wdUsdt:'Withdraw USDT', wdUsdtSub:'To an external wallet', recipient:'Recipient address', amount:'Amount', max:'Max', avail:'Available 612.45 USDT', netFee:'Network fee', netFeeV:'≈ 1.00 USDT', code2fa:'2FA code', code2faPh:'6 digits from your app', pasteB:'Paste', confirm:'Confirm',
+    wdAli:'Withdraw to AliPay', wdAliSub:'USDT → yuan to an AliPay account', youSend:'You send', youGet:'You get', all2:'Withdraw all', rate:'Rate', fee:'Fee', feeV:'Included in rate', rateNote:'The rate updates every 30 seconds and is locked when you tap “Withdraw”.', recip:'Recipient', accData:'Account details', qrCode:'QR code', accNo:'Account number', wdAliBtn:'Withdraw 1 000 ¥', wdAliBtnS:'≈ 140.45 USDT'
+  },
+  ru: { close:'Закрыть', back:'Назад', topup:'Пополнить', topupSub:'СБП или USDT', withdraw:'Вывести', withdrawSub:'USDT, RUB, AliPay', inWallet:'в кошельке', onCards:'на картах', history:'История', all:'Все', allOps:'Все операции', walletTab:'Кошелёк', today:'Сегодня', yesterday:'Вчера',
+    h1n:'Облачный хостинг', h1d:'Карта •• 4137', h2n:'Пополнение по СБП', h2d:'Кошелёк', h2a:'+110.56 USDT', h3n:'Получено', h3d:'Кошелёк · TRC-20', h4n:'Обмен USDT → TON', h4d:'Кошелёк', h5n:'Подписка на приложение', h5d:'Карта •• 9021',
+    payQr:'Оплатить по QR', depTitle:'Пополнить USDT', depSub:'На адрес вашего кошелька', network:'Сеть', addrNote:'Отправляйте только USDT в сети TRC-20. Другие активы на этот адрес будут потеряны.', share:'Поделиться адресом',
+    newCard:'Новая карта', canIssue:'Можно выпустить ещё 1 карту из 3', virt:'Виртуальная карта', instant:'Сразу', virtDesc:'Для покупок онлайн, подписок и сервисов.', v1:'Готова сразу после выпуска', v2:'Пополнение в USDT из кошелька', v3:'Поддержка 3-D Secure', issueFee:'Выпуск', monthly:'Обслуживание', yourPrice:'Ваш тариф', issueBtn:'Выпустить карту', phys:'Пластиковая карта', soon:'Скоро', physDesc:'Для оплаты в магазинах. Для заказа понадобится верификация личности (KYC).', notify:'Сообщить о запуске',
+    setupSub:'Выберите дизайн и название', balance:'Баланс', design:'Дизайн', graphite:'Графит', flame:'Пламя', sunset:'Закат', cardName:'Название карты', travel:'Путешествия', onlyYou:'Видно только вам', fromWallet:'С кошелька', swipeIssue:'Проведите, чтобы выпустить',
+    myCards:'Мои карты', subs:'Подписки', of3:'2 из 3', main:'Основная', topupC:'Пополнить', freeze:'Заморозить', details:'О карте', ops:'Операции', o1:'Пополнение с кошелька', o1d:'Сегодня, 12:40', o2:'Подписка на приложение', o2d:'Сегодня, 09:12', o3:'Тариф eSIM', o3d:'Вчера, 17:25', o4:'Бронирование отеля', o4d:'14 окт, 06:34', declined:'Отклонено', nWallet:'Кошелёк', nCards:'Карты', nServices:'Услуги',
+    frzQ:'Заморозить карту •••• 4137?', frzD:'Оплаты и списания станут недоступны, подписки не спишутся. Разморозить можно в любой момент.', cancel:'Отмена',
+    wdUsdt:'Вывод USDT', wdUsdtSub:'На внешний кошелёк', recipient:'Адрес получателя', amount:'Количество', max:'Макс', avail:'Доступно 612.45 USDT', netFee:'Комиссия сети', netFeeV:'≈ 1.00 USDT', code2fa:'Код 2FA', code2faPh:'6 цифр из приложения', pasteB:'Вставить', confirm:'Подтверждаю',
+    wdAli:'Вывод в AliPay', wdAliSub:'USDT → юани на аккаунт AliPay', youSend:'Отдаёте', youGet:'Получаете', all2:'Вывести всё', rate:'Курс', fee:'Комиссия', feeV:'Включена в курс', rateNote:'Курс обновляется каждые 30 секунд и фиксируется, когда вы нажимаете «Вывести».', recip:'Получатель', accData:'Данные аккаунта', qrCode:'QR-код', accNo:'Номер аккаунта', wdAliBtn:'Вывести 1 000 ¥', wdAliBtnS:'≈ 140.45 USDT',
+    wdRub:'Вывод в рублях', wdRubSub:'USDT → рубли по СБП', bank:'Банк получателя', bankPh:'Выберите банк', phoneL:'Номер телефона', feesL:'Комиссии', feesV:'Уже включены в курс', rateNoteR:'Курс обновляется каждые 30 секунд и фиксируется, когда вы создаёте заявку.', swipeReq:'Проведите, чтобы создать заявку'
+  }
+};
+
+const statusBar = () => `<div class="s-status"><span>9:41</span><span class="s-sb"><svg width="18" height="12" viewBox="0 0 18 12" aria-hidden="true"><rect x="0" y="8" width="3" height="4" rx="1" fill="#121416"/><rect x="5" y="5.5" width="3" height="6.5" rx="1" fill="#121416"/><rect x="10" y="3" width="3" height="9" rx="1" fill="#121416"/><rect x="15" y="0" width="3" height="12" rx="1" fill="#121416"/></svg><svg width="27" height="13" viewBox="0 0 27 13" aria-hidden="true"><rect x=".5" y=".5" width="23" height="12" rx="3.5" fill="none" stroke="#121416" opacity=".4"/><rect x="2" y="2" width="18" height="9" rx="2" fill="#121416"/><rect x="24.5" y="4" width="2" height="5" rx="1" fill="#121416" opacity=".4"/></svg></span></div>`;
+const sTop = (L, back) => `<div class="s-top">${back ? `<span class="s-pill">${ic('back',16,2.4)}${L.back}</span>` : `<span class="s-pill">${L.close}</span>`}<span class="s-pill dots">${DOTS}</span></div>`;
+const coin = (t, k) => `<span class="s-coin c-${k}">${t}</span>`;
+const row = (ico, bg, fg, n, d, a, pos) => `<div class="s-row"><span class="s-ico" style="background:${bg};color:${fg}">${ico}</span><div class="s-rt"><b>${n}</b><span class="s-muted">${d}</span></div><span class="s-amt${pos ? ' pos' : ''}">${a}</span></div>`;
+const cardArt = (L, kind, bal, name, num, eye) => `<div class="cart ca-${kind}"><span class="t">${L.balance}${eye ? ' ' + ic('eye',16,1.8) : ''}</span><span class="bal">${bal}</span><span class="bt"><span class="nm">${name}${eye ? '' : ''}<span>${num}</span></span>${mark(30,'#fff')}</span></div>`;
+
+const SCREENS = {
+  wallet(L, lang){
+    const tc = lang === 'ru' ? coin('СБП','sbp') + coin('USDT','usdt') : coin('USDT','usdt') + coin('$','usd') + coin('€','eur');
+    const wc = coin('USDT','usdt') + (lang === 'ru' ? coin('₽','rub') : '') + coin('Ali','ali');
+    const r2 = lang === 'ru' ? row('<span style="font-size:10px">СБП</span>','#EEE8FF','#4B2DB3',L.h2n,L.h2d,L.h2a,1) : row(ic('down',20),'#E3F6EE','#0F6B4C',L.h2n,L.h2d,L.h2a,1);
+    return `${statusBar()}<div class="s-body">${sTop(L)}
+      <div style="display:flex;align-items:center;gap:14px;padding:14px 8px 10px"><span style="width:60px;height:60px;border-radius:50%;background:#fff;color:var(--bi);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px var(--bs)">${ic('user',28,1.9)}</span><span style="font-size:19px;font-weight:700;display:flex;align-items:center;gap:8px">UID 10482736 <span style="color:#3E434B">${ic('copy',17,1.9)}</span></span></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="s-glass" style="height:142px;padding:18px;display:flex;flex-direction:column;justify-content:space-between"><span class="s-grad" style="font-size:23px;font-weight:700;letter-spacing:-.4px;align-self:flex-start">${L.topup}</span><span style="display:flex;flex-direction:column;gap:8px"><span style="color:#3E434B">${L.topupSub}</span><span class="s-coins">${tc}</span></span></div>
+        <div class="s-glass" style="height:142px;padding:18px;display:flex;flex-direction:column;justify-content:space-between"><span style="font-size:23px;font-weight:700;letter-spacing:-.4px">${L.withdraw}</span><span style="display:flex;flex-direction:column;gap:8px"><span style="color:#3E434B">${L.withdrawSub}</span><span class="s-coins">${wc}</span></span></div>
+      </div>
+      <div class="s-glass" style="height:104px;padding:0 24px 0 22px;display:flex;align-items:center;justify-content:space-between"><span style="display:flex;flex-direction:column;gap:2px"><span class="s-num" style="font-size:34px;font-weight:700;letter-spacing:-.8px">$612.45</span><span style="font-size:16px;color:#3E434B">${L.inWallet}</span></span><span style="opacity:.75">${mark(48)}</span></div>
+      <div class="s-white" style="padding:22px 20px 20px;display:flex;flex-direction:column;gap:14px"><span class="s-num" style="font-size:26px;font-weight:700;letter-spacing:-.5px">$486.20</span><span style="font-size:16px;color:#3E434B;margin-top:-10px">${L.onCards}</span>
+        <div style="display:flex;gap:10px"><span class="minicard mc-silver"><span class="mc-chip"></span><span>4137</span></span><span class="minicard mc-holo"><span style="align-self:flex-end;opacity:.7">${mark(14,'#121416')}</span><span>9021</span></span><span class="minicard mc-add">${ic('plus',22,1.8)}</span></div></div>
+      <div class="s-white" style="padding:22px 20px 10px;display:flex;flex-direction:column;gap:14px"><div style="display:flex;justify-content:space-between;align-items:center"><span class="s-h2">${L.history}</span><span class="s-link">${L.all}</span></div>
+        <div class="s-seg"><span class="on">${L.allOps}</span><span>${L.walletTab}</span></div>
+        <div><div class="s-muted" style="font-weight:600;padding:4px 0 2px">${L.today}</div>
+        ${row(ic('card',20,1.9),'#ECEEF2','#3E434B',L.h1n,L.h1d,'−$20.00')}${r2}${row('USDT','#1A7F5F','#fff',L.h3n,L.h3d,'+50.00 USDT',1)}
+        <div class="s-muted" style="font-weight:600;padding:10px 0 2px">${L.yesterday}</div>${row(ic('swap',20,1.9),'var(--bt)','var(--bi)',L.h4n,L.h4d,'+12.6 TON')}</div></div>
+    </div><div class="s-fade"></div><span class="s-cta narrow">${ic('qr',24,2.1)}${L.payQr}</span>`;
+  },
+  deposit(L){
+    const ch = (a, b, on, w) => `<span class="s-chip${on ? ' on' : ''}${w ? ' wide' : ''}" style="height:48px">${a}<small>${b}</small></span>`;
+    return `${statusBar()}<div class="s-body">${sTop(L,1)}
+      <div class="s-title"><h3 class="s-h1">${L.depTitle}</h3><span class="s-sub">${L.depSub}</span></div>
+      <div class="s-white" style="padding:16px;display:flex;flex-direction:column;gap:10px"><span class="s-lbl">${L.network}</span>
+        <div class="s-chipgrid">${ch('TRC-20','TRON',1)}${ch('TON','The Open Network')}${ch('ERC-20','Ethereum')}${ch('BEP-20','BNB Chain')}${ch('Solana','SPL',0,1)}</div></div>
+      <div class="s-white" style="padding:16px 18px;display:flex;flex-direction:column;align-items:center;gap:12px"><span class="s-qr" style="padding:10px;border-radius:18px;border:1px solid #E6E8EC;display:flex">${QR}</span>
+        <span class="s-field" style="width:100%;font-family:ui-monospace,Menlo,monospace;font-size:14px"><span>TQ7mK3vX9aR2…pL2fD8</span><span style="color:var(--bi)">${ic('copy',18,1.9)}</span></span>
+        <span class="s-muted" style="text-align:center;line-height:1.35;font-size:12px">${L.addrNote}</span></div>
+    </div><div class="s-fade" style="height:110px"></div><span class="s-cta">${L.share}</span>`;
+  },
+  issue(L){
+    const chk = t => `<span class="s-check"><i>${ic('check',14,2.6)}</i>${t}</span>`;
+    return `${statusBar()}<div class="s-body">${sTop(L,1)}
+      <div class="s-title"><h3 class="s-h1">${L.newCard}</h3><span class="s-sub">${L.canIssue}</span></div>
+      <div class="s-white" style="padding:18px 16px;display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;gap:14px;align-items:center"><span style="width:90px;height:58px;border-radius:12px;background:linear-gradient(135deg,#34373F,#121318);display:flex;align-items:flex-end;justify-content:flex-end;padding:7px;flex:none">${mark(16,'#fff')}</span><span style="display:flex;flex-direction:column;gap:6px;align-items:flex-start"><b style="font-size:19px">${L.virt}</b><span class="s-badge bd-green">${L.instant}</span></span></div>
+        <span style="color:#3E434B">${L.virtDesc}</span>
+        <div style="display:flex;flex-direction:column;gap:10px">${chk(L.v1)}${chk(L.v2)}${chk(L.v3)}</div>
+        <div style="background:#F3F4F7;border-radius:16px;padding:2px 16px"><div class="s-kv"><span>${L.issueFee}</span><b>${L.yourPrice}</b></div><div class="s-kv"><span>${L.monthly}</span><b>${L.yourPrice}</b></div></div>
+        <span class="s-cta" style="position:static;height:56px">${L.issueBtn}</span></div>
+      <div class="s-white" style="padding:18px 16px;display:flex;flex-direction:column;gap:14px;background:rgba(255,255,255,.7)">
+        <div style="display:flex;gap:14px;align-items:center"><span style="width:90px;height:58px;border-radius:12px;background:linear-gradient(135deg,#6B6E76,#3A3C42);display:flex;flex-direction:column;justify-content:space-between;padding:7px;flex:none"><span style="width:12px;height:9px;border-radius:2px;background:#D9B65C"></span><span style="align-self:flex-end">${mark(16,'#fff')}</span></span><span style="display:flex;flex-direction:column;gap:6px;align-items:flex-start"><b style="font-size:19px">${L.phys}</b><span class="s-badge bd-grey">${L.soon}</span></span></div>
+        <span style="color:#3E434B">${L.physDesc}</span><span class="s-ghost-btn">${ic('bell',18,1.9)}${L.notify}</span></div>
+    </div>`;
+  },
+  setup(L){
+    return `${statusBar()}<div class="s-body">${sTop(L,1)}
+      <div class="s-title"><h3 class="s-h1">${L.virt}</h3><span class="s-sub">${L.setupSub}</span></div>
+      <div style="display:flex;justify-content:center;padding:2px 0">${cardArt(L,'graphite','$0.00',L.travel,'•••• ••••')}</div>
+      <div class="s-white" style="padding:18px 16px;display:flex;flex-direction:column;gap:12px"><span class="s-lbl">${L.design}</span>
+        <div style="display:flex;gap:8px"><span class="dsw on"><i style="background:linear-gradient(135deg,#34373F,#121318)"></i>${L.graphite}</span><span class="dsw"><i style="background:linear-gradient(135deg,#D9420E,#7A1606)"></i>${L.flame}</span><span class="dsw"><i style="background:linear-gradient(120deg,#FF8A3D,#F2557D,#8B5CF6)"></i>${L.sunset}</span></div>
+        <span class="s-lbl" style="margin-top:4px">${L.cardName}</span><span class="s-field"><span style="font-weight:500">${L.travel}</span><span class="s-muted">${L.travel.length}/20</span></span><span class="s-muted">${L.onlyYou}</span></div>
+      <div class="s-white" style="padding:2px 16px"><div class="s-kv"><span style="color:#3E434B">${L.issueFee}</span><b>${L.yourPrice}</b></div><div class="s-kv"><span style="color:#3E434B">${L.fromWallet}</span><b class="s-num">612.45 USDT</b></div></div>
+    </div><div class="s-fade"></div><span class="s-swipe"><i>${ic('arrow',22,2.4)}</i>${L.swipeIssue}</span>`;
+  },
+  cards(L, lang, sheet){
+    const act = (i, t) => `<span class="s-glass" style="height:88px;border-radius:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-size:14px;font-weight:600">${i}${t}</span>`;
+    const op = (k, n, d, a) => { const top = k === 't', f = k === 'f';
+      return `<div class="s-row"><span class="s-ico" style="background:${top ? '#E3F6EE' : '#F0F1F4'};color:${top ? '#0F6B4C' : '#3E434B'}">${ic(top ? 'down' : f ? 'x' : 'card',20,2)}</span><div class="s-rt"><b>${n}</b><span class="s-muted">${d}</span></div><span style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><span class="s-amt${top ? ' pos' : ''}" style="${f ? 'color:#646973;text-decoration:line-through' : ''}">${a}</span>${f ? `<span class="s-badge bd-red">${L.declined}</span>` : ''}</span></div>`; };
+    return `${statusBar()}<div class="s-body">${sTop(L)}
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 2px 2px 4px"><span style="display:flex;align-items:baseline;gap:10px"><h3 class="s-h1">${L.myCards}</h3><span style="color:#3E434B;font-weight:500">${L.of3}</span></span><span class="s-glass" style="width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center">${ic('plus',22,2.2)}</span></div>
+      <div style="margin:0 -16px;overflow:hidden"><div style="display:flex;gap:12px;padding:4px 16px 18px">${cardArt(L,'graphite','$412.70',L.main + ' ' + ic('pen',13,2),'•••• 4137',1)}${cardArt(L,'flame','$73.50',L.subs,'•••• 9021',1)}</div></div>
+      <div style="display:flex;justify-content:center;gap:8px;margin:-16px 0 -2px"><span style="width:18px;height:6px;border-radius:3px;background:var(--b1)"></span><span style="width:6px;height:6px;border-radius:3px;background:rgba(18,20,22,.2)"></span></div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">${act(ic('down',24,2),L.topupC)}${act(ic('snow',24,1.8),L.freeze)}${act(ic('info',24,2),L.details)}</div>
+      <div class="s-white" style="padding:14px 20px 8px"><div style="min-height:44px;display:flex;justify-content:space-between;align-items:center"><span class="s-h2">${L.ops}</span><span class="s-link">${L.all}</span></div>
+        ${op('t',L.o1,L.o1d,'+$100.00')}${op('b',L.o2,L.o2d,'−$20.00')}${op('f',L.o3,L.o3d,'−$7.07')}${op('b',L.o4,L.o4d,'−$379.00')}</div>
+    </div><div class="s-fade"></div>
+    <div class="s-nav"><span>${ic('wallet',22,1.9)}${L.nWallet}</span><span class="on">${ic('card',22,2)}${L.nCards}</span><span>${ic('grid',22,1.9)}${L.nServices}</span></div><span class="s-fab">${ic('qr',26,2.1)}</span>
+    ${sheet ? `<div class="s-scrim"></div><div class="s-sheet"><span class="s-grab"></span><div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding-top:8px;text-align:center"><span style="width:64px;height:64px;border-radius:50%;background:#E8F0FE;color:#1F5FD6;display:flex;align-items:center;justify-content:center">${ic('snow',30,1.8)}</span><b style="font-size:22px;letter-spacing:-.3px">${L.frzQ}</b><span style="max-width:320px;color:#3E434B;line-height:1.4">${L.frzD}</span></div><span class="s-dark-btn">${ic('snow',18,2)}${L.freeze}</span><span style="height:48px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:16px">${L.cancel}</span></div>` : ''}`;
+  },
+  freeze(L, lang){ return SCREENS.cards(L, lang, 1); },
+  wdUsdt(L){
+    const ch = (a, b, on, w) => `<span class="s-chip${on ? ' on' : ''}${w ? ' wide' : ''}" style="height:52px">${a}<small>${b}</small></span>`;
+    return `${statusBar()}<div class="s-body">${sTop(L,1)}
+      <div class="s-title"><h3 class="s-h1">${L.wdUsdt}</h3><span class="s-sub">${L.wdUsdtSub}</span></div>
+      <div class="s-white" style="padding:16px;display:flex;flex-direction:column;gap:10px"><span class="s-lbl">${L.network}</span><div class="s-chipgrid">${ch('TRC-20','TRON',1)}${ch('TON','The Open Network')}${ch('ERC-20','Ethereum')}${ch('BEP-20','BNB Chain')}${ch('Solana','SPL',0,1)}</div></div>
+      <div class="s-white" style="padding:16px;display:flex;flex-direction:column;gap:10px"><span class="s-lbl">${L.recipient}</span><span class="s-field" style="font-family:ui-monospace,Menlo,monospace;font-size:14px"><span style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis">TLm4qR8sV2xN6bH9cK3wP7yD</span><span style="display:flex;gap:14px;color:#3E434B">${ic('paste',18,1.9)}${ic('scan',18,1.9)}</span></span>
+        <span class="s-lbl" style="margin-top:4px">${L.amount}</span><span class="s-field" style="padding-right:6px"><b class="s-num" style="font-size:19px;font-weight:600">150.00</b><span style="display:flex;align-items:center;gap:10px;font-weight:600;color:#3E434B">USDT<span style="height:40px;padding:0 14px;border-radius:12px;background:var(--bt);color:var(--bi);display:flex;align-items:center">${L.max}</span></span></span>
+        <span class="s-muted">${L.avail}</span><div style="background:#F3F4F7;border-radius:14px;padding:0 14px"><div class="s-kv"><span>${L.netFee}</span><b>${L.netFeeV}</b></div></div></div>
+      <div class="s-white" style="padding:16px;display:flex;flex-direction:column;gap:10px"><span class="s-lbl">${L.code2fa}</span><span class="s-field ph"><span>${L.code2faPh}</span><span style="height:38px;padding:0 12px;border-radius:10px;background:#fff;color:#3E434B;font-size:14px;font-weight:600;display:flex;align-items:center">${L.pasteB}</span></span></div>
+    </div><div class="s-fade"></div><span class="s-cta">${L.confirm}</span>`;
+  },
+  wdAlipay(L){
+    return `${statusBar()}<div class="s-body">${sTop(L,1)}
+      <div class="s-title"><h3 class="s-h1">${L.wdAli}</h3><span class="s-sub">${L.wdAliSub}</span></div>
+      <div class="s-white" style="padding:8px;display:flex;flex-direction:column;gap:6px;position:relative">
+        <div class="s-xbox" style="flex-direction:column;align-items:stretch;gap:6px"><span class="s-muted" style="font-size:14px;color:#3E434B">${L.youSend}</span><span style="display:flex;justify-content:space-between;align-items:center"><span class="big">140.45</span><span class="s-cur">${coin('₮','usdt')}USDT</span></span><span style="display:flex;justify-content:space-between"><span class="s-muted">${L.avail}</span><span style="font-size:13px;font-weight:600;color:var(--bi)">${L.all2}</span></span></div>
+        <span class="s-swap" style="top:50%">${ic('down',18,2.2)}</span>
+        <div class="s-xbox" style="flex-direction:column;align-items:stretch;gap:6px"><span class="s-muted" style="font-size:14px;color:#3E434B">${L.youGet}</span><span style="display:flex;justify-content:space-between;align-items:center"><span class="big">1 000</span><span class="s-cur"><span class="s-coin" style="background:#C8102E;font-size:13px">¥</span>CNY</span></span></div></div>
+      <div class="s-white" style="padding:2px 16px"><div class="s-kv"><span>${L.rate}</span><span style="display:flex;align-items:center"><b class="s-num">1 USDT = 7.12 ¥</b><span class="s-timer">0:21</span></span></div><div class="s-kv"><span>${L.fee}</span><b>${L.feeV}</b></div></div>
+      <span class="s-muted" style="padding:0 6px;line-height:1.4">${L.rateNote}</span>
+      <div class="s-white" style="padding:16px;display:flex;flex-direction:column;gap:10px"><span class="s-lbl">${L.recip}</span><div class="s-seg"><span class="on">${L.accData}</span><span>${L.qrCode}</span></div><span class="s-lbl" style="margin-top:2px">${L.accNo}</span><span class="s-field ph">7-9001234567</span></div>
+    </div><div class="s-fade"></div><span class="s-cta">${L.wdAliBtn}<small>${L.wdAliBtnS}</small></span>`;
+  },
+  wdRub(L){
+    return `${statusBar()}<div class="s-body">${sTop(L,1)}
+      <div class="s-title"><h3 class="s-h1">${L.wdRub}</h3><span class="s-sub">${L.wdRubSub}<span class="s-badge bd-brand">P2P</span></span></div>
+      <div class="s-white" style="padding:8px;display:flex;flex-direction:column;gap:6px;position:relative">
+        <div class="s-xbox" style="flex-direction:column;align-items:stretch;gap:6px"><span class="s-muted" style="font-size:14px;color:#3E434B">${L.youSend}</span><span style="display:flex;justify-content:space-between;align-items:center"><span class="big">111.12</span><span class="s-cur">${coin('₮','usdt')}USDT</span></span><span class="s-muted">${L.avail}</span></div>
+        <span class="s-swap" style="top:52%">${ic('down',18,2.2)}</span>
+        <div class="s-xbox" style="flex-direction:column;align-items:stretch;gap:6px"><span class="s-muted" style="font-size:14px;color:#3E434B">${L.youGet}</span><span style="display:flex;justify-content:space-between;align-items:center"><span class="big">10 000</span><span class="s-cur">${coin('₽','rub')}RUB</span></span></div></div>
+      <div class="s-white" style="padding:2px 16px"><div class="s-kv"><span>${L.rate}</span><span style="display:flex;align-items:center"><b class="s-num">1 USDT = 90.00 ₽</b><span class="s-timer">0:20</span></span></div><div class="s-kv"><span>${L.feesL}</span><b>${L.feesV}</b></div></div>
+      <span class="s-muted" style="padding:0 6px;line-height:1.4">${L.rateNoteR}</span>
+      <div class="s-white" style="padding:16px;display:flex;flex-direction:column;gap:10px"><span class="s-lbl">${L.bank}</span><span class="s-field"><span style="display:flex;align-items:center;gap:10px;color:#646973">${ic('bank',20,1.8)}${L.bankPh}</span>${ic('chev',18,2)}</span><span class="s-lbl" style="margin-top:2px">${L.phoneL}</span><span class="s-field ph">+7 900 123-45-67</span></div>
+    </div><div class="s-fade"></div><span class="s-swipe"><i>${ic('arrow',22,2.4)}</i>${L.swipeReq}</span>`;
+  }
+};
+
+function phone(name, lang, o = {}){
+  const L = SS[lang];
+  const s = o.s || .7, brand = o.brand || 'ember';
+  return `<div class="phone br-${brand}${o.fixed ? '' : ' brandable'}${o.cls ? ' ' + o.cls : ''}" style="--s:${s}" role="img" aria-label="${o.label || name}"><div class="phone-in"><span class="island"></span><div class="scr">${SCREENS[name](L, lang)}</div></div></div>`;
+}
+
+const ADM = {
+  en:{ url:'admin.yourbrand.app/users', brand:'Your Brand · Admin', nav:['Users','Balances','Cards','Support','Settings'], h:'Users', search:'Search by UID or @username', k:[['Users','12 480'],['Active today','1 932'],['Open tickets','3']], th:['UID','Telegram','Wallet','Cards','KYC','Last active'], kyc:{ok:'Verified',wait:'Pending',na:'Not required'}, tk:'Ticket #2841 · UID 10482736', m1:'Hi! I topped up my card 10 minutes ago, still not showing.', m2:'Thanks, we can see the top-up is being processed by the partner. It usually completes within a few minutes.', t1:'User · 12:41', t2:'Support · 12:44', reply:'Write a reply…', send:'Send', resolve:'Resolve', ago:['2 min','5 min','12 min','1 h','3 h','Yesterday'] },
+  ru:{ url:'admin.yourbrand.app/users', brand:'Your Brand · Админка', nav:['Пользователи','Балансы','Карты','Поддержка','Настройки'], h:'Пользователи', search:'Поиск по UID или @username', k:[['Пользователи','12 480'],['Активны сегодня','1 932'],['Открытые обращения','3']], th:['UID','Telegram','Кошелёк','Карты','KYC','Активность'], kyc:{ok:'Пройден',wait:'На проверке',na:'Не нужен'}, tk:'Обращение #2841 · UID 10482736', m1:'Здравствуйте! Пополнил карту 10 минут назад, деньги ещё не пришли.', m2:'Спасибо, видим пополнение — его обрабатывает партнёр. Обычно это занимает несколько минут.', t1:'Пользователь · 12:41', t2:'Поддержка · 12:44', reply:'Напишите ответ…', send:'Отправить', resolve:'Решено', ago:['2 мин','5 мин','12 мин','1 ч','3 ч','Вчера'] }
+};
+function admin(lang){
+  const A = ADM[lang];
+  const rows = [['10482736','@alex_m','612.45 USDT','2','ok',1],['10482119','@lina.k','1 204.10 USDT','1','ok'],['10481977','@tradeplus','88.00 USDT','0','na'],['10481503','@mike_d','3 450.00 USDT','3','wait'],['10481266','@sofia_r','12.30 USDT','1','ok'],['10480934','@den4ik','240.75 USDT','0','na']];
+  const navI = ['user','wallet','card','at','grid'];
+  return `<div class="adm" role="img" aria-label="${A.brand}"><div class="adm-bar"><i></i><i></i><i></i><span>${A.url}</span></div><div class="adm-main">
+    <div class="adm-side"><div class="adm-logo"><i></i>${A.brand}</div>${A.nav.map((n, i) => `<div class="adm-nav${i === 0 ? ' on' : ''}">${ic(navI[i],17,1.9)}${n}${i === 3 ? '<em>3</em>' : ''}</div>`).join('')}</div>
+    <div class="adm-c"><div class="adm-head"><h4>${A.h}</h4><span class="adm-search">${ic('scan',15,1.9)}${A.search}</span></div>
+      <div class="adm-kpis">${A.k.map(k => `<div class="adm-kpi"><span>${k[0]}</span><b>${k[1]}</b></div>`).join('')}</div>
+      <div class="adm-table"><table><thead><tr>${A.th.map(t => `<th>${t}</th>`).join('')}</tr></thead><tbody>${rows.map((r, i) => `<tr${r[5] ? ' class="sel"' : ''}><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td><span class="st st-${r[4]}">${A.kyc[r[4]]}</span></td><td>${A.ago[i]}</td></tr>`).join('')}</tbody></table></div></div>
+    <div class="adm-r"><h5>${A.tk}</h5><div class="adm-msg">${A.m1}<small>${A.t1}</small></div><div class="adm-msg me">${A.m2}<small>${A.t2}</small></div><div class="adm-reply"><span>${A.reply}</span><div><b class="s">${A.resolve}</b><b class="p">${A.send}</b></div></div></div>
+  </div></div>`;
+}
+
+/* ===== Site copy, EN / RU. RUB / SBP appears only in RU. ===== */
+const TG_HANDLE = 'fintechprovider';
+const TG = 'https://t.me/' + TG_HANDLE;
+
+const T = {
+en: {
+  langName: 'EN', otherName: 'RU',
+  screens: { wallet:'Wallet home', deposit:'Deposit USDT', issue:'New card', setup:'Card design', cards:'My cards', freeze:'Freeze card', wdUsdt:'Withdraw USDT', wdAlipay:'Withdraw to Alipay' },
+  meta: { home:'Fintech Provider Hub — White-label crypto wallets, cards and payments', wallet:'White Label Crypto Wallet', cards:'Crypto Card Programs', payments:'Global Payment Solutions', development:'Custom Fintech Development', projects:'Projects', about:'About Us', contact:'Contact', privacy:'Privacy Policy', terms:'Terms of Use', '404':'Page not found' },
+  nav: { solutions:'Solutions', features:'Platform Features', projects:'Projects', about:'About Us', contact:'Contact', demo:'Request a Demo', menu:'Menu', close:'Close menu', skip:'Skip to content' },
+  sol: [
+    { id:'wallet', name:'White Label Crypto Wallet', short:'Your branded crypto wallet in Telegram, run on our infrastructure.', tag:'Core product' },
+    { id:'cards', name:'Crypto Card Programs', short:'Virtual card programs through issuing partners, connected to your wallet.', tag:'Via partners' },
+    { id:'payments', name:'Global Payment Solutions', short:'USDT on/off-ramp, QR payments and international payouts through integrated providers.', tag:'Via partners' },
+    { id:'development', name:'Custom Fintech Development', short:'Mini Apps, admin panels and API integrations built to your specification.', tag:'Service' }
+  ],
+  status: { core:'Included', partner:'Via partner', addon:'Add-on', roadmap:'Roadmap' },
+  demoNote: 'Interfaces are shown with demo data and an example brand palette.',
+  home: {
+    eyebrow: 'White-label fintech infrastructure · Hong Kong',
+    h1: 'Build & Launch Your Own Fintech Product',
+    sub: 'White-label crypto wallets, virtual cards, global payments, and custom fintech development — powered by integrated financial infrastructure.',
+    cta1: 'Explore Solutions', cta2: 'Request a Demo',
+    tryBrand: 'Try it in your brand colors', brands: { ember:'Ember', ocean:'Ocean', mint:'Mint', iris:'Iris' },
+    specs: [['First platform','Telegram Mini App'],['You manage','Users, balances, support'],['USDT','5 networks'],['Cards','Via issuing partners']],
+    show: { h2:'One Platform. Multiple Fintech Solutions.', sub:'Launch your branded crypto wallet with integrated cards, payments, and financial services.',
+      tabs: [
+        { id:'wallet', label:'Wallet', title:'A crypto wallet inside Telegram', pts:['USDT on TRC-20, TON, ERC-20, BEP-20 and Solana','Deposits, withdrawals, balances and full history','Opens from your bot, no app store install'], st:['core'], phones:['wallet','deposit'] },
+        { id:'issue', label:'Virtual Cards', title:'Card issuing in a few taps', pts:['Virtual cards through partner card programs','Users pick a design and a name for each card','Issue and monthly fees are set by you'], st:['partner'], phones:['issue','setup'] },
+        { id:'manage', label:'Card Management', title:'Everything users need after the card is issued', pts:['Top up cards from the USDT balance','Freeze and unfreeze in one tap','Card details and transaction history'], st:['partner'], phones:['cards','freeze'] },
+        { id:'pay', label:'Payments & Payouts', title:'Money out, where users need it', pts:['Withdraw USDT to external wallets in 5 networks','Payouts to Alipay in CNY through integrations','Live rate with a 30-second locked quote'], st:['core','partner'], phones:['wdUsdt','wdAlipay'] }
+      ] },
+    solutions: { h2:'Our Solutions', sub:'Start with the managed wallet, add card and payment modules, or bring us a product to build.', more:'Learn more' },
+    features: { h2:'Platform Features', sub:'Modules you can combine. Partner-dependent features are marked: their availability depends on the partner’s approval, region and terms.',
+      items: [
+        ['USDT in 5 networks','TRC-20, TON, ERC-20, BEP-20 and Solana. Deposits, withdrawals, balances, history.','core'],
+        ['Cards','Virtual cards issued under partner programs. Physical cards are on the roadmap.','partner'],
+        ['Fiat on/off-ramp','Buy and sell USDT for USD and EUR through partner providers.','partner'],
+        ['QR payments','Pay by QR in supported markets. Coverage is confirmed market by market.','partner'],
+        ['Alipay / WeChat','Payouts in CNY through payment integrations.','partner'],
+        ['Telegram transfers','Send by username, checks, Telegram Stars and Premium.','core'],
+        ['AML / KYC','Address screening and user verification through provider APIs. Scope agreed per project.','partner'],
+        ['Additional modules','VPN with whitelists and other add-ons on request.','addon']
+      ] },
+    how: { h2:'How It Works', steps: [
+      ['Choose modules','Pick the scenarios and infrastructure you need: wallet, cards, payments, add-ons.'],
+      ['Customize branding','Set your name, logo, palette and interface texts.'],
+      ['Connect providers','We run the integrations and partner approvals your modules require.'],
+      ['Launch & manage','Get your Mini App and an admin panel to run users and support.']
+    ] },
+    managed: { h2:'Your Brand. Our Technology.', sub:'A fully managed white-label product. We run the infrastructure, integrations and updates. You own the brand and the relationship with your users.',
+      cols: [
+        ['Fintech Provider Hub infrastructure',['Hosting, security and monitoring','Partner and provider integrations','Updates and new modules','Source code and servers stay with us']],
+        ['Your branded app',['Telegram Mini App with your name and colors','Admin panel for users, balances and support','Only the modules you choose']],
+        ['Your end users',['Wallet, cards and payments in one place','Support from your team through the admin panel']]
+      ],
+      adminT:'Admin panel', adminD:'View users and balances, check verification status and answer support requests. Access rights are agreed at onboarding.', adminNote:'Mockup with demo data. The final admin scope is agreed per project.' },
+    projects: { h2:'Selected Projects', kicker:'Platform showcase', title:'Consumer crypto wallet with virtual cards', desc:'A Telegram Mini App built on the platform: USDT wallet, card issuing and management, top-ups and payouts.', tags:['Telegram Mini App','USDT wallet','Virtual cards','Payouts'], note:'Further case studies will be published with client approval.', cta:'See all screens' },
+    about: { h2:'About Fintech Provider Hub', p:'We are a Hong Kong fintech company. We build and run white-label financial products, develop custom fintech software and connect financial APIs. We are a developer and integrator: card, fiat and payment services are provided by licensed partners.', facts:[['Based in','Hong Kong'],['Role','Developer & integrator'],['First platform','Telegram Mini App'],['Model','Managed SaaS']], more:'More about us' }
+  },
+  lead: { h2:'Let’s Build Your Fintech Product', sub:'Message us on Telegram. Pick a topic and we’ll draft a first message for you to paste.',
+    topicL:'What are you interested in?', topics:['White Label Wallet','Card Programs','Payments','Custom Development','Something else'],
+    msgL:'Your message', tpl:t => `Hi! I'm interested in: ${t}.\nCompany: \nWhat we want to launch: \nTarget markets: `,
+    copy:'Copy message', copied:'Copied', copyFail:'Couldn’t copy. Select the text and copy it manually.', open:'Open Telegram', direct:'Or write directly:' },
+  pages: {
+    wallet: { eyebrow:'Solution · Core product', h1:'White Label Crypto Wallet', sub:'A branded crypto wallet in Telegram with cards and fiat on-ramp, run on our infrastructure. You get the Mini App and an admin panel; we run everything underneath.', cta:'Request a Demo', phones:['wallet','deposit'],
+      incH:'What’s included', coreT:'Core set', core:['USDT wallet in 5 networks: TRC-20, TON, ERC-20, BEP-20, Solana','Deposits, withdrawals, balances and history','Telegram transfers by username','Branded Telegram Mini App','Admin panel for users, balances and support'],
+      optT:'Optional modules', opt:['Virtual cards through partner programs','Buy USDT for USD and EUR via partners','QR payments in supported markets','Alipay / WeChat payouts','AML / KYC checks','VPN with whitelists'],
+      brandH:'Your name, your colors, your bot', brandP:'The Mini App runs under your Telegram bot and your brand. Switch the palette to see how the same product looks in different brands.', brandPts:['Name, logo and palette','Your Telegram bot','Interface texts and languages for your audience'],
+      adminH:'Admin panel included', adminP:'Your team sees users, balances, cards and support requests in one place.',
+      intH:'Integrations we connect', ints:[['Card issuing partners','Virtual card programs and card top-ups'],['On/off-ramp providers','USDT purchase and sale for fiat'],['Payout networks','Alipay, WeChat and QR payments'],['AML / KYC providers','Address screening and verification']],
+      modelH:'Managed SaaS model', modelP:'You connect to a running platform instead of building one. Pricing, SLA, timelines, access rights and onboarding terms are agreed individually after a demo.', modelKeep:'Source code and server infrastructure remain with Fintech Provider Hub.',
+      roadH:'Platforms', road:[['Telegram Mini App','Available','core'],['Web app','Next stage','roadmap'],['iOS and Android apps','Planned','roadmap']],
+      stepsH:'Launch in 4 stages' },
+    cards: { eyebrow:'Solution · Via partners', h1:'Crypto Card Programs', sub:'Virtual card programs through issuing partners, connected to your wallet. Users top up their cards from the USDT balance.', cta:'Request Card Program Details', phones:['issue','cards'],
+      typesH:'Program types', types:[['Virtual cards','For online purchases, subscriptions and services. Issued under partner programs.','partner'],['Physical cards','For in-store payments. Requires end-user verification (KYC).','roadmap']],
+      binH:'BIN geography', binP:'BIN options depend on the partner program and are confirmed at onboarding.', bins:['Singapore','Hong Kong','Europe','USA'],
+      apiH:'Issue and top up by API', api:['Issue virtual cards','Top up from the wallet balance','Freeze, unfreeze and close','Card details and transactions'],
+      useH:'What users pay for', uses:['Online shopping','Subscriptions and SaaS','Travel and bookings','Advertising accounts'],
+      reqH:'Requirements and limits', req:['KYB of your company by the issuing partner','KYC for end users, depending on the program and card type','Limits and restricted merchant categories set by the program'],
+      disc:'Fintech Provider Hub does not issue cards. Cards are issued by partner institutions under their own programs and terms.',
+      mgmtH:'Card management in the app', mgmtPhones:['setup','freeze'] },
+    payments: { eyebrow:'Solution · Via partners', h1:'Global Payment Solutions', sub:'USDT on/off-ramp, QR payments and international payouts, connected through partner providers.', cta:'Discuss Payment Integration', phones:['wdUsdt','wdAlipay'],
+      dirH:'Payment directions', dirs:[['USDT on/off-ramp','Buy and sell USDT for USD and EUR.','partner'],['Crypto withdrawals','USDT to external wallets in 5 networks.','core'],['QR payments','Pay by QR in supported markets.','partner'],['Alipay & WeChat','Payouts in CNY to user accounts.','partner'],['Other fiat directions','Added as partner coverage allows.','partner']],
+      flowH:'How a payout works', flow:[['Quote','The user sees the live rate; it is locked for 30 seconds.'],['Confirm','The user confirms with a swipe or a 2FA code.'],['Execution','The partner provider processes the payout.'],['Status','Success, pending or error is shown in the app and the admin panel.']],
+      note:'Availability, limits and fees depend on the partner, the market and your agreement with us.' },
+    development: { eyebrow:'Service', h1:'Custom Fintech Development', sub:'Telegram Mini Apps, fintech interfaces, web products, admin panels and API integrations, built to your specification by the team behind our platform.', cta:'Discuss Your Project',
+      capH:'What we build', caps:[['Telegram Mini Apps','Wallets, stores, services and bots with payments.'],['Fintech interfaces','Onboarding, exchange, card and payout flows.'],['Web products','Customer portals and marketing sites.'],['Admin panels','Back offices for support, operations and compliance.'],['API integrations','Card issuers, on/off-ramp, payouts, AML/KYC.'],['Custom modules','Features that extend your existing product.']],
+      procH:'Process', proc:[['Discovery','We study your product, market and constraints.'],['Scope','We agree on modules, integrations, timeline and budget.'],['Integration','We build, connect providers and test end to end.'],['Launch','We release, monitor and support the product.']],
+      stackH:'Where we fit', stack:['Your users','Mini App and web interfaces','Your back office','Fintech Provider Hub API layer','Partners: card issuers, ramps, payouts, AML/KYC'] },
+    projects: { eyebrow:'Projects', h1:'Platform showcase', sub:'A consumer crypto wallet with virtual cards, built on the platform as a Telegram Mini App. Screens are shown with demo data.', groups:[['Wallet','Balances, history and deposits in 5 networks with a QR address.',['wallet','deposit']],['Cards','Issuing a virtual card, choosing its design, then managing cards and transactions.',['issue','setup','cards']],['Payouts','Withdrawals to external wallets and to Alipay with a locked rate.',['wdUsdt','wdAlipay']]], note:'Further case studies will be published with client approval.' },
+    about: { eyebrow:'Company', h1:'About Us', sub:'Fintech Provider Hub is a Hong Kong fintech company that develops and runs white-label financial products, builds custom fintech software and connects financial APIs.',
+      doH:'What we do', dos:[['Managed white label','We run a branded wallet platform for businesses, from infrastructure to updates.'],['Integrations','We connect card issuers, on/off-ramp providers, payout networks and AML/KYC services.'],['Custom development','We build Mini Apps, interfaces and back offices for fintech teams.']],
+      notH:'What we are not', notP:'We are not a bank, an e-money institution or a card issuer. Regulated services are provided by licensed partners under their own terms.',
+      forH:'Who we work with', fors:['Crypto wallets','Payment companies','Exchangers','Web3 teams','Telegram projects','Fintech startups'],
+      coH:'Company details', co:[['Legal name','To be published after confirmation'],['Registration number','To be published after confirmation'],['Registered address','Hong Kong · full address to be published']] },
+    contact: { eyebrow:'Contact', h1:'Contact', sub:'The fastest way to reach us is Telegram. Tell us what you want to launch and we’ll reply with next steps.' },
+    privacy: { eyebrow:'Legal', h1:'Privacy Policy', draft:'Draft for legal review. Company details will be added after confirmation.', updated:'Last updated: [date]',
+      s:[['Who we are','This website is operated by [Company legal name], a company registered in Hong Kong under number [registration number], with its registered address at [address] (“we”, “us”).'],
+         ['What we collect','This website has no forms and no user accounts. When you contact us on Telegram, we receive the information you choose to send: your Telegram username and the content of your messages. Our hosting provider may process technical data such as IP address and browser type to deliver the site securely.'],
+         ['Analytics','We use privacy-friendly analytics without advertising cookies to count visits and button clicks. [Name of analytics provider].'],
+         ['How we use data','We use your messages only to answer your request, prepare a demo or a commercial proposal, and keep a record of our communication.'],
+         ['Sharing','We do not sell personal data. We may share it with service providers who help us operate, under confidentiality obligations, or where required by law.'],
+         ['Retention','We keep correspondence for as long as needed for the purposes above or as required by law.'],
+         ['Your rights','You can ask us to access, correct or delete your personal data by writing to us on Telegram @' + TG_HANDLE + ' or at [email].']] },
+    terms: { eyebrow:'Legal', h1:'Terms of Use', draft:'Draft for legal review.', updated:'Last updated: [date]',
+      s:[['About this website','This website presents the products and services of [Company legal name]. It is for information only and is not an offer to provide any financial service.'],
+         ['Partner services','Card programs, fiat on/off-ramp, payouts and verification services are provided by third-party licensed partners. Their availability depends on the partner, the region and individual approval.'],
+         ['Interface examples','Screens on this website use demo data and example brand palettes. Figures, prices and statuses shown in them are illustrative.'],
+         ['No advice','Nothing on this website is legal, tax or investment advice.'],
+         ['Intellectual property','The website content and design belong to [Company legal name] unless stated otherwise.'],
+         ['Contact','Questions about these terms: Telegram @' + TG_HANDLE + '.']] },
+    '404': { h1:'Page not found', sub:'The page you’re looking for doesn’t exist or has moved.', cta:'Go to homepage' }
+  },
+  footer: { tag:'White-label crypto wallets, card programs, payments and custom fintech development.', disc:'Fintech Provider Hub is a technology developer and integrator. We are not a bank, an e-money institution or a card issuer. Card programs, fiat and payment services are provided by licensed partners; availability depends on the partner and the region.', company:'Company', legal:'Legal', rights:'© 2026 Fintech Provider Hub · Hong Kong' }
+},
+
+ru: {
+  langName: 'RU', otherName: 'EN',
+  screens: { wallet:'Главная кошелька', deposit:'Пополнение USDT', issue:'Новая карта', setup:'Дизайн карты', cards:'Мои карты', freeze:'Заморозка карты', wdUsdt:'Вывод USDT', wdAlipay:'Вывод в Alipay', wdRub:'Вывод в рублях' },
+  meta: { home:'Fintech Provider Hub — white-label криптокошельки, карты и платежи', wallet:'White Label криптокошелёк', cards:'Карточные программы', payments:'Глобальные платёжные решения', development:'Финтех-разработка на заказ', projects:'Проекты', about:'О компании', contact:'Контакты', privacy:'Политика конфиденциальности', terms:'Условия использования', '404':'Страница не найдена' },
+  nav: { solutions:'Решения', features:'Возможности', projects:'Проекты', about:'О компании', contact:'Контакты', demo:'Запросить демо', menu:'Меню', close:'Закрыть меню', skip:'Перейти к содержимому' },
+  sol: [
+    { id:'wallet', name:'White Label криптокошелёк', short:'Криптокошелёк под вашим брендом в Telegram на нашей инфраструктуре.', tag:'Основной продукт' },
+    { id:'cards', name:'Карточные программы', short:'Виртуальные карты через партнёров-эмитентов, подключённые к вашему кошельку.', tag:'Через партнёров' },
+    { id:'payments', name:'Глобальные платежи', short:'Рубли по СБП, on/off-ramp USDT, QR-платежи и международные выплаты через провайдеров.', tag:'Через партнёров' },
+    { id:'development', name:'Финтех-разработка на заказ', short:'Mini Apps, админки и API-интеграции по вашему ТЗ.', tag:'Услуга' }
+  ],
+  status: { core:'В комплекте', partner:'Через партнёра', addon:'Доп. модуль', roadmap:'В планах' },
+  demoNote: 'Интерфейсы показаны с демо-данными и примером фирменной палитры.',
+  home: {
+    eyebrow: 'White-label финтех-инфраструктура · Гонконг',
+    h1: 'Запустите собственный финтех-продукт',
+    sub: 'White-label криптокошельки, виртуальные карты, глобальные платежи и финтех-разработка на заказ — на интегрированной финансовой инфраструктуре.',
+    cta1: 'Смотреть решения', cta2: 'Запросить демо',
+    tryBrand: 'Примерьте свои фирменные цвета', brands: { ember:'Ember', ocean:'Ocean', mint:'Mint', iris:'Iris' },
+    specs: [['Первая платформа','Telegram Mini App'],['Вы управляете','Пользователи, балансы, поддержка'],['USDT','5 сетей'],['Карты','Через партнёров-эмитентов']],
+    show: { h2:'Одна платформа. Много финтех-решений.', sub:'Запустите криптокошелёк под своим брендом со встроенными картами, платежами и финансовыми сервисами.',
+      tabs: [
+        { id:'wallet', label:'Кошелёк', title:'Криптокошелёк прямо в Telegram', pts:['USDT в сетях TRC-20, TON, ERC-20, BEP-20 и Solana','Пополнение, вывод, балансы и полная история','Открывается из вашего бота, без установки из магазина'], st:['core'], phones:['wallet','deposit'] },
+        { id:'issue', label:'Виртуальные карты', title:'Выпуск карты в несколько касаний', pts:['Виртуальные карты по программам партнёров','Пользователь выбирает дизайн и название карты','Стоимость выпуска и обслуживания задаёте вы'], st:['partner'], phones:['issue','setup'] },
+        { id:'manage', label:'Управление картами', title:'Всё, что нужно после выпуска карты', pts:['Пополнение карт с баланса USDT','Заморозка и разморозка в одно касание','Реквизиты и история операций'], st:['partner'], phones:['cards','freeze'] },
+        { id:'pay', label:'Платежи и выплаты', title:'Вывод туда, куда нужно пользователю', pts:['Рубли по СБП через P2P-партнёров','Выплаты в Alipay в юанях через интеграции','Вывод USDT на внешние кошельки в 5 сетях'], st:['core','partner'], phones:['wdRub','wdAlipay'] }
+      ] },
+    solutions: { h2:'Наши решения', sub:'Начните с управляемого кошелька, добавьте карты и платежи или закажите разработку своего продукта.', more:'Подробнее' },
+    features: { h2:'Возможности платформы', sub:'Модули, которые можно сочетать. Функции, зависящие от партнёров, отмечены: их доступность зависит от одобрения партнёра, региона и условий.',
+      items: [
+        ['USDT в 5 сетях','TRC-20, TON, ERC-20, BEP-20 и Solana. Пополнение, вывод, балансы, история.','core'],
+        ['Карты','Виртуальные карты по программам партнёров. Пластиковые карты в планах.','partner'],
+        ['Fiat on/off-ramp','Покупка и продажа USDT за RUB, USD и EUR через партнёров. Рубли — через СБП.','partner'],
+        ['QR и СБП','Оплата по QR на поддерживаемых рынках, включая СБП в России. Покрытие подтверждается по каждому рынку.','partner'],
+        ['Alipay / WeChat','Выплаты в юанях через платёжные интеграции.','partner'],
+        ['Переводы в Telegram','Переводы по никнейму, чеки, Telegram Stars и Premium.','core'],
+        ['AML / KYC','Проверка адресов и верификация пользователей через API провайдеров. Объём согласуется под проект.','partner'],
+        ['Дополнительные модули','VPN с белыми списками и другие модули по запросу.','addon']
+      ] },
+    how: { h2:'Как это работает', steps: [
+      ['Выберите модули','Нужные сценарии и инфраструктура: кошелёк, карты, платежи, дополнительные модули.'],
+      ['Настройте бренд','Название, логотип, палитра и тексты интерфейса.'],
+      ['Подключите провайдеров','Мы проводим интеграции и согласования с партнёрами для выбранных модулей.'],
+      ['Запускайте и управляйте','Вы получаете Mini App и админку для работы с пользователями и поддержкой.']
+    ] },
+    managed: { h2:'Ваш бренд. Наши технологии.', sub:'Полностью управляемый white-label продукт. Инфраструктура, интеграции и обновления на нас. Бренд и отношения с пользователями — ваши.',
+      cols: [
+        ['Инфраструктура Fintech Provider Hub',['Хостинг, безопасность и мониторинг','Интеграции с партнёрами и провайдерами','Обновления и новые модули','Исходный код и серверы остаются у нас']],
+        ['Ваше приложение',['Telegram Mini App с вашим названием и цветами','Админка для пользователей, балансов и поддержки','Только выбранные вами модули']],
+        ['Ваши пользователи',['Кошелёк, карты и платежи в одном месте','Поддержка от вашей команды через админку']]
+      ],
+      adminT:'Админка', adminD:'Пользователи и балансы, статусы верификации и обращения в поддержку. Права доступа согласуются при подключении.', adminNote:'Макет с демо-данными. Итоговый состав админки согласуется под проект.' },
+    projects: { h2:'Проекты', kicker:'Пример на платформе', title:'Потребительский криптокошелёк с виртуальными картами', desc:'Telegram Mini App на нашей платформе: USDT-кошелёк, выпуск и управление картами, пополнения и выплаты.', tags:['Telegram Mini App','USDT-кошелёк','Виртуальные карты','Выплаты'], note:'Другие кейсы опубликуем после согласования с клиентами.', cta:'Все экраны' },
+    about: { h2:'О Fintech Provider Hub', p:'Мы — финтех-компания из Гонконга. Разрабатываем и сопровождаем white-label финансовые продукты, делаем финтех-разработку на заказ и подключаем финансовые API. Мы разработчик и интегратор: карточные, фиатные и платёжные услуги предоставляют лицензированные партнёры.', facts:[['Где','Гонконг'],['Роль','Разработчик и интегратор'],['Первая платформа','Telegram Mini App'],['Модель','Managed SaaS']], more:'Подробнее о нас' }
+  },
+  lead: { h2:'Давайте построим ваш финтех-продукт', sub:'Напишите нам в Telegram. Выберите тему — мы подготовим первое сообщение, его останется вставить.',
+    topicL:'Что вас интересует?', topics:['White Label кошелёк','Карточные программы','Платежи','Разработка на заказ','Другое'],
+    msgL:'Ваше сообщение', tpl:t => `Здравствуйте! Интересует: ${t}.\nКомпания: \nЧто хотим запустить: \nРынки: `,
+    copy:'Скопировать', copied:'Скопировано', copyFail:'Не удалось скопировать. Выделите текст и скопируйте вручную.', open:'Открыть Telegram', direct:'Или напишите напрямую:' },
+  pages: {
+    wallet: { eyebrow:'Решение · Основной продукт', h1:'White Label криптокошелёк', sub:'Криптокошелёк под вашим брендом в Telegram с картами и покупкой USDT за рубли, на нашей инфраструктуре. Вы получаете Mini App и админку, всё остальное работает на нашей стороне.', cta:'Запросить демо', phones:['wallet','deposit'],
+      incH:'Что входит', coreT:'Основной набор', core:['USDT-кошелёк в 5 сетях: TRC-20, TON, ERC-20, BEP-20, Solana','Пополнение, вывод, балансы и история','Переводы по никнейму в Telegram','Telegram Mini App под вашим брендом','Админка для пользователей, балансов и поддержки'],
+      optT:'Дополнительные модули', opt:['Виртуальные карты по программам партнёров','Покупка USDT за RUB (СБП), USD и EUR через партнёров','QR-платежи на поддерживаемых рынках','Выплаты в Alipay / WeChat','AML / KYC-проверки','VPN с белыми списками'],
+      brandH:'Ваше название, ваши цвета, ваш бот', brandP:'Mini App работает в вашем Telegram-боте и под вашим брендом. Переключите палитру и посмотрите, как один продукт выглядит в разных брендах.', brandPts:['Название, логотип и палитра','Ваш Telegram-бот','Тексты и языки под вашу аудиторию'],
+      adminH:'Админка в комплекте', adminP:'Ваша команда видит пользователей, балансы, карты и обращения в одном месте.',
+      intH:'Какие интеграции подключаем', ints:[['Партнёры-эмитенты','Программы виртуальных карт и пополнение карт'],['On/off-ramp провайдеры','Покупка и продажа USDT за фиат, включая RUB'],['Платёжные сети','СБП, Alipay, WeChat и QR-платежи'],['AML / KYC-провайдеры','Проверка адресов и верификация']],
+      modelH:'Модель Managed SaaS', modelP:'Вы подключаетесь к работающей платформе, а не строите свою. Цены, SLA, сроки, права доступа и условия подключения согласуются индивидуально после демо.', modelKeep:'Исходный код и серверная инфраструктура остаются у Fintech Provider Hub.',
+      roadH:'Платформы', road:[['Telegram Mini App','Доступно','core'],['Веб-версия','Следующий этап','roadmap'],['Приложения iOS и Android','В планах','roadmap']],
+      stepsH:'Запуск в 4 этапа' },
+    cards: { eyebrow:'Решение · Через партнёров', h1:'Карточные программы', sub:'Программы виртуальных карт через партнёров-эмитентов, подключённые к вашему кошельку. Пользователи пополняют карты с баланса USDT.', cta:'Запросить условия программы', phones:['issue','cards'],
+      typesH:'Типы программ', types:[['Виртуальные карты','Для покупок онлайн, подписок и сервисов. Выпускаются по программам партнёров.','partner'],['Пластиковые карты','Для оплаты в магазинах. Нужна верификация пользователя (KYC).','roadmap']],
+      binH:'География BIN', binP:'Варианты BIN зависят от программы партнёра и подтверждаются при подключении.', bins:['Сингапур','Гонконг','Европа','США'],
+      apiH:'Выпуск и пополнение через API', api:['Выпуск виртуальных карт','Пополнение с баланса кошелька','Заморозка, разморозка и закрытие','Реквизиты и операции по карте'],
+      useH:'За что платят пользователи', uses:['Покупки онлайн','Подписки и SaaS','Путешествия и бронирования','Рекламные кабинеты'],
+      reqH:'Требования и ограничения', req:['KYB вашей компании у партнёра-эмитента','KYC пользователей — в зависимости от программы и типа карты','Лимиты и запрещённые категории продавцов задаёт программа'],
+      disc:'Fintech Provider Hub не выпускает карты. Карты выпускают партнёрские организации по своим программам и условиям.',
+      mgmtH:'Управление картами в приложении', mgmtPhones:['setup','freeze'] },
+    payments: { eyebrow:'Решение · Через партнёров', h1:'Глобальные платёжные решения', sub:'Рубли по СБП, on/off-ramp USDT, QR-платежи и международные выплаты через партнёров-провайдеров.', cta:'Обсудить платёжную интеграцию', phones:['wdRub','wdAlipay'],
+      dirH:'Платёжные направления', dirs:[['RUB и СБП','Покупка USDT за рубли и вывод в рубли через P2P-партнёров.','partner'],['USDT on/off-ramp','Покупка и продажа USDT за USD и EUR.','partner'],['Вывод криптовалюты','USDT на внешние кошельки в 5 сетях.','core'],['QR-платежи','Оплата по QR на поддерживаемых рынках, включая СБП.','partner'],['Alipay и WeChat','Выплаты в юанях на аккаунты пользователей.','partner'],['Другие фиатные направления','Подключаем по мере покрытия партнёров.','partner']],
+      flowH:'Как проходит выплата', flow:[['Курс','Пользователь видит актуальный курс, он фиксируется на 30 секунд.'],['Подтверждение','Пользователь подтверждает свайпом или кодом 2FA.'],['Исполнение','Выплату проводит партнёр-провайдер.'],['Статус','Успех, обработка или ошибка — в приложении и в админке.']],
+      note:'Доступность, лимиты и комиссии зависят от партнёра, рынка и договорённостей с нами.' },
+    development: { eyebrow:'Услуга', h1:'Финтех-разработка на заказ', sub:'Telegram Mini Apps, финтех-интерфейсы, веб-продукты, админки и API-интеграции по вашему ТЗ — от команды, которая сделала нашу платформу.', cta:'Обсудить проект',
+      capH:'Что мы делаем', caps:[['Telegram Mini Apps','Кошельки, магазины, сервисы и боты с платежами.'],['Финтех-интерфейсы','Онбординг, обмен, карты и выплаты.'],['Веб-продукты','Личные кабинеты и сайты.'],['Админки','Бэк-офис для поддержки, операций и комплаенса.'],['API-интеграции','Эмитенты карт, on/off-ramp, выплаты, AML/KYC.'],['Индивидуальные модули','Функции, которые расширяют ваш продукт.']],
+      procH:'Процесс', proc:[['Discovery','Изучаем продукт, рынок и ограничения.'],['Scope','Согласуем модули, интеграции, сроки и бюджет.'],['Integration','Разрабатываем, подключаем провайдеров, тестируем.'],['Launch','Запускаем, мониторим и сопровождаем.']],
+      stackH:'Где мы в архитектуре', stack:['Ваши пользователи','Mini App и веб-интерфейсы','Ваш бэк-офис','API-слой Fintech Provider Hub','Партнёры: эмитенты, ramps, выплаты, AML/KYC'] },
+    projects: { eyebrow:'Проекты', h1:'Пример на платформе', sub:'Потребительский криптокошелёк с виртуальными картами — Telegram Mini App на нашей платформе. Экраны показаны с демо-данными.', groups:[['Кошелёк','Балансы, история и пополнение в 5 сетях по QR-адресу.',['wallet','deposit']],['Карты','Выпуск виртуальной карты, выбор дизайна, управление картами и операциями.',['issue','setup','cards']],['Выплаты','Вывод в рублях по СБП, на внешние кошельки и в Alipay с фиксированным курсом.',['wdRub','wdUsdt','wdAlipay']]], note:'Другие кейсы опубликуем после согласования с клиентами.' },
+    about: { eyebrow:'Компания', h1:'О компании', sub:'Fintech Provider Hub — финтех-компания из Гонконга. Разрабатываем и сопровождаем white-label финансовые продукты, делаем финтех-разработку на заказ и подключаем финансовые API.',
+      doH:'Что мы делаем', dos:[['Managed white label','Ведём платформу брендированного кошелька для бизнеса — от инфраструктуры до обновлений.'],['Интеграции','Подключаем эмитентов карт, on/off-ramp провайдеров, платёжные сети и AML/KYC-сервисы.'],['Разработка на заказ','Делаем Mini Apps, интерфейсы и бэк-офисы для финтех-команд.']],
+      notH:'Кем мы не являемся', notP:'Мы не банк, не организация электронных денег и не эмитент карт. Регулируемые услуги предоставляют лицензированные партнёры на своих условиях.',
+      forH:'С кем работаем', fors:['Криптокошельки','Платёжные компании','Обменники','Web3-команды','Telegram-проекты','Финтех-стартапы'],
+      coH:'Реквизиты', co:[['Юридическое название','Будет опубликовано после подтверждения'],['Регистрационный номер','Будет опубликован после подтверждения'],['Адрес','Гонконг · полный адрес будет опубликован']] },
+    contact: { eyebrow:'Контакты', h1:'Контакты', sub:'Быстрее всего с нами связаться в Telegram. Расскажите, что хотите запустить, — ответим со следующими шагами.' },
+    privacy: { eyebrow:'Документы', h1:'Политика конфиденциальности', draft:'Черновик для проверки юристом. Реквизиты будут добавлены после подтверждения.', updated:'Обновлено: [дата]',
+      s:[['Кто мы','Сайт принадлежит [юридическое название], компании, зарегистрированной в Гонконге под номером [номер], с адресом [адрес] («мы»).'],
+         ['Какие данные собираем','На сайте нет форм и личных кабинетов. Когда вы пишете нам в Telegram, мы получаем то, что вы отправили: ваш ник и текст сообщений. Хостинг-провайдер может обрабатывать технические данные (IP-адрес, тип браузера), чтобы безопасно показывать сайт.'],
+         ['Аналитика','Мы используем аналитику без рекламных cookie, чтобы считать посещения и клики по кнопкам. [Название сервиса аналитики].'],
+         ['Как используем','Только чтобы ответить на запрос, подготовить демо или коммерческое предложение и хранить историю переписки.'],
+         ['Передача данных','Мы не продаём персональные данные. Можем передавать их подрядчикам, которые помогают нам работать, на условиях конфиденциальности, либо по требованию закона.'],
+         ['Хранение','Храним переписку столько, сколько нужно для указанных целей или требует закон.'],
+         ['Ваши права','Вы можете запросить доступ, исправление или удаление данных, написав нам в Telegram @' + TG_HANDLE + ' или на [email].']] },
+    terms: { eyebrow:'Документы', h1:'Условия использования', draft:'Черновик для проверки юристом.', updated:'Обновлено: [дата]',
+      s:[['О сайте','Сайт рассказывает о продуктах и услугах [юридическое название]. Он носит информационный характер и не является предложением финансовых услуг.'],
+         ['Услуги партнёров','Карточные программы, on/off-ramp, выплаты и верификацию предоставляют сторонние лицензированные партнёры. Доступность зависит от партнёра, региона и индивидуального одобрения.'],
+         ['Примеры интерфейсов','На экранах — демо-данные и примеры фирменных палитр. Суммы, цены и статусы на них иллюстративны.'],
+         ['Не является консультацией','Ничто на сайте не является юридической, налоговой или инвестиционной консультацией.'],
+         ['Интеллектуальная собственность','Контент и дизайн сайта принадлежат [юридическое название], если не указано иное.'],
+         ['Связь','Вопросы по условиям: Telegram @' + TG_HANDLE + '.']] },
+    '404': { h1:'Страница не найдена', sub:'Такой страницы нет или она переехала.', cta:'На главную' }
+  },
+  footer: { tag:'White-label криптокошельки, карточные программы, платежи и финтех-разработка на заказ.', disc:'Fintech Provider Hub — разработчик и интегратор технологий. Мы не банк, не организация электронных денег и не эмитент карт. Карточные программы, фиатные и платёжные услуги предоставляют лицензированные партнёры; доступность зависит от партнёра и региона.', company:'Компания', legal:'Документы', rights:'© 2026 Fintech Provider Hub · Гонконг' }
+}
+};
+
+/* ===== Router, rendering, interactions ===== */
+const ROUTES = ['wallet','cards','payments','development','projects','about','contact','privacy','terms'];
+const ANCHORS = ['features','solutions'];
+const BRANDS = { ember:'#F04800', ocean:'#2F6BFF', mint:'#0E9F6E', iris:'#7C3AED' };
+const store = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k, v){ try { localStorage.setItem(k, v); } catch(e){} } };
+const S = { lang:'en', page:'home', anchor:null, brand: BRANDS[store.get('fph-brand')] ? store.get('fph-brand') : 'ember', tab:'wallet', topic:0 };
+
+function track(event, data){ try { (window.dataLayer = window.dataLayer || []).push(Object.assign({ event }, data || {})); } catch(e){} }
+
+const href = (lang, page) => '#' + lang + (page && page !== 'home' ? '-' + page : '');
+const TGSVG = '<svg class="tg-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.6 4.2 18.4 19.4c-.2 1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9.1-8.2c.4-.4-.1-.6-.6-.2L5.9 13.1 1.1 11.6c-1-.3-1-1 .2-1.5L20.3 2.8c.9-.3 1.6.2 1.3 1.4Z"/></svg>';
+const ARR = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+const CHK = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+const INFO = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5v.5"/></svg>';
+const LOGO = '<svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5B8CFF"/><stop offset="1" stop-color="#A07EFF"/></linearGradient></defs><rect width="34" height="34" rx="10" fill="url(#lg)"/><g stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none"><path d="M17 17L9.5 10.5M17 17l7.5-6.5M17 17v8"/></g><g fill="#fff"><circle cx="17" cy="17" r="3.4"/><circle cx="9" cy="10" r="2.3"/><circle cx="25" cy="10" r="2.3"/><circle cx="17" cy="26" r="2.3"/></g></svg>';
+const SOL_ICO = {
+  wallet:'<path d="M4 7h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M4 7l11-3v3"/><circle cx="16" cy="13.5" r="1.2"/>',
+  cards:'<rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 10h19M6 15h4"/>',
+  payments:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.7 5.6 3.7 9s-1.2 6.4-3.7 9c-2.5-2.6-3.7-5.6-3.7-9S9.5 5.6 12 3z"/>',
+  development:'<path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/>'
+};
+const svgI = (p, s = 24) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
+
+const tgBtn = (label, cls = 'btn-p', ev = 'request_demo') => `<a class="btn ${cls}" href="${TG}" target="_blank" rel="noopener" data-ev="${ev}">${TGSVG}${label}</a>`;
+const pill = (L, k) => `<span class="pill pill-${k}">${L.status[k]}</span>`;
+const checks = items => `<ul class="checks">${items.map(t => `<li>${CHK}<span>${t}</span></li>`).join('')}</ul>`;
+const secHead = (h, sub, eyebrow) => `<div class="sec-head">${eyebrow ? `<span class="eyebrow">${eyebrow}</span>` : ''}<h2 class="h2">${h}</h2>${sub ? `<p class="lead-p muted">${sub}</p>` : ''}</div>`;
+const duo = (names, lang, s = .62, o = {}) => `<div class="duo${names.length > 2 ? ' three' : ''}">${names.map(n => phone(n, lang, Object.assign({ s, brand:S.brand }, o))).join('')}</div>`;
+const swatches = L => `<div class="swatches"><p>${L.home.tryBrand}</p><div class="sw-row" role="group" aria-label="${L.home.tryBrand}">${Object.keys(BRANDS).map(b => `<button class="sw" type="button" data-brand="${b}" aria-pressed="${b === S.brand}"><i style="background:${BRANDS[b]}"></i>${L.home.brands[b]}</button>`).join('')}</div></div>`;
+
+/* ---------- header / footer ---------- */
+function header(L){
+  const l = S.lang, o = l === 'en' ? 'ru' : 'en';
+  const cur = p => S.page === p ? ' aria-current="page"' : '';
+  const keep = S.anchor || S.page;
+  return `<a class="skip" href="#main" data-skip>${L.nav.skip}</a>
+  <header class="hdr" id="hdr"><div class="wrap hdr-in">
+    <a class="logo" href="${href(l)}">${LOGO}<span>Fintech Provider Hub<small>Hong Kong</small></span></a>
+    <nav class="nav" aria-label="Main">
+      <div class="dd"><button type="button" aria-haspopup="true">${L.nav.solutions}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="dd-panel">${L.sol.map(s => `<a href="${href(l, s.id)}"><b>${s.name}</b><span>${s.short}</span></a>`).join('')}</div></div>
+      <a href="${href(l,'features')}"${S.anchor === 'features' ? ' aria-current="page"' : ''}>${L.nav.features}</a>
+      <a href="${href(l,'projects')}"${cur('projects')}>${L.nav.projects}</a>
+      <a href="${href(l,'about')}"${cur('about')}>${L.nav.about}</a>
+      <a href="${href(l,'contact')}"${cur('contact')}>${L.nav.contact}</a>
+    </nav>
+    <div class="hdr-r">
+      <div class="lang" role="group" aria-label="Language"><span aria-current="true">${L.langName}</span><a href="${href(o, keep)}" lang="${o}" data-ev="lang_switch">${L.otherName}</a></div>
+      ${tgBtn(L.nav.demo, 'btn-blue btn-sm')}
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mnav" aria-label="${L.nav.menu}" data-menu><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+  <nav class="mnav" id="mnav" aria-label="Mobile">
+    <a href="${href(l)}#solutions" data-goto="solutions">${L.nav.solutions}</a>
+    ${L.sol.map(s => `<a class="sub" href="${href(l, s.id)}">${s.name}</a>`).join('')}
+    <a href="${href(l,'features')}">${L.nav.features}</a><a href="${href(l,'projects')}">${L.nav.projects}</a><a href="${href(l,'about')}">${L.nav.about}</a><a href="${href(l,'contact')}">${L.nav.contact}</a>
+    ${tgBtn(L.nav.demo, 'btn-blue')}
+  </nav></header>`;
+}
+function footer(L){
+  const l = S.lang;
+  return `<footer class="ftr"><div class="wrap"><div class="ftr-top">
+    <div><a class="logo" href="${href(l)}">${LOGO}<span>Fintech Provider Hub<small>Hong Kong</small></span></a><p class="muted" style="margin-top:16px;max-width:36ch;font-size:15px;line-height:1.55">${L.footer.tag}</p></div>
+    <div><h4>${L.nav.solutions}</h4><ul>${L.sol.map(s => `<li><a href="${href(l, s.id)}">${s.name}</a></li>`).join('')}</ul></div>
+    <div><h4>${L.footer.company}</h4><ul><li><a href="${href(l,'projects')}">${L.nav.projects}</a></li><li><a href="${href(l,'about')}">${L.nav.about}</a></li><li><a href="${href(l,'contact')}">${L.nav.contact}</a></li><li><a href="${TG}" target="_blank" rel="noopener" data-ev="contact_click">Telegram @${TG_HANDLE}</a></li></ul></div>
+    <div><h4>${L.footer.legal}</h4><ul><li><a href="${href(l,'privacy')}">${L.meta.privacy}</a></li><li><a href="${href(l,'terms')}">${L.meta.terms}</a></li></ul></div>
+  </div><div class="ftr-disc"><p>${L.footer.disc}</p><p>${L.footer.rights}</p></div></div></footer>`;
+}
+
+/* ---------- shared blocks ---------- */
+function showStage(L){
+  const t = L.home.show.tabs.find(x => x.id === S.tab) || L.home.show.tabs[0];
+  return `<div class="show" id="show-stage" role="tabpanel" aria-labelledby="tab-${t.id}">
+    <div class="show-cap"><div class="pills">${t.st.map(k => pill(L, k)).join('')}</div><h3>${t.title}</h3>${checks(t.pts)}<p class="demo-note">${INFO}${L.demoNote}</p></div>
+    <div class="stage brandable br-${S.brand}">${duo(t.phones, S.lang, .64)}</div></div>`;
+}
+function lead(L, big){
+  const ld = L.lead;
+  return `<section class="sec${big ? ' tight' : ''}" id="lead" aria-labelledby="lead-h"><div class="wrap"><div class="lead-box">
+    <div class="lead-l"><h2 class="h2" id="lead-h">${ld.h2}</h2><p class="lead-p muted">${ld.sub}</p>
+      <a class="handle" href="${TG}" target="_blank" rel="noopener" data-ev="contact_click">${TGSVG}@${TG_HANDLE}<span>Telegram</span></a></div>
+    <div class="lead-form"><span class="lbl" id="topic-l">${ld.topicL}</span>
+      <div class="chips" role="group" aria-labelledby="topic-l">${ld.topics.map((t, i) => `<button class="chip" type="button" data-topic="${i}" aria-pressed="${i === S.topic}">${t}</button>`).join('')}</div>
+      <label for="lead-msg">${ld.msgL}</label><textarea id="lead-msg" rows="5">${ld.tpl(ld.topics[S.topic])}</textarea>
+      <div class="lead-actions"><button class="btn btn-g" type="button" data-copy>${ld.copy}</button>${tgBtn(ld.open, 'btn-blue', 'submit_lead')}</div>
+      <p class="copy-st" id="copy-st" role="status" aria-live="polite"></p></div>
+  </div></div></section>`;
+}
+const stepsBlock = (steps, light) => `<ol class="steps" style="list-style:none;margin:0;padding:0">${steps.map((s, i) => `<li class="step"><span class="step-n">${String(i + 1).padStart(2, '0')}</span><h3>${s[0]}</h3><p class="muted">${s[1]}</p></li>`).join('')}</ol>`;
+const adminBlock = () => `<div class="fit" data-fit="1120">${admin(S.lang)}</div>`;
+function pageHero(P, visual, extra = ''){
+  return `<section class="phero${visual ? '' : ' text'}"><div class="grid-bg"></div><div class="wrap phero-in">
+    <div><span class="eyebrow">${P.eyebrow}</span><h1>${P.h1}</h1><p class="lead-p muted">${P.sub}</p>${P.cta ? `<div class="ctas">${tgBtn(P.cta)}</div>` : ''}${extra}</div>
+    ${visual ? `<div>${visual}</div>` : ''}</div></section>`;
+}
+
+/* ---------- pages ---------- */
+const PAGES = {
+  home(L){
+    const H = L.home, l = S.lang;
+    return `
+    <section class="hero"><div class="grid-bg"></div><div class="wrap hero-in">
+      <div><span class="eyebrow">${H.eyebrow}</span><h1>${H.h1}</h1><p class="lead-p">${H.sub}</p>
+        <div class="ctas"><a class="btn btn-g" href="${href(l,'solutions')}" data-ev="explore_solutions">${H.cta1}${ARR}</a>${tgBtn(H.cta2)}</div>
+        <dl class="specs">${H.specs.map(s => `<div><dt>${s[0]}</dt><dd>${s[1]}</dd></div>`).join('')}</dl></div>
+      <div class="stage brandable br-${S.brand}">${phone('wallet', l, { s:.74, brand:S.brand, label:H.show.tabs[0].title })}${swatches(L)}</div>
+    </div></section>
+
+    <section class="sec" aria-labelledby="show-h" style="border-top:1px solid var(--line)"><div class="wrap">
+      ${secHead(H.show.h2, H.show.sub).replace('<h2 class="h2">', '<h2 class="h2" id="show-h">')}
+      <div class="tabs" role="tablist" aria-label="${H.show.h2}">${H.show.tabs.map(t => `<button class="tab" role="tab" type="button" id="tab-${t.id}" data-tab="${t.id}" aria-selected="${t.id === S.tab}">${t.label}</button>`).join('')}</div>
+      ${showStage(L)}
+    </div></section>
+
+    <section class="sec light" id="solutions"><div class="wrap">${secHead(H.solutions.h2, H.solutions.sub)}
+      <div class="grid g2">${L.sol.map(s => `<a class="box sol" href="${href(l, s.id)}"><div class="sol-top"><span class="sol-ico">${svgI(SOL_ICO[s.id])}</span><span class="tag">${s.tag}</span></div><div style="display:flex;flex-direction:column;gap:10px"><h3>${s.name}</h3><p class="muted">${s.short}</p></div><span class="arrow-link">${H.solutions.more}${ARR}</span></a>`).join('')}</div>
+    </div></section>
+
+    <section class="sec" id="features"><div class="wrap">${secHead(H.features.h2, H.features.sub)}
+      <div class="legend" style="margin:-28px 0 28px">${['core','partner','addon'].map(k => pill(L, k)).join('')}</div>
+      <div class="grid g4">${H.features.items.map(f => `<div class="box feat">${pill(L, f[2])}<h3>${f[0]}</h3><p>${f[1]}</p></div>`).join('')}</div>
+    </div></section>
+
+    <section class="sec light"><div class="wrap">${secHead(H.how.h2)}${stepsBlock(H.how.steps)}</div></section>
+
+    <section class="sec"><div class="wrap">${secHead(H.managed.h2, H.managed.sub)}
+      <div class="flow">${H.managed.cols.map((c, i) => `${i ? `<div class="flow-ar">${ARR}</div>` : ''}<div class="flow-col${i === 1 ? ' mid' : ''}"><h3>${c[0]}</h3><ul>${c[1].map((x, j) => `<li${i === 0 && j === 3 ? ' class="keep"' : ''}>${x}</li>`).join('')}</ul></div>`).join('')}</div>
+      <div class="admin-wrap"><header><div style="display:flex;flex-direction:column;gap:8px;max-width:620px"><h3 class="h3">${H.managed.adminT}</h3><p class="muted">${H.managed.adminD}</p></div><p class="demo-note">${INFO}${H.managed.adminNote}</p></header>${adminBlock()}</div>
+    </div></section>
+
+    <section class="sec light"><div class="wrap">${secHead(H.projects.h2)}
+      <div class="proj"><div style="display:flex;flex-direction:column;gap:18px"><span class="eyebrow">${H.projects.kicker}</span><h3>${H.projects.title}</h3><p class="muted">${H.projects.desc}</p><div class="tags">${H.projects.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div><p class="muted" style="font-size:14px">${H.projects.note}</p><a class="arrow-link" href="${href(l,'projects')}">${H.projects.cta}${ARR}</a></div>
+        <div class="proj-phones">${['cards','wallet'].map(n => phone(n, l, { s:.5, fixed:1 })).join('')}</div></div>
+    </div></section>
+
+    <section class="sec"><div class="wrap about"><div style="display:flex;flex-direction:column;gap:20px"><h2 class="h2">${H.about.h2}</h2><p class="lead-p muted">${H.about.p}</p><a class="arrow-link" href="${href(l,'about')}">${H.about.more}${ARR}</a></div>
+      <dl class="facts">${H.about.facts.map(f => `<div><dt>${f[0]}</dt><dd>${f[1]}</dd></div>`).join('')}</dl></div></section>
+    ${lead(L)}`;
+  },
+
+  wallet(L){
+    const P = L.pages.wallet, l = S.lang;
+    return `${pageHero(P, `<div class="stage brandable br-${S.brand}">${duo(P.phones, l, .6)}</div>`)}
+    <section class="sec"><div class="wrap">${secHead(P.incH)}
+      <div class="grid g2"><div class="box"><div class="pills">${pill(L,'core')}</div><h3 class="h3">${P.coreT}</h3>${checks(P.core)}</div>
+      <div class="box"><div class="pills">${pill(L,'partner')}${pill(L,'addon')}</div><h3 class="h3">${P.optT}</h3>${checks(P.opt)}</div></div></div></section>
+    <section class="sec light"><div class="wrap split"><div style="display:flex;flex-direction:column;gap:20px"><h2 class="h2">${P.brandH}</h2><p class="lead-p muted">${P.brandP}</p>${checks(P.brandPts)}<div style="align-self:flex-start">${swatches(L)}</div></div>
+      <div class="stage brandable br-${S.brand}">${phone('cards', l, { s:.66, brand:S.brand })}</div></div></section>
+    <section class="sec"><div class="wrap">${secHead(P.adminH, P.adminP)}${adminBlock()}<p class="demo-note" style="margin-top:14px">${INFO}${L.home.managed.adminNote}</p></div></section>
+    <section class="sec light"><div class="wrap">${secHead(P.intH)}<div class="grid g4">${P.ints.map(x => `<div class="box feat">${pill(L,'partner')}<h3>${x[0]}</h3><p>${x[1]}</p></div>`).join('')}</div></div></section>
+    <section class="sec"><div class="wrap grid g2" style="gap:24px">
+      <div class="box" style="gap:16px"><h2 class="h3" style="font-size:26px">${P.modelH}</h2><p class="muted">${P.modelP}</p><div class="note">${INFO}<span>${P.modelKeep}</span></div></div>
+      <div class="box" style="gap:16px"><h2 class="h3" style="font-size:26px">${P.roadH}</h2><ul class="list">${P.road.map(r => `<li><span style="font-weight:600">${r[0]}</span><span class="pill pill-${r[2]}">${r[1]}</span></li>`).join('')}</ul></div></div></section>
+    <section class="sec light"><div class="wrap">${secHead(P.stepsH)}${stepsBlock(L.home.how.steps)}</div></section>
+    ${lead(L)}`;
+  },
+
+  cards(L){
+    const P = L.pages.cards, l = S.lang;
+    return `${pageHero(P, `<div class="stage brandable br-${S.brand}">${duo(P.phones, l, .6)}</div>`)}
+    <section class="sec"><div class="wrap">${secHead(P.typesH)}<div class="grid g2">${P.types.map(t => `<div class="box">${pill(L, t[2])}<h3 class="h3">${t[0]}</h3><p class="muted">${t[1]}</p></div>`).join('')}</div>
+      <div class="note" style="margin-top:20px">${INFO}<span>${P.disc}</span></div></div></section>
+    <section class="sec light"><div class="wrap split" style="align-items:start">
+      <div style="display:flex;flex-direction:column;gap:18px"><h2 class="h2">${P.binH}</h2><p class="muted">${P.binP}</p><div class="bins">${P.bins.map(b => `<span class="bin"><i>BIN</i>${b}</span>`).join('')}</div></div>
+      <div style="display:flex;flex-direction:column;gap:18px"><h2 class="h2">${P.apiH}</h2>${checks(P.api)}</div></div></section>
+    <section class="sec"><div class="wrap split"><div style="display:flex;flex-direction:column;gap:20px"><h2 class="h2">${P.mgmtH}</h2><h3 class="h3" style="margin-top:8px">${P.useH}</h3><div class="tags">${P.uses.map(u => `<span class="tag tag-d">${u}</span>`).join('')}</div>
+      <h3 class="h3" style="margin-top:16px">${P.reqH}</h3>${checks(P.req)}</div>
+      <div class="stage brandable br-${S.brand}">${duo(P.mgmtPhones, l, .56)}</div></div></section>
+    ${lead(L)}`;
+  },
+
+  payments(L){
+    const P = L.pages.payments, l = S.lang;
+    return `${pageHero(P, `<div class="stage brandable br-${S.brand}">${duo(P.phones, l, .6)}</div>`)}
+    <section class="sec"><div class="wrap">${secHead(P.dirH)}<div class="grid g3">${P.dirs.map(d => `<div class="box feat">${pill(L, d[2])}<h3>${d[0]}</h3><p>${d[1]}</p></div>`).join('')}</div>
+      <div class="note" style="margin-top:20px">${INFO}<span>${P.note}</span></div></div></section>
+    <section class="sec light"><div class="wrap">${secHead(P.flowH)}${stepsBlock(P.flow)}</div></section>
+    ${lead(L)}`;
+  },
+
+  development(L){
+    const P = L.pages.development;
+    return `${pageHero(P, `<div class="stack" aria-label="${P.stackH}">${P.stack.map(s => `<div>${s}</div>`).join('')}</div>`)}
+    <section class="sec"><div class="wrap">${secHead(P.capH)}<div class="grid g3">${P.caps.map(c => `<div class="box feat"><h3>${c[0]}</h3><p>${c[1]}</p></div>`).join('')}</div></div></section>
+    <section class="sec light"><div class="wrap">${secHead(P.procH)}${stepsBlock(P.proc)}</div></section>
+    ${lead(L)}`;
+  },
+
+  projects(L){
+    const P = L.pages.projects, l = S.lang;
+    return `${pageHero(P)}
+    <section class="sec light"><div class="wrap gallery">${P.groups.map(g => `<div class="gal-row"><div class="gal-cap"><h2 class="h3" style="font-size:28px">${g[0]}</h2><p class="muted">${g[1]}</p></div><div class="gal-phones">${g[2].map(n => `<figure>${phone(n, l, { s:.5, fixed:1, label:L.screens[n] })}<figcaption>${L.screens[n]}</figcaption></figure>`).join('')}</div></div>`).join('')}
+      <div class="note">${INFO}<span>${P.note}</span></div></div></section>
+    ${lead(L)}`;
+  },
+
+  about(L){
+    const P = L.pages.about;
+    return `${pageHero(P)}
+    <section class="sec"><div class="wrap">${secHead(P.doH)}<div class="grid g3">${P.dos.map(d => `<div class="box feat"><h3>${d[0]}</h3><p>${d[1]}</p></div>`).join('')}</div></div></section>
+    <section class="sec light"><div class="wrap split" style="align-items:start">
+      <div style="display:flex;flex-direction:column;gap:16px"><h2 class="h2">${P.notH}</h2><p class="lead-p muted">${P.notP}</p></div>
+      <div style="display:flex;flex-direction:column;gap:16px"><h2 class="h2">${P.forH}</h2><div class="tags">${P.fors.map(f => `<span class="tag" style="height:38px;font-size:15px">${f}</span>`).join('')}</div></div></div></section>
+    <section class="sec light" style="padding-top:0"><div class="wrap"><h2 class="h3" style="font-size:26px;margin-bottom:20px">${P.coH}</h2><dl class="co">${P.co.map(c => `<dt>${c[0]}</dt><dd>${c[1]}</dd>`).join('')}</dl></div></section>
+    ${lead(L)}`;
+  },
+
+  contact(L){ return `${pageHero(L.pages.contact)}${lead(L, 1)}`; },
+
+  privacy(L){ return docPage(L.pages.privacy); },
+  terms(L){ return docPage(L.pages.terms); },
+  '404'(L){
+    const P = L.pages['404'];
+    return `<section class="sec nf"><div class="wrap"><span class="eyebrow">404</span><h1 class="h2" style="margin:18px 0">${P.h1}</h1><p class="lead-p muted">${P.sub}</p><div class="ctas"><a class="btn btn-p" href="${href(S.lang)}">${P.cta}</a></div></div></section>`;
+  }
+};
+function docPage(P){
+  return `${pageHero(P)}<section class="sec light"><div class="wrap doc"><p class="draft">${P.draft}</p><p class="muted">${P.updated}</p>${P.s.map(s => `<section><h2>${s[0]}</h2><p>${s[1]}</p></section>`).join('')}</div></section>`;
+}
+
+/* ---------- routing ---------- */
+function parse(){
+  const h = decodeURIComponent(location.hash.slice(1));
+  const m = h.match(/^(en|ru)(?:-([a-z0-9]+))?$/);
+  if (!h) return { lang: /^ru/i.test(navigator.language || '') ? 'ru' : 'en', page:'home', anchor:null };
+  if (h === 'main') return null;
+  if (!m) return { lang:S.lang, page:'404', anchor:null };
+  const p = m[2];
+  if (!p) return { lang:m[1], page:'home', anchor:null };
+  if (ANCHORS.includes(p)) return { lang:m[1], page:'home', anchor:p };
+  return { lang:m[1], page: ROUTES.includes(p) ? p : '404', anchor:null };
+}
+function render(scroll = true){
+  const r = parse(); if (!r) return;
+  const prevPage = S.page, prevLang = S.lang;
+  Object.assign(S, r);
+  const tp = { wallet:0, cards:1, payments:2, development:3 }[S.page];
+  if (tp != null) S.topic = tp;
+  const L = T[S.lang];
+  document.documentElement.lang = S.lang;
+  document.title = S.page === 'home' ? L.meta.home : `${L.meta[S.page]} · Fintech Provider Hub`;
+  document.getElementById('app').innerHTML = header(L) + `<main id="main" tabindex="-1">${PAGES[S.page](L)}</main>` + footer(L);
+  fit();
+  if (!scroll) return;
+  if (S.anchor) { const el = document.getElementById(S.anchor); if (el) requestAnimationFrame(() => el.scrollIntoView({ block:'start' })); }
+  else if (prevPage !== S.page || prevLang === S.lang) window.scrollTo(0, 0);
+  track('page_view', { page:S.page, lang:S.lang });
+}
+function fit(){
+  document.querySelectorAll('[data-fit]').forEach(b => {
+    const c = b.firstElementChild, w = +b.dataset.fit, s = Math.min(1, b.clientWidth / w);
+    c.style.transform = `scale(${s})`; b.style.height = Math.ceil(c.offsetHeight * s) + 'px';
+  });
+}
+function setBrand(b){
+  S.brand = b; store.set('fph-brand', b);
+  document.querySelectorAll('.brandable').forEach(el => {
+    el.className = el.className.replace(/\bbr-\w+/, 'br-' + b);
+    if (el.classList.contains('phone')) { el.classList.remove('swap'); void el.offsetWidth; el.classList.add('swap'); }
+  });
+  document.querySelectorAll('[data-brand]').forEach(x => x.setAttribute('aria-pressed', x.dataset.brand === b));
+  track('brand_preview', { brand:b });
+}
+
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-brand],[data-tab],[data-topic],[data-copy],[data-menu],[data-ev],a[href^="#"]');
+  if (!t) return;
+  if (t.dataset.ev) track(t.dataset.ev, { page:S.page, lang:S.lang });
+  if (t.dataset.brand) return setBrand(t.dataset.brand);
+  if (t.dataset.tab) {
+    S.tab = t.dataset.tab;
+    document.querySelectorAll('[data-tab]').forEach(x => x.setAttribute('aria-selected', x.dataset.tab === S.tab));
+    document.getElementById('show-stage').outerHTML = showStage(T[S.lang]);
+    return;
+  }
+  if (t.dataset.topic != null) {
+    S.topic = +t.dataset.topic; const ld = T[S.lang].lead;
+    document.querySelectorAll('[data-topic]').forEach(x => x.setAttribute('aria-pressed', +x.dataset.topic === S.topic));
+    document.getElementById('lead-msg').value = ld.tpl(ld.topics[S.topic]);
+    return;
+  }
+  if (t.hasAttribute('data-copy')) {
+    const ld = T[S.lang].lead, ta = document.getElementById('lead-msg'), st = document.getElementById('copy-st');
+    const fail = () => { ta.focus(); ta.select(); st.textContent = ld.copyFail; st.style.color = '#F5B94A'; };
+    try { navigator.clipboard.writeText(ta.value).then(() => { st.textContent = ld.copied + ' ✓'; st.style.color = ''; track('copy_message'); }, fail); } catch(err){ fail(); }
+    return;
+  }
+  if (t.hasAttribute('data-menu')) {
+    const h = document.getElementById('hdr'), open = !h.classList.contains('open');
+    h.classList.toggle('open', open); t.setAttribute('aria-expanded', open);
+    t.setAttribute('aria-label', open ? T[S.lang].nav.close : T[S.lang].nav.menu);
+    document.body.style.overflow = open ? 'hidden' : '';
+    return;
+  }
+  if (t.hasAttribute('data-skip')) { e.preventDefault(); document.getElementById('main').focus(); return; }
+  if (t.matches('a[href^="#"]')) {
+    document.body.style.overflow = '';
+    const raw = t.getAttribute('href');
+    const target = t.dataset.goto ? href(S.lang, t.dataset.goto) : raw;
+    if (t.dataset.goto) { e.preventDefault(); location.hash = target.slice(1); }
+    if (('#' + decodeURIComponent(location.hash.slice(1))) === target) { e.preventDefault(); render(); }
+  }
+});
+window.addEventListener('hashchange', () => render());
+window.addEventListener('resize', () => { clearTimeout(window.__ft); window.__ft = setTimeout(fit, 80); });
+render(false);
+if (S.anchor) { const el = document.getElementById(S.anchor); if (el) el.scrollIntoView({ block:'start' }); }
+
+</script>
+</body>
+</html>

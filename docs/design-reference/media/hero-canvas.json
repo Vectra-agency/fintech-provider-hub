@@ -1,0 +1,74 @@
+{
+  "kind": "webgl-canvas (three.js)",
+  "videoSources": [],
+  "container": {
+    "class": "absolute inset-y-0 left-1/2 z-0 w-full max-w-[1344px] -translate-x-1/2 overflow-hidden sm:w-[calc(100%-2rem)] lg:w-[calc(100%-3.5rem)]",
+    "rect": {
+      "x": 48,
+      "y": 0,
+      "width": 1344,
+      "height": 896,
+      "top": 0,
+      "right": 1392,
+      "bottom": 896,
+      "left": 48
+    }
+  },
+  "canvas": {
+    "width": 1920,
+    "height": 1280,
+    "css": {
+      "x": 48,
+      "y": 0,
+      "width": 1344,
+      "height": 896,
+      "top": 0,
+      "right": 1392,
+      "bottom": 896,
+      "left": 48
+    }
+  },
+  "layers": [
+    {
+      "class": "",
+      "style": "position:relative;width:100%;height:100%;background:#000000;overflow:hidden",
+      "backgroundImage": "none",
+      "backgroundColor": "rgb(0, 0, 0)",
+      "opacity": "1",
+      "mixBlendMode": "normal"
+    },
+    {
+      "class": "absolute inset-0 pointer-events-none bg-gradient-to-r from-black/70 via-black/30 to-transparent",
+      "style": null,
+      "backgroundImage": "linear-gradient(to right, oklab(0 0 0 / 0.7) 0%, oklab(0 0 0 / 0.3) 50%, rgba(0, 0, 0, 0) 100%)",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "opacity": "1",
+      "mixBlendMode": "normal"
+    },
+    {
+      "class": "absolute inset-0 pointer-events-none bg-gradient-to-b from-black/20 via-transparent to-black/60",
+      "style": null,
+      "backgroundImage": "linear-gradient(oklab(0 0 0 / 0.2) 0%, rgba(0, 0, 0, 0) 50%, oklab(0 0 0 / 0.6) 100%)",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "opacity": "1",
+      "mixBlendMode": "normal"
+    }
+  ],
+  "sceneProps": {
+    "background": "#000000",
+    "lineOptions": {
+      "color": "#ffffff",
+      "glow": 10
+    },
+    "dotOptions": {
+      "color": "#ffffff",
+      "glow": 10
+    },
+    "cometOptions": {
+      "color": "#eca8d6",
+      "glow": 6
+    },
+    "repel": true,
+    "note": "Props passed by HeroSection to the canvas component (read from the reference JS bundle). Intro: zoom/fade over the first ~5 s; cursor repels lines."
+  }
+}

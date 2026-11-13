@@ -1,0 +1,260 @@
+@import 'tailwindcss';
+@import './tokens.css';
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-frame: var(--frame-border);
+  --color-live: var(--live);
+  --color-brand: var(--brand);
+
+  --font-display: var(--font-google-sans), 'Google Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+
+  /* reference uses min-[390px] in hero CTAs */
+  --breakpoint-xs: 390px;
+
+  --animate-marquee: marquee var(--marquee-duration) linear infinite;
+  --animate-star-btn: star-btn var(--star-btn-duration) linear infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes star-btn {
+  from { offset-distance: 0%; }
+  to { offset-distance: 100%; }
+}
+
+@layer base {
+  html {
+    background: var(--background);
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--foreground);
+    outline-offset: 3px;
+  }
+
+  [id] {
+    scroll-margin-top: calc(var(--header-top) + var(--header-h) + 1rem);
+  }
+}
+
+@layer components {
+  /* Inner container of every section (reference: max-w-[1400px] px-[15px] lg:px-14) */
+  .section-inner {
+    margin-inline: auto;
+    width: 100%;
+    max-width: var(--frame-max);
+    padding-inline: var(--section-pad-x);
+  }
+  @media (min-width: 64rem) {
+    .section-inner { padding-inline: 3.5rem; }
+  }
+
+  /* Header / hero canvas box / dividers (reference: max-w-[1344px] lg:w-[calc(100%-3.5rem)]) */
+  .frame-container {
+    margin-inline: auto;
+    width: 100%;
+    max-width: var(--content-max);
+  }
+  @media (min-width: 64rem) {
+    .frame-container { width: calc(100% - 3.5rem); }
+  }
+
+  /* Hero background box = reference canvas box. No transform/z-index on purpose: no stacking
+     context, so the video toggle (z-20) sits above the hero copy (z-10). */
+  .hero-bg {
+    position: absolute;
+    inset-block: 0;
+    inset-inline: 0;
+    margin-inline: auto;
+    width: 100%;
+    max-width: var(--content-max);
+    overflow: hidden;
+    background: var(--black);
+  }
+  @media (min-width: 40rem) {
+    .hero-bg { width: calc(100% - 2rem); }
+  }
+  @media (min-width: 64rem) {
+    .hero-bg { width: calc(100% - 3.5rem); }
+  }
+
+  .hero-video-toggle {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 20;
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--white-25);
+    background: rgb(0 0 0 / 0.55);
+    color: var(--white-70);
+    backdrop-filter: blur(8px);
+    transition: color var(--dur-ui) var(--ease-standard), border-color var(--dur-ui) var(--ease-standard);
+  }
+  .hero-video-toggle:hover {
+    color: var(--white);
+    border-color: var(--white-40);
+  }
+
+  /* ── Headings */
+  .heading-1 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2rem, 9vw, 2.5rem);
+    line-height: 0.96;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+    color: var(--white);
+  }
+  @media (min-width: 40rem) {
+    .heading-1 { font-size: clamp(2rem, 4.6vw, 4.5rem); line-height: 0.92; }
+  }
+  .heading-1-gradient {
+    background: var(--hero-h1-line2);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .heading-2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 37px;
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    color: var(--foreground);
+    text-wrap: balance;
+  }
+  @media (min-width: 64rem) {
+    .heading-2 { font-size: 48px; }
+  }
+  .lead {
+    font-size: 1.25rem;
+    line-height: 1.625;
+    color: var(--muted-foreground);
+  }
+
+  /* ── Buttons (labels uppercased by CSS, PRD §4.3.3) */
+  .btn {
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    overflow: hidden;
+    white-space: nowrap;
+    border-radius: var(--radius-pill);
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: color var(--dur-fast) var(--ease-standard), background-color var(--dur-fast) var(--ease-standard),
+      border-color var(--dur-fast) var(--ease-standard);
+  }
+  .btn-md { height: 2.5rem; padding-inline: 1rem; font-size: 0.875rem; line-height: 1.25rem; }
+  .btn-sm { height: 2rem; padding-inline: 1rem; font-size: 0.75rem; line-height: 1rem; }
+  .btn-label { position: relative; z-index: 2; display: inline-flex; align-items: center; gap: 0.25rem; }
+
+  .btn-outline { color: var(--white); border: 1px solid rgb(226 232 240 / 0.5); }
+  .btn-star-light {
+    position: absolute;
+    inset: 0;
+    width: 110px;
+    aspect-ratio: 1;
+    background: radial-gradient(ellipse at center, #fafafa, transparent, transparent);
+    offset-path: inset(0 round var(--radius-pill));
+    offset-distance: 0%;
+    animation: star-btn var(--star-btn-duration) linear infinite;
+  }
+  @supports not (offset-path: inset(0 round 1px)) {
+    .btn-star-light { display: none; }
+  }
+  .btn-star-fill {
+    position: absolute;
+    inset: 2px;
+    z-index: 1;
+    border-radius: inherit;
+    border: 2px solid var(--white-15);
+    background: var(--black);
+  }
+
+  .btn-solid {
+    color: var(--black);
+    background: var(--white);
+    border: 1px solid rgb(255 255 255 / 0.3);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+  }
+  .btn-solid.btn-md { padding-inline: 1.25rem; }
+  .btn-solid-highlight {
+    position: absolute;
+    top: 0;
+    left: 1.125rem;
+    width: calc(100% - 2.25rem);
+    height: 1px;
+    background: linear-gradient(to right, rgb(10 10 10 / 0), #737373, rgb(10 10 10 / 0));
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--white-65);
+  }
+}
+
+/* ── Reveal on scroll (PRD §7.9). Hidden state only with JS and without reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  html.js [data-reveal] {
+    transition:
+      opacity var(--reveal-dur, var(--dur-reveal)) var(--ease-standard) var(--reveal-delay, 0ms),
+      translate var(--reveal-dur, var(--dur-reveal)) var(--ease-standard) var(--reveal-delay, 0ms);
+  }
+  html.js [data-reveal]:not(.is-in) {
+    opacity: 0;
+    translate: 0 var(--reveal-shift-lg);
+  }
+  html.js [data-reveal='sm'] { --reveal-dur: var(--dur-reveal-sm); }
+  html.js [data-reveal='sm']:not(.is-in) { translate: 0 var(--reveal-shift); }
+}
+
+/* ── Hero entrance: CSS-only so the LCP text is not gated on hydration. */
+@keyframes hero-in {
+  from { opacity: 0; translate: 0 var(--hero-in-shift, var(--reveal-shift-lg)); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-in { animation: hero-in var(--hero-in-dur, var(--dur-reveal)) var(--ease-standard) var(--hero-in-delay, 0ms) both; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

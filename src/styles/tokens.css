@@ -1,0 +1,79 @@
+/*
+ * Design tokens taken from the design reference (docs/design-reference/tokens.json, captured 2026-11-13).
+ * Reference uses lab()/oklab(); hex values below are sRGB conversions of those (see tokens.json for originals).
+ * Visual source of truth: docs/design-reference/screenshots/.
+ */
+:root {
+  /* ── Surfaces & text (reference :root) */
+  --background: #000101;
+  --foreground: #ecebe7;
+  --card: #020204;
+  --muted: #040608;
+  --muted-foreground: #757168; /* second part of two-part H2, body copy in sections */
+  --border: #101215;
+  --black: #000;
+  --white: #fff;
+
+  /* white alpha ramp used throughout the reference UI */
+  --white-02: rgb(255 255 255 / 0.016);
+  --white-05: rgb(255 255 255 / 0.045);
+  --white-06: rgb(255 255 255 / 0.06);
+  --white-09: rgb(255 255 255 / 0.09); /* hairline borders of frames/cards */
+  --white-12: rgb(255 255 255 / 0.12);
+  --white-15: rgb(255 255 255 / 0.15); /* page frame lines */
+  --white-25: rgb(255 255 255 / 0.25);
+  --white-40: rgb(255 255 255 / 0.4); /* footer links */
+  --white-65: rgb(255 255 255 / 0.65);
+  --white-70: rgb(255 255 255 / 0.7); /* nav links */
+
+  /* status accents present in the reference palette */
+  --live: #5ee9b5; /* emerald-300: "Live" dot */
+  --zinc-300: #d4d4d8;
+  --zinc-500: #71717b;
+
+  /* ── Frames (app shell / widget windows) */
+  --frame-border: #37333b;
+  --frame-fill: linear-gradient(145deg, rgb(19 19 21 / 0.98), rgb(7 7 8 / 0.98));
+  --frame-glare: linear-gradient(rgb(255 255 255 / 0.07) 0%, rgb(255 255 255 / 0.03) 40%, transparent);
+  --radius: 0.25rem;
+  --radius-card: 8px;
+  --radius-frame: 14px;
+  --radius-pill: 9999px;
+
+  /* ── Layout */
+  --frame-max: 1400px; /* fixed vertical frame lines */
+  --content-max: 1344px; /* header, hero canvas box, dividers */
+  --section-pad-x: 15px; /* lg: 3.5rem */
+  --header-h: 3rem;
+  --header-top: 0.75rem;
+
+  /* ── Hero */
+  --hero-overlay-x: linear-gradient(to right, rgb(0 0 0 / 0.7), rgb(0 0 0 / 0.3), transparent);
+  --hero-overlay-y: linear-gradient(to bottom, rgb(0 0 0 / 0.2), transparent, rgb(0 0 0 / 0.6));
+  --hero-h1-line2: linear-gradient(to bottom, #fff 0%, var(--zinc-300) 50%, var(--zinc-500) 100%);
+
+  /* ── Motion (reference: Tailwind default curve; reveal = opacity + translateY) */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-fast: 150ms;
+  --dur-ui: 300ms;
+  --dur-header: 500ms;
+  --dur-reveal-sm: 700ms;
+  --dur-reveal: 1000ms;
+  --reveal-shift: 1rem; /* translate-y-4 */
+  --reveal-shift-lg: 2rem; /* translate-y-8 */
+  --reveal-delay-1: 150ms;
+  --reveal-delay-2: 200ms;
+  --reveal-delay-3: 300ms;
+  --reveal-delay-4: 500ms;
+  --marquee-duration: 80s;
+  --star-btn-duration: 3s;
+}
+
+/*
+ * Brand palettes — apply ONLY inside mockups (PRD §4.3.3, §7.5).
+ * TODO(M3): secondary shades come from the prototype's palette objects.
+ */
+[data-brand='ember'] { --brand: #f04800; }
+[data-brand='ocean'] { --brand: #2f6bff; }
+[data-brand='mint'] { --brand: #0e9f6e; }
+[data-brand='iris'] { --brand: #7c3aed; }

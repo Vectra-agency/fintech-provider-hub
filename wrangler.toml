@@ -1,0 +1,5 @@
+# Cloudflare Pages project config (used by `wrangler pages dev` and `wrangler pages deploy`).
+# TODO(Q3): set the real project name; CI passes --project-name from vars.CF_PAGES_PROJECT.
+name = "fintech-provider-hub"
+pages_build_output_dir = "out"
+compatibility_date = "2026-10-23"
