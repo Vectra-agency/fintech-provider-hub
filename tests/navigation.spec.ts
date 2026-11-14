@@ -16,7 +16,7 @@ for (const lang of LANGS) {
       await expect(p).toHaveTitle(pageTitle(lang, page));
       await expect(p.locator('meta[name="description"]')).toHaveAttribute('content', metaDesc(lang, page));
       expect(await p.locator('link[rel="canonical"]').getAttribute('href')).toMatch(new RegExp(`${path.replace(/\//g, '\\/')}$`));
-      for (const [hl, target] of [['en', pagePath('en', page)], ['ru', pagePath('ru', page)], ['x-default', '/']] as const) {
+      for (const [hl, target] of [['en', pagePath('en', page)], ['ru', pagePath('ru', page)], ['x-default', pagePath('en', page)]] as const) {
         const href = await p.locator(`link[rel="alternate"][hreflang="${hl}"]`).getAttribute('href');
         expect(new URL(href!).pathname).toBe(target);
       }
@@ -33,7 +33,7 @@ for (const lang of LANGS) {
 // PRD §13 scenario 2: language switch keeps the page (and the home anchor).
 test.describe('language switch', () => {
   test('keeps the page', async ({ page }) => {
-    await page.goto('/en/wallet/');
+    await page.goto('/wallet/');
     await page.locator('header .lang-switch a').click();
     await expect(page).toHaveURL(/\/ru\/wallet\/$/);
     await expect(page.locator('html')).toHaveAttribute('lang', 'ru');
@@ -42,9 +42,9 @@ test.describe('language switch', () => {
   test('keeps the home anchor', async ({ page }) => {
     await page.goto('/ru/#features');
     const link = page.locator('header .lang-switch a');
-    await expect(link).toHaveAttribute('href', '/en/#features');
+    await expect(link).toHaveAttribute('href', '/#features');
     await link.click();
-    await expect(page).toHaveURL(/\/en\/#features$/);
+    await expect(page).toHaveURL(/:\d+\/#features$/);
   });
 });
 
@@ -53,7 +53,7 @@ test.describe('mobile menu', () => {
   test.use({ viewport: { width: 390, height: 844 } });
 
   test('opens, traps focus, closes on Esc and on navigation', async ({ page }) => {
-    await page.goto('/en/');
+    await page.goto('/');
     const burger = page.locator('button[aria-controls="mobile-menu"]');
     await expect(burger).toHaveAttribute('aria-expanded', 'false');
     await burger.click();
@@ -75,7 +75,7 @@ test.describe('mobile menu', () => {
 
     await burger.click();
     await menu.getByRole('link', { name: getDict('en').nav.projects }).click();
-    await expect(page).toHaveURL(/\/en\/projects\/$/);
+    await expect(page).toHaveURL(/:\d+\/projects\/$/);
     await expect(page.locator('#mobile-menu')).toHaveCount(0);
   });
 });
@@ -83,7 +83,7 @@ test.describe('mobile menu', () => {
 // PRD §7.8: Solutions dropdown — click/Enter opens, Esc closes, aria-expanded reflects state.
 test('solutions dropdown works from the keyboard', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto('/en/');
+  await page.goto('/');
   const btn = page.locator('header nav button[aria-expanded]');
   await btn.focus();
   await page.keyboard.press('Enter');

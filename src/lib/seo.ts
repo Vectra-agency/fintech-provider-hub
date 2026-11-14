@@ -14,7 +14,7 @@ export function pageTitle(lang: Lang, page: PageKey): string {
   return page === 'home' ? d.meta.home : `${d.meta[page]} · ${SITE_NAME}`;
 }
 
-/** PRD §10: title, description, canonical, hreflang (en/ru/x-default → "/"), OG/Twitter, noindex for legal drafts. */
+/** PRD §10: title, description, canonical, hreflang (en / ru / x-default = the English page, the default locale), OG/Twitter, noindex for legal drafts. */
 export function pageMetadata(lang: Lang, page: PageKey): Metadata {
   const title = pageTitle(lang, page);
   const description = metaDesc(lang, page);
@@ -25,7 +25,7 @@ export function pageMetadata(lang: Lang, page: PageKey): Metadata {
     description,
     alternates: {
       canonical: url,
-      languages: { en: pagePath('en', page), ru: pagePath('ru', page), 'x-default': '/' },
+      languages: { en: pagePath('en', page), ru: pagePath('ru', page), 'x-default': pagePath('en', page) },
     },
     robots: NOINDEX_PAGES.has(page) ? { index: false, follow: true } : undefined,
     openGraph: {

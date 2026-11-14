@@ -26,7 +26,7 @@ for (const lang of LANGS) {
 }
 
 test('axe 404', async ({ page }) => {
-  await page.goto('/en/missing-page/');
+  await page.goto('/missing-page/');
   const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze();
   expect(results.violations.filter((v) => v.impact === 'critical' || v.impact === 'serious').map((v) => v.id)).toEqual([]);
 });

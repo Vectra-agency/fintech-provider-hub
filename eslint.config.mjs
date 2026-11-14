@@ -5,7 +5,7 @@ const config = [
   ...next,
   ...nextTs,
   {
-    ignores: ['.next/**', 'out/**', 'node_modules/**', 'docs/**', 'next-env.d.ts', 'functions/**', '.wrangler/**'],
+    ignores: ['.next/**', 'out/**', 'node_modules/**', 'docs/**', 'next-env.d.ts', '.wrangler/**'],
   },
 ];
 

@@ -1,14 +1,13 @@
 import type { Metadata } from 'next';
-import { Google_Sans } from 'next/font/google';
 import { getDict } from '@/content';
 import { LANGS } from '@/lib/i18n';
 import { pagePath } from '@/lib/routes';
 import { FrameLines } from '@/components/layout/FrameLines';
 import { LogoLockup } from '@/components/ui/Logo';
 import { NotFoundTitle } from '@/components/layout/NotFoundTitle';
+import { display } from '@/lib/fonts';
 import '@/styles/globals.css';
 
-const display = Google_Sans({ subsets: ['latin', 'cyrillic'], variable: '--font-google-sans', display: 'swap', adjustFontFallback: false });
 
 const en = getDict('en');
 const ru = getDict('ru');
@@ -19,8 +18,8 @@ export const metadata: Metadata = {
 };
 
 /**
- * PRD §6.10 / §5 — one static 404 for both languages: the language comes from the path prefix on the
- * client (EN by default). The script runs before paint, so the other language never flashes.
+ * PRD §6.10 — one static 404 for both languages: /ru/… → Russian, everything else → English (the
+ * default locale at the root). The script runs before paint, so the other language never flashes.
  */
 const LANG_BOOT = `try{var ru=/^\\/ru(\\/|$)/.test(location.pathname);var h=document.documentElement;h.lang=ru?'ru':'en';h.setAttribute('data-lang',h.lang);if(ru)document.title=${JSON.stringify(`${ru.meta['404']} · Fintech Provider Hub`)}}catch(e){}`;
 

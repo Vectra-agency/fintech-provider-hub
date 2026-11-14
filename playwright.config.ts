@@ -12,10 +12,10 @@ export default defineConfig({
     baseURL: `http://localhost:${PORT}`,
     trace: 'retain-on-failure',
   },
-  // Serves out/ together with functions/ exactly like Cloudflare Pages does.
+  // Serves out/ with _redirects/_headers exactly like Cloudflare Pages does.
   webServer: {
     command: `pnpm exec wrangler pages dev out --port ${PORT} --ip 127.0.0.1 --log-level warn`,
-    url: `http://localhost:${PORT}/en/`,
+    url: `http://localhost:${PORT}/`,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
   },

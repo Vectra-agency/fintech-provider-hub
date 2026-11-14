@@ -2,7 +2,9 @@
 
 Static bilingual (EN/RU) marketing site. Spec: [PRD.md](PRD.md). Content reference: [docs/design-reference/prototype/index.html](docs/design-reference/prototype/index.html). Design reference snapshot: [docs/design-reference/](docs/design-reference/README.md).
 
-Next.js 16 (App Router, `output: 'export'`) · Tailwind CSS v4 · TypeScript strict · Cloudflare Pages (+ one Pages Function on `/`).
+Next.js 16 (App Router, `output: 'export'`) · Tailwind CSS v4 · TypeScript strict · Cloudflare Pages (fully static).
+
+**URLs:** English is the default at the root without a prefix (`/`, `/wallet/`, …), Russian under `/ru/` (`/ru/`, `/ru/wallet/`, …). Old `/en/…` URLs redirect 301 to the unprefixed pages (`public/_redirects`).
 
 ## Commands
 
@@ -11,8 +13,8 @@ Next.js 16 (App Router, `output: 'export'`) · Tailwind CSS v4 · TypeScript str
 | `pnpm dev` | Dev server |
 | `pnpm build` | Static export to `out/` + CSP finalisation (`connect-src` += analytics origin) |
 | `pnpm build:prod` | `check:placeholders` + build — the release gate (PRD §9.6) |
-| `pnpm preview:cf` | Serve `out/` + `functions/` the way Cloudflare Pages does (port 8788) |
-| `pnpm typecheck` / `pnpm lint` | route types + TS (app and Pages Function) / ESLint |
+| `pnpm preview:cf` | Serve `out/` with `_redirects`/`_headers` the way Cloudflare Pages does (port 8788) |
+| `pnpm typecheck` / `pnpm lint` | route types + TS / ESLint |
 | `pnpm check:headings` | Every dictionary string vs the prototype; two-part headings join back to the original; metaDesc rules |
 | `pnpm check:placeholders` | Fails while `[Company legal name]`-style placeholders or "to be published" remain |
 | `pnpm check:js-budget` | ≤ 150 KB gz JS per page (PRD §12) |
@@ -39,20 +41,22 @@ Analytics adapters call the providers' HTTP APIs directly — no third-party scr
 ## Layout
 
 ```
-src/app/[lang]/            routes; the root layout lives here (EN/RU via generateStaticParams)
-src/app/global-not-found.tsx  one static 404 for both languages (language from the path prefix)
+src/app/(en)/              English routes at the root (route group, own root layout)
+src/app/ru/                Russian routes under /ru/ (own root layout)
+src/app/global-not-found.tsx  one static 404 for both languages (/ru/… → RU, else EN)
+src/views/                 page components shared by both route trees (<WalletPage lang="en" /> …)
 src/content/               en.ts, ru.ts (prototype T), screens.ts (SS), admin.ts (ADM), types.ts,
                            meta.ts (metaDesc), added-strings.ts (UI strings not in the prototype)
 src/components/
-  layout/                  Header (island), Footer, FrameLines, SkipLink, RevealObserver, AnalyticsListener
+  layout/                  SiteLayout (document shell), Header (island), Footer, FrameLines, SkipLink, RevealObserver, AnalyticsListener
   hero/                    HeroBackground + HeroVideo (island)
   patterns/                PageHero (P1b), ShowcaseTabs (P4), Marquee (P2), LeadBlock (P8 island)
   sections/                home sections, LeadSection, shared blocks, StackPipeline
   mockups/                 Phone + screens (prototype HTML builders), widgets, AdminShell, ScaleToFit, BrandSwitcher
   ui/                      Button, TwoPartHeading, Pill, Frame, Bits, icons, Logo
 src/styles/                tokens.css (from the reference), globals/chrome/components/mockups.css
-functions/index.ts         "/" → /en/ or /ru/ by Accept-Language (302, Vary)
 public/_headers            security headers, CSP, noindex on *.pages.dev
+public/_redirects          /en/* → unprefixed English pages (301)
 scripts/                   extract-reference, prepare-hero-media, make-brand-assets, check-*, finalize-headers
 tests/                     Playwright: smoke, navigation, home, a11y (axe), external requests
 ```
@@ -60,7 +64,8 @@ tests/                     Playwright: smoke, navigation, home, a11y (axe), exte
 ## Deviations from the PRD (agreed or forced)
 
 - The reference hero is a Three.js canvas, not a video. It is rendered frame-by-frame into a seamless loop (approved). Production builds ship without it until Q9.
-- 404 is `app/global-not-found.tsx` (the root layout sits under `[lang]`, so `app/not-found.tsx` can't wrap it).
+- URL scheme (decided 2026-11-14, replaces PRD §5): English at the root without a prefix, Russian under `/ru/`; no `Accept-Language` redirect on `/`, so the Pages Function is gone. `x-default` points to the English page. Two root layouts (`(en)` and `ru`), so switching languages is a full page load.
+- 404 is `app/global-not-found.tsx` (with two root layouts there is no single layout for `app/not-found.tsx`).
 - Fonts: the reference declares Google Sans but never loads it (visitors see Helvetica/Arial). We self-host Google Sans (has Cyrillic → Q11 closed); body text stays on the system stack. A size-matched fallback face keeps CLS at 0.
 - Contrast: the reference muted grey (#757168, 4.3:1) and white/40 text fail WCAG AA; lifted to #837f76 and white/55.
 - Showcase tabs: the active tab's details sit under the numbered list (a tab panel can't live inside a `tablist`).

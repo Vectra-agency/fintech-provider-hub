@@ -17,7 +17,7 @@ test.describe('hero video', () => {
 
   test('autoplays muted, pause persists across reloads', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto('/en/');
+    await page.goto('/');
     const video = page.locator('video');
     await expect.poll(() => video.evaluate((v: HTMLVideoElement) => !v.paused && v.muted && v.currentTime > 0.2), { timeout: 15_000 }).toBe(true);
     await page.getByRole('button', { name: 'Pause background video' }).click();
@@ -30,7 +30,7 @@ test.describe('hero video', () => {
 
   test('reduced motion: poster only', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
-    await page.goto('/en/');
+    await page.goto('/');
     await expect(page.locator('.hero-bg picture img')).toBeVisible();
     await page.waitForTimeout(800);
     await expect(page.locator('video')).toHaveCount(0);
@@ -40,7 +40,7 @@ test.describe('hero video', () => {
 // PRD §13 scenario 5 — marquee
 test.describe('marquee', () => {
   test('animates, pauses on hover; duplicate list hidden from AT', async ({ page }) => {
-    await page.goto('/en/');
+    await page.goto('/');
     const track = page.locator('.marquee-track');
     expect(await track.evaluate((el) => getComputedStyle(el).animationName)).toBe('marquee');
     await page.locator('.marquee').hover();
@@ -50,7 +50,7 @@ test.describe('marquee', () => {
 
   test('static with reduced motion', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
-    await page.goto('/en/');
+    await page.goto('/');
     expect(await page.locator('.marquee-track').evaluate((el) => getComputedStyle(el).animationName)).toBe('none');
     await expect(page.locator('.marquee-dup')).toBeHidden();
   });
@@ -58,7 +58,7 @@ test.describe('marquee', () => {
 
 // PRD §13 scenario 6 — showcase tabs
 test('showcase tabs: mouse and keyboard', async ({ page }) => {
-  await page.goto('/en/');
+  await page.goto('/');
   const tabs = page.getByRole('tablist').getByRole('tab');
   await expect(tabs).toHaveCount(4);
   const labels = en.home.show.tabs.map((t) => t.label);
@@ -86,7 +86,7 @@ test('showcase tabs: mouse and keyboard', async ({ page }) => {
 
 // PRD §13 scenario 7 — brand switcher
 test('brand switcher recolours mockups, persists across pages, no flash', async ({ page }) => {
-  await page.goto('/en/');
+  await page.goto('/');
   const phone = page.locator('.phone.brandable').first();
   const b1 = () => phone.evaluate((el) => getComputedStyle(el).getPropertyValue('--b1').trim().toUpperCase());
   expect(await b1()).toBe('#F04800');
@@ -114,7 +114,7 @@ test.describe('lead block', () => {
   test('chips, copy, Telegram link', async ({ page, context, browserName }) => {
     test.skip(browserName !== 'chromium', 'clipboard permissions are Chromium-only in Playwright');
     await context.grantPermissions(['clipboard-read', 'clipboard-write']);
-    await page.goto('/en/');
+    await page.goto('/');
     const lead = page.locator('#lead');
     const ta = lead.locator('textarea');
     await expect(ta).toHaveValue(en.lead.tpl(en.lead.topics[0]!));
@@ -139,7 +139,7 @@ test.describe('lead block', () => {
       Object.defineProperty(navigator, 'clipboard', { value: { writeText: () => Promise.reject(new Error('denied')) }, configurable: true });
       document.execCommand = () => false;
     });
-    await page.goto('/en/contact/');
+    await page.goto('/contact/');
     const lead = page.locator('#lead');
     await lead.getByRole('button', { name: en.lead.copy }).click();
     await expect(lead.getByRole('status')).toHaveText(en.lead.copyFail);
@@ -159,7 +159,7 @@ test.describe('lead block', () => {
 
 // Analytics wiring for hero CTAs (PRD §11)
 test('hero CTAs are tracked', async ({ page }) => {
-  await page.goto('/en/');
+  await page.goto('/');
   await page.locator('.home-hero').getByRole('link', { name: en.home.cta1 }).click();
   await expect(page).toHaveURL(/#solutions$/);
   const popup = page.waitForEvent('popup');

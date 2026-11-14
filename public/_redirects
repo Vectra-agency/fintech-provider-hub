@@ -1,3 +1,4 @@
-# "/" is handled by functions/index.ts (Accept-Language → /en/ or /ru/).
-# Fallback if the function is disabled — uncomment:
-# /  /en/  302
+# English is the default locale at the root without a prefix; Russian lives under /ru/.
+# Old /en/… URLs (pre-launch scheme) → the unprefixed English pages.
+/en      /        301
+/en/*    /:splat  301

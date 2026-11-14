@@ -13,7 +13,7 @@
     "build:prod": "pnpm check:placeholders && next build",
     "start": "npx --yes serve@14 out -l 3000",
     "preview:cf": "wrangler pages dev out --port 8788",
-    "typecheck": "next typegen && tsc --noEmit && tsc -p functions --noEmit",
+    "typecheck": "next typegen && tsc --noEmit",
     "lint": "eslint .",
     "check:headings": "tsx scripts/check-headings.ts",
     "check:placeholders": "tsx scripts/check-placeholders.ts",
@@ -33,7 +33,6 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "4.14.0",
-    "@cloudflare/workers-types": "5.20261029.1",
     "@lhci/cli": "0.16.1",
     "@playwright/test": "1.65.0",
     "@tailwindcss/postcss": "4.3.5",
