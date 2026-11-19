@@ -26,10 +26,7 @@ export function LogoLockup({ gradientId, size = 28 }: { gradientId: string; size
   return (
     <span className="inline-flex items-center gap-2.5">
       <LogoMark size={size} gradientId={gradientId} />
-      <span className="flex flex-col font-display text-[15px] leading-none tracking-tight text-white">
-        Fintech Provider Hub
-        <small className="mt-1 font-sans text-[10px] uppercase tracking-[0.08em] text-white/50">Hong Kong</small>
-      </span>
+      <span className="font-display text-[15px] leading-none tracking-tight text-white">Fintech Provider Hub</span>
     </span>
   );
 }

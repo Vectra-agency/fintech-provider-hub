@@ -2,7 +2,6 @@ import type { Lang } from '@/lib/i18n';
 import { getDict } from '@/content';
 import { PageHero } from '@/components/patterns/PageHero';
 import { Checks, Note, SectionHead } from '@/components/ui/Bits';
-import { Pill } from '@/components/ui/Pill';
 import { Frame } from '@/components/ui/Frame';
 import { TwoPartHeading } from '@/components/ui/TwoPartHeading';
 import { PhoneStage, PlanCard, Section, Tags } from '@/components/sections/blocks';
@@ -21,8 +20,8 @@ export function CardsPage({ lang }: { lang: Lang }) {
       <Section labelledBy="types-h">
         <SectionHead heading={P.typesH} id="types-h" />
         <div className="grid gap-4 md:grid-cols-2">
-          {P.types.map(([title, text, st], i) => (
-            <PlanCard key={title} featured={i === 0} title={title} top={<Pill status={st} label={d.status[st]} />}>
+          {P.types.map(([title, text], i) => (
+            <PlanCard key={title} featured={i === 0} title={title}>
               <p className="plan-desc text-base">{text}</p>
             </PlanCard>
           ))}

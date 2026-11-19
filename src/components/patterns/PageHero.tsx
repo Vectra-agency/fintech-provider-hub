@@ -1,11 +1,10 @@
 import type { ReactNode } from 'react';
-import { HERO_MEDIA_ENABLED, heroAsset, HERO_MOBILE_QUERY } from '@/components/hero/media';
 import { Button } from '@/components/ui/Button';
 import { tgUrl } from '@/lib/i18n';
 
 /**
- * P1b — short hero for inner pages (PRD §6.0): no autoplay video; background is the poster frame
- * under a heavier overlay (Q10 default). Eyebrow, H1, sub, optional Telegram CTA, optional visual.
+ * P1b — short hero for inner pages (PRD §6.0): plain dark background with a soft top light.
+ * Eyebrow, H1, sub, optional Telegram CTA, optional visual.
  */
 export function PageHero({
   eyebrow,
@@ -25,16 +24,7 @@ export function PageHero({
   return (
     <section className="page-hero">
       <div className="hero-bg" aria-hidden="true">
-        {HERO_MEDIA_ENABLED && (
-          <picture>
-            <source media={HERO_MOBILE_QUERY} srcSet={heroAsset('poster-mobile.avif')} type="image/avif" />
-            <source media={HERO_MOBILE_QUERY} srcSet={heroAsset('poster-mobile.webp')} type="image/webp" />
-            <source srcSet={heroAsset('poster-desktop.avif')} type="image/avif" />
-            <img src={heroAsset('poster-desktop.webp')} alt="" width={1920} height={1280} decoding="async" className="absolute inset-0 h-full w-full object-cover opacity-45" />
-          </picture>
-        )}
-        <div className="pointer-events-none absolute inset-0 [background:var(--hero-overlay-x)]" />
-        <div className="pointer-events-none absolute inset-0 [background:linear-gradient(to_bottom,rgb(0_0_0/0.35),rgb(0_0_0/0.15)_40%,#000)]" />
+        <div className="pointer-events-none absolute inset-0 [background:radial-gradient(60rem_28rem_at_30%_-10%,rgb(255_255_255/0.06),transparent_70%)]" />
       </div>
       <div className={`section-inner relative z-10 grid items-center gap-12 pt-36 pb-20 lg:pt-44 lg:pb-28 ${visual ? 'lg:grid-cols-2' : ''}`}>
         <div className="flex max-w-[40rem] flex-col items-start">

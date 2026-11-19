@@ -15,12 +15,11 @@
     "preview:cf": "wrangler pages dev out --port 8788",
     "typecheck": "next typegen && tsc --noEmit",
     "lint": "eslint .",
-    "check:headings": "tsx scripts/check-headings.ts",
+    "check:content": "tsx scripts/check-content.ts",
     "check:placeholders": "tsx scripts/check-placeholders.ts",
     "extract:reference": "tsx scripts/extract-reference.ts",
     "test:e2e": "playwright test",
     "lhci": "lhci autorun",
-    "prepare:hero": "tsx scripts/prepare-hero-media.ts",
     "check:js-budget": "tsx scripts/check-js-budget.ts",
     "finalize:headers": "tsx scripts/finalize-headers.ts",
     "make:brand-assets": "tsx scripts/make-brand-assets.ts"

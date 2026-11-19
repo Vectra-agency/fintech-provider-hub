@@ -3,13 +3,10 @@ import type { Lang } from '@/lib/i18n';
 import { tgUrl } from '@/lib/i18n';
 import { pagePath } from '@/lib/routes';
 import { getDict } from '@/content';
-import { ADDED } from '@/content/added-strings';
-import type { Status } from '@/content/types';
-import { HeroBackground } from '@/components/hero/HeroBackground';
+import { HeroProduct } from '@/components/hero/HeroProduct';
 import { Button } from '@/components/ui/Button';
 import { TwoPartHeading } from '@/components/ui/TwoPartHeading';
-import { Checks, DemoNote, Kicker, SectionHead, Steps } from '@/components/ui/Bits';
-import { Pill, Pills } from '@/components/ui/Pill';
+import { Checks, Kicker, SectionHead, Steps } from '@/components/ui/Bits';
 import { Frame } from '@/components/ui/Frame';
 import { ArrowIcon, SolutionIcon } from '@/components/ui/icons';
 import { Marquee } from '@/components/patterns/Marquee';
@@ -22,25 +19,29 @@ import type { WidgetKind } from '@/components/mockups/widgets';
 
 const text = (h: string | readonly [string, string]) => (typeof h === 'string' ? h : h.join(' '));
 
-/** 1. P1 — hero with the background loop, CTAs and the four specs along the bottom. */
+/** 1. P1 — hero: copy + CTAs on the left, the product (Parus phone over its admin panel) on the right; specs below. */
 export function HomeHero({ lang }: { lang: Lang }) {
   const H = getDict(lang).home;
   return (
     <section className="home-hero">
-      <HeroBackground labels={ADDED[lang].heroVideo} />
-      <div className="hero-scrim" aria-hidden="true" />
-      <div className="section-inner relative z-10 flex min-h-svh flex-col pt-28 pb-10 sm:pt-32 lg:pt-36">
-        <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col items-center justify-center text-center">
-          <p className="eyebrow hero-in">{H.eyebrow}</p>
-          <TwoPartHeading as="h1" text={H.h1} className="heading-1 hero-in mt-6 [--hero-in-delay:60ms]" second="gradient" />
-          <p className="hero-sub hero-in [--hero-in-delay:150ms]">{H.sub}</p>
-          <div className="hero-in mt-9 flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row [--hero-in-delay:200ms]">
-            <Button href={pagePath(lang, 'home', 'solutions')} variant="outline" data-ev="explore_solutions">
-              {H.cta1}
-            </Button>
-            <Button href={tgUrl()} variant="solid" data-ev="request_demo" data-placement="hero">
-              {H.cta2}
-            </Button>
+      <div className="hero-bg" aria-hidden="true" />
+      <div className="section-inner relative z-10 pt-28 pb-10 sm:pt-32 lg:pt-36">
+        <div className="hero-grid">
+          <div className="flex flex-col items-start">
+            <p className="eyebrow hero-in">{H.eyebrow}</p>
+            <TwoPartHeading as="h1" text={H.h1} className="heading-1 hero-in mt-6 [--hero-in-delay:60ms]" second="gradient" />
+            <p className="hero-sub hero-in [--hero-in-delay:150ms]">{H.sub}</p>
+            <div className="hero-in mt-9 flex w-full flex-col gap-3 sm:w-auto sm:flex-row [--hero-in-delay:200ms]">
+              <Button href={tgUrl()} variant="solid" data-ev="request_demo" data-placement="hero">
+                {H.cta2}
+              </Button>
+              <Button href={pagePath(lang, 'home', 'solutions')} variant="outline" data-ev="explore_solutions">
+                {H.cta1}
+              </Button>
+            </div>
+          </div>
+          <div className="hero-in [--hero-in-delay:250ms]">
+            <HeroProduct lang={lang} />
           </div>
         </div>
         <dl className="hero-specs hero-in [--hero-in-delay:500ms]">
@@ -67,7 +68,7 @@ export function HomeMarquee({ lang }: { lang: Lang }) {
   );
 }
 
-/** 3. P4 — showcase: numbered tabs 01–04, phones in a frame, brand switcher, demo note. */
+/** 3. P4 — showcase: numbered tabs 01–04, phones in a frame, brand switcher. */
 export function HomeShowcase({ lang }: { lang: Lang }) {
   const d = getDict(lang);
   const S = d.home.show;
@@ -82,7 +83,6 @@ export function HomeShowcase({ lang }: { lang: Lang }) {
             <div key={t.id} className="flex flex-col gap-6">
               <h3 className="font-display text-3xl tracking-tight text-foreground lg:text-4xl">{t.title}</h3>
               <Checks items={t.pts} />
-              <Pills statuses={t.st} labels={d.status} />
             </div>
           ))}
           visuals={S.tabs.map((t) => (
@@ -93,9 +93,8 @@ export function HomeShowcase({ lang }: { lang: Lang }) {
             </Frame>
           ))}
           aside={
-            <div className="mt-6 flex flex-col items-center gap-4">
+            <div className="mt-6 flex flex-col items-center">
               <BrandSwitcher label={d.home.tryBrand} names={d.home.brands} />
-              <DemoNote>{d.demoNote}</DemoNote>
             </div>
           }
         />
@@ -118,10 +117,7 @@ export function HomeSolutions({ lang }: { lang: Lang }) {
             return (
               <article key={s.id} className={`plan${featured ? ' is-featured' : ''}`} data-reveal="sm" style={{ ['--reveal-delay' as string]: `${i * 80}ms` }}>
                 <div className="plan-top">
-                  <div className="flex items-start justify-between gap-3">
-                    <span className="plan-tag">{s.tag}</span>
-                    <SolutionIcon id={s.id} size={20} className="text-white/50" />
-                  </div>
+                  <SolutionIcon id={s.id} size={22} className={featured ? 'text-white/80' : 'text-white/50'} />
                   <h3 className="plan-name">{s.name}</h3>
                   <p className="plan-desc">{s.short}</p>
                   <Button href={pagePath(lang, s.id)} variant={featured ? 'outline' : 'ghost'} icon="arrow" className="mt-auto w-full normal-case">
@@ -141,28 +137,24 @@ export function HomeSolutions({ lang }: { lang: Lang }) {
 
 const WIDGET_FOR: Partial<Record<number, WidgetKind>> = { 0: 'networks', 1: 'freeze', 4: 'quote', 5: 'username' };
 
-/** 5. P5 — bento of the 8 features, each with its status pill; 4 large cards carry mini-widgets. */
+/** 5. P5 — bento of the 8 features; 4 large cards carry mini-widgets. */
 export function HomeFeatures({ lang }: { lang: Lang }) {
   const d = getDict(lang);
   const F = d.home.features;
   return (
     <section id="features" className="section" aria-labelledby="features-h">
       <div className="section-inner">
-        <SectionHead heading={F.h2} sub={F.sub} id="features-h">
-          <Legend labels={d.status} statuses={['core', 'partner', 'addon']} />
-        </SectionHead>
+        <SectionHead heading={F.h2} sub={F.sub} id="features-h" />
         <div className="bento">
-          {F.items.map(([name, desc, st], i) => {
+          {F.items.map(([name, desc], i) => {
             const widget = WIDGET_FOR[i];
             return (
               <article key={name} className={`card bento-card${widget ? ' is-large' : ''}`} data-reveal="sm">
                 {widget && (
                   <div className="bento-visual brandable">
                     <MiniWidget kind={widget} lang={lang} />
-                    <DemoNote className="bento-note">{d.demoNote}</DemoNote>
                   </div>
                 )}
-                <Pill status={st} label={d.status[st]} />
                 <h3 className="card-title">{name}</h3>
                 <p className="card-text">{desc}</p>
               </article>
@@ -171,16 +163,6 @@ export function HomeFeatures({ lang }: { lang: Lang }) {
         </div>
       </div>
     </section>
-  );
-}
-
-function Legend({ labels, statuses }: { labels: Record<Status, string>; statuses: Status[] }) {
-  return (
-    <div className="flex flex-wrap gap-2">
-      {statuses.map((s) => (
-        <Pill key={s} status={s} label={labels[s]} />
-      ))}
-    </div>
   );
 }
 
@@ -226,13 +208,13 @@ export function HomeManaged({ lang }: { lang: Lang }) {
             </div>
           ))}
         </div>
-        <AdminBlock lang={lang} title={M.adminT} desc={M.adminD} note={M.adminNote} />
+        <AdminBlock lang={lang} title={M.adminT} desc={M.adminD} />
       </div>
     </section>
   );
 }
 
-export function AdminBlock({ lang, title, desc, note, className = 'mt-16' }: { lang: Lang; title?: string; desc?: string; note: string; className?: string }) {
+export function AdminBlock({ lang, title, desc, className = 'mt-16' }: { lang: Lang; title?: string; desc?: string; className?: string }) {
   return (
     <div className={`flex flex-col gap-6 ${className}`}>
       {(title || desc) && (
@@ -241,12 +223,9 @@ export function AdminBlock({ lang, title, desc, note, className = 'mt-16' }: { l
           {desc && <p className="leading-relaxed text-muted-foreground">{desc}</p>}
         </div>
       )}
-      <Frame fade>
-        <div className="p-2 sm:p-3">
-          <AdminShell lang={lang} />
-        </div>
-      </Frame>
-      <DemoNote>{note}</DemoNote>
+      <div className="admin-fade">
+        <AdminShell lang={lang} />
+      </div>
     </div>
   );
 }
@@ -280,7 +259,6 @@ export function HomeProjects({ lang }: { lang: Lang }) {
             </div>
             <div className="phone-stage br-ember py-4">
               <Phones names={['cards', 'wallet']} lang={lang} s={0.5} fixed />
-              <DemoNote>{d.demoNote}</DemoNote>
             </div>
           </div>
         </Frame>

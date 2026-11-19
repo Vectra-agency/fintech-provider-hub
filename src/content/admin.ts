@@ -1,4 +1,4 @@
-/** Admin-panel mockup copy — ported verbatim from the prototype (object `ADM`). */
+/** Admin-panel mockup copy (started as the prototype object `ADM`). */
 import type { Lang } from '@/lib/i18n';
 import type { AdminStrings } from './types';
 
@@ -28,7 +28,7 @@ export const ADM = {
   },
   ru: {
     url: 'admin.yourbrand.app/users',
-    brand: 'Your Brand · Админка',
+    brand: 'Ваш бренд · Панель управления',
     nav: ['Пользователи', 'Балансы', 'Карты', 'Поддержка', 'Настройки'],
     h: 'Пользователи',
     search: 'Поиск по UID или @username',
@@ -37,7 +37,7 @@ export const ADM = {
     kyc: {
       ok: 'Пройден',
       wait: 'На проверке',
-      na: 'Не нужен',
+      na: 'Не требуется',
     },
     tk: 'Обращение #2841 · UID 10482736',
     m1: 'Здравствуйте! Пополнил карту 10 минут назад, деньги ещё не пришли.',

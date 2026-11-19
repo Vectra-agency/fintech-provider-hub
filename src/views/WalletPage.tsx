@@ -2,7 +2,6 @@ import type { Lang } from '@/lib/i18n';
 import { getDict } from '@/content';
 import { PageHero } from '@/components/patterns/PageHero';
 import { Checks, Note, SectionHead, Steps } from '@/components/ui/Bits';
-import { Pill, Pills } from '@/components/ui/Pill';
 import { Frame } from '@/components/ui/Frame';
 import { TwoPartHeading } from '@/components/ui/TwoPartHeading';
 import { BrandSwitcher } from '@/components/mockups/BrandSwitcher';
@@ -23,10 +22,10 @@ export function WalletPage({ lang }: { lang: Lang }) {
       <Section labelledBy="inc-h">
         <SectionHead heading={P.incH} id="inc-h" />
         <div className="grid gap-4 md:grid-cols-2">
-          <PlanCard featured title={P.coreT} top={<Pill status="core" label={d.status.core} />}>
+          <PlanCard featured title={P.coreT}>
             <Checks items={P.core} />
           </PlanCard>
-          <PlanCard title={P.optT} top={<Pills statuses={['partner', 'addon']} labels={d.status} />}>
+          <PlanCard title={P.optT}>
             <Checks items={P.opt} />
           </PlanCard>
         </div>
@@ -52,15 +51,15 @@ export function WalletPage({ lang }: { lang: Lang }) {
       {/* 4. P6 Admin panel included */}
       <Section labelledBy="adm-h">
         <SectionHead heading={P.adminH} sub={P.adminP} id="adm-h" />
-        <AdminBlock lang={lang} note={d.home.managed.adminNote} className="" />
+        <AdminBlock lang={lang} className="" />
       </Section>
 
-      {/* 5. P5 Integrations — all via partner */}
+      {/* 5. P5 Integrations (all through partners) */}
       <Section labelledBy="int-h">
         <SectionHead heading={P.intH} id="int-h" />
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {P.ints.map(([t, x]) => (
-            <FeatureCard key={t} status="partner" statusLabel={d.status.partner} title={t} text={x} />
+            <FeatureCard key={t} title={t} text={x} />
           ))}
         </div>
       </Section>
@@ -76,10 +75,10 @@ export function WalletPage({ lang }: { lang: Lang }) {
           <article className="card gap-5" data-reveal="sm">
             <h2 className="font-display text-3xl tracking-tight text-foreground">{P.roadH}</h2>
             <ul className="flex flex-col">
-              {P.road.map(([name, state, st]) => (
+              {P.road.map(([name, state], i) => (
                 <li key={name} className="flex items-center justify-between gap-4 border-b border-white/[0.09] py-4 first:border-t">
                   <span className="text-foreground">{name}</span>
-                  <Pill status={st} label={state} />
+                  <span className={i === 0 ? 'text-sm text-live' : 'text-sm text-muted-foreground'}>{state}</span>
                 </li>
               ))}
             </ul>

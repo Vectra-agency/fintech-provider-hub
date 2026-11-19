@@ -2,6 +2,7 @@ import { test, expect, type Page } from '@playwright/test';
 import { getDict } from '../src/content';
 import { PAGE_KEYS, pagePath } from '../src/lib/routes';
 import { LANGS } from '../src/lib/i18n';
+import { ADDED } from '../src/content/added-strings';
 
 const en = getDict('en');
 const dataLayer = (page: Page) => page.evaluate(() => (window.dataLayer ?? []) as Record<string, unknown>[]);
@@ -11,29 +12,24 @@ test.beforeEach(async ({ context }) => {
   await context.route(/https:\/\/t\.me\/.*/, (r) => r.fulfill({ status: 200, body: 'telegram' }));
 });
 
-// PRD §13 scenario 4 — hero video
-test.describe('hero video', () => {
-  test.skip(({ browserName }) => browserName !== 'chromium', 'headless WebKit has no H.264/VP9 decoding');
+// Hero shows the product (Parus phone over its admin panel) in the first viewport — no video.
+test.describe('hero product', () => {
+  for (const [width, height] of [[1440, 900], [390, 844]] as const) {
+    test(`Parus screen is visible above the fold at ${width}px`, async ({ page }) => {
+      await page.setViewportSize({ width, height });
+      await page.goto('/');
+      const scene = page.locator('.home-hero').getByRole('img', { name: ADDED.en.parus.label });
+      await expect(scene).toBeVisible();
+      const top = await page.locator('.home-hero .pp-phone').evaluate((el) => el.getBoundingClientRect().top);
+      expect(top).toBeLessThan(height - 120);
+      await expect(page.locator('video')).toHaveCount(0);
+    });
+  }
 
-  test('autoplays muted, pause persists across reloads', async ({ page }) => {
-    await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto('/');
-    const video = page.locator('video');
-    await expect.poll(() => video.evaluate((v: HTMLVideoElement) => !v.paused && v.muted && v.currentTime > 0.2), { timeout: 15_000 }).toBe(true);
-    await page.getByRole('button', { name: 'Pause background video' }).click();
-    expect(await video.evaluate((v: HTMLVideoElement) => v.paused)).toBe(true);
-    expect((await dataLayer(page)).some((e) => e.event === 'hero_video_toggle' && e.state === 'pause')).toBe(true);
-    await page.reload();
-    await expect(page.getByRole('button', { name: 'Play background video' })).toBeVisible();
-    await expect(page.locator('video')).toHaveCount(0);
-  });
-
-  test('reduced motion: poster only', async ({ page }) => {
-    await page.emulateMedia({ reducedMotion: 'reduce' });
-    await page.goto('/');
-    await expect(page.locator('.hero-bg picture img')).toBeVisible();
-    await page.waitForTimeout(800);
-    await expect(page.locator('video')).toHaveCount(0);
+  test('Russian hero is localised', async ({ page }) => {
+    await page.goto('/ru/');
+    await expect(page.locator('.home-hero').getByRole('img', { name: ADDED.ru.parus.label })).toBeVisible();
+    await expect(page.locator('.home-hero .pp-scr')).toContainText(ADDED.ru.parus.total);
   });
 });
 

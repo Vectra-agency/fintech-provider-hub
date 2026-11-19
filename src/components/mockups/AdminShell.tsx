@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import type { Lang } from '@/lib/i18n';
 import { ADM } from '@/content/admin';
 import { ic } from './screens';
@@ -26,94 +27,104 @@ const Ic = ({ name, size = 16 }: { name: string; size?: number }) => (
  * (sidebar, KPIs, table, ticket) come from the prototype unchanged. Fixed design size, scaled by ScaleToFit.
  */
 export function AdminShell({ lang }: { lang: Lang }) {
-  const A = ADM[lang];
   return (
     <ScaleToFit width={ADMIN_W} height={ADMIN_H}>
-      <div className="adm brandable" role="img" aria-label={A.brand}>
-        <div className="adm-in" aria-hidden="true">
-          <div className="adm-bar">
-            <i />
-            <i />
-            <i />
-            <span>{A.url}</span>
-          </div>
-          <div className="adm-main">
-            <div className="adm-side">
-              <div className="adm-logo">
-                <i />
-                {A.brand}
+      <AdminView lang={lang} />
+    </ScaleToFit>
+  );
+}
+
+/**
+ * The admin panel at its design size (ADMIN_W × ADMIN_H), no scaling. `brand`/`logo` replace the
+ * "Your Brand" sidebar mark (home hero shows Parus); `url: null` hides the address bar text.
+ */
+export function AdminView({ lang, brand, logo, url, decorative }: { lang: Lang; brand?: string; logo?: ReactNode; url?: string | null; decorative?: boolean }) {
+  const A = ADM[lang];
+  return (
+    <div className="adm brandable" {...(decorative ? { 'aria-hidden': true } : { role: 'img', 'aria-label': brand ?? A.brand })}>
+      <div className="adm-in" aria-hidden="true">
+        <div className="adm-bar">
+          <i />
+          <i />
+          <i />
+          {url !== null && <span>{url ?? A.url}</span>}
+        </div>
+        <div className="adm-main">
+          <div className="adm-side">
+            <div className="adm-logo">
+              {logo ?? <i />}
+              {brand ?? A.brand}
+            </div>
+            {A.nav.map((n, i) => (
+              <div key={n} className={`adm-nav${i === 0 ? ' on' : ''}`}>
+                <Ic name={NAV_ICONS[i] ?? 'grid'} />
+                {n}
+                {i === 3 && <em>3</em>}
               </div>
-              {A.nav.map((n, i) => (
-                <div key={n} className={`adm-nav${i === 0 ? ' on' : ''}`}>
-                  <Ic name={NAV_ICONS[i] ?? 'grid'} />
-                  {n}
-                  {i === 3 && <em>3</em>}
+            ))}
+          </div>
+          <div className="adm-c">
+            <div className="adm-head">
+              <h4>{A.h}</h4>
+              <span className="adm-search">
+                <Ic name="scan" size={14} />
+                {A.search}
+              </span>
+            </div>
+            <div className="adm-kpis">
+              {A.k.map(([label, value]) => (
+                <div key={label} className="adm-kpi">
+                  <span>{label}</span>
+                  <b>{value}</b>
                 </div>
               ))}
             </div>
-            <div className="adm-c">
-              <div className="adm-head">
-                <h4>{A.h}</h4>
-                <span className="adm-search">
-                  <Ic name="scan" size={14} />
-                  {A.search}
-                </span>
-              </div>
-              <div className="adm-kpis">
-                {A.k.map(([label, value]) => (
-                  <div key={label} className="adm-kpi">
-                    <span>{label}</span>
-                    <b>{value}</b>
-                  </div>
-                ))}
-              </div>
-              <div className="adm-table">
-                <table>
-                  <thead>
-                    <tr>
-                      {A.th.map((t) => (
-                        <th key={t}>{t}</th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {ROWS.map((r, i) => (
-                      <tr key={r[0]} className={r[5] ? 'sel' : undefined}>
-                        <td>{r[0]}</td>
-                        <td>{r[1]}</td>
-                        <td>{r[2]}</td>
-                        <td>{r[3]}</td>
-                        <td>
-                          <span className={`st st-${r[4]}`}>{A.kyc[r[4]]}</span>
-                        </td>
-                        <td>{A.ago[i]}</td>
-                      </tr>
+            <div className="adm-table">
+              <table>
+                <thead>
+                  <tr>
+                    {A.th.map((t) => (
+                      <th key={t}>{t}</th>
                     ))}
-                  </tbody>
-                </table>
-              </div>
+                  </tr>
+                </thead>
+                <tbody>
+                  {ROWS.map((r, i) => (
+                    <tr key={r[0]} className={r[5] ? 'sel' : undefined}>
+                      <td>{r[0]}</td>
+                      <td>{r[1]}</td>
+                      <td>{r[2]}</td>
+                      <td>{r[3]}</td>
+                      <td>
+                        <span className={`st st-${r[4]}`}>{A.kyc[r[4]]}</span>
+                      </td>
+                      <td>{A.ago[i]}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-            <div className="adm-r">
-              <h5>{A.tk}</h5>
-              <div className="adm-msg">
-                {A.m1}
-                <small>{A.t1}</small>
-              </div>
-              <div className="adm-msg me">
-                {A.m2}
-                <small>{A.t2}</small>
-              </div>
-              <div className="adm-reply">
-                <span>{A.reply}</span>
-                <div>
-                  <b className="s">{A.resolve}</b>
-                  <b className="p">{A.send}</b>
-                </div>
+          </div>
+          <div className="adm-r">
+            <h5>{A.tk}</h5>
+            <div className="adm-msg">
+              {A.m1}
+              <small>{A.t1}</small>
+            </div>
+            <div className="adm-msg me">
+              {A.m2}
+              <small>{A.t2}</small>
+            </div>
+            <div className="adm-reply">
+              <span>{A.reply}</span>
+              <div>
+                <b className="s">{A.resolve}</b>
+                <b className="p">{A.send}</b>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </ScaleToFit>
+    </div>
   );
 }

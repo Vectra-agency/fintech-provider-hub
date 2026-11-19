@@ -31,14 +31,12 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
       - run: pnpm lint
-      - run: pnpm check:headings
+      - run: pnpm check:content
       - name: check-placeholders (prod only)
         if: env.IS_PROD == 'true'
         run: pnpm check:placeholders
       - run: pnpm build
         env:
-          # TODO(Q9): hero footage/poster only on previews until the template licence is confirmed.
-          NEXT_PUBLIC_HERO_MEDIA: ${{ env.IS_PROD == 'true' && 'off' || 'on' }}
           # TODO(Q3): production domain (canonical, hreflang, sitemap, OG, JSON-LD)
           NEXT_PUBLIC_SITE_URL: ${{ vars.SITE_URL }}
           # TODO(Q2): plausible | umami; endpoint origin is also added to CSP connect-src
@@ -46,9 +44,6 @@ jobs:
           NEXT_PUBLIC_ANALYTICS_ENDPOINT: ${{ vars.ANALYTICS_ENDPOINT }}
           NEXT_PUBLIC_ANALYTICS_SITE: ${{ vars.ANALYTICS_SITE }}
       - run: pnpm check:js-budget
-      - name: Strip hero media from production output (Q9)
-        if: env.IS_PROD == 'true'
-        run: rm -rf out/media/hero
       - uses: actions/upload-artifact@v4
         with:
           name: site

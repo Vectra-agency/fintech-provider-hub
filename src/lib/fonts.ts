@@ -1,4 +1,4 @@
-import { Google_Sans, Inter } from 'next/font/google';
+import { Google_Sans, Inter, Manrope } from 'next/font/google';
 
 // Display face of the design reference. Self-hosted by next/font at build time; has Cyrillic (Q11).
 // Next ships no metrics for Google Sans → the size-adjusted fallback face lives in globals.css.
@@ -11,3 +11,6 @@ export const display = Google_Sans({
 
 // Font of the product screens inside the phone/admin mockups (prototype). Not preloaded: mockups are decorative.
 export const inter = Inter({ subsets: ['latin', 'cyrillic'], variable: '--font-inter', display: 'swap', preload: false });
+
+// Parus brand face (paruspay.com) — only the hero phone uses it. Decorative, so not preloaded.
+export const manrope = Manrope({ subsets: ['latin', 'cyrillic'], variable: '--font-manrope', display: 'swap', preload: false });

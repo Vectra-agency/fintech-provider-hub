@@ -167,17 +167,16 @@
   to { filter: none; }
 }
 
-/* ── Reference frame: hairline outer + gradient inner + top glint (app-shell windows of the reference) */
+/* ── Frame: one hairline + gradient surface + top glint (the reference's extra outer ring is dropped:
+   two concentric borders read as visual noise) */
 .ref-frame {
   position: relative;
   border-radius: var(--radius-frame);
-  border: 1px solid var(--white-09);
-  padding: 5px;
 }
 .ref-frame-inner {
   position: relative;
   overflow: hidden;
-  border-radius: calc(var(--radius-frame) - 4px);
+  border-radius: var(--radius-frame);
   border: 1px solid var(--frame-border);
   background: var(--frame-fill);
 }
@@ -219,8 +218,8 @@
 .adm-main { flex: 1; min-height: 0; display: grid; grid-template-columns: 200px 1fr 300px; }
 .adm-ic { display: inline-flex; color: rgb(255 255 255 / 0.55); }
 .adm-side { background: #0e0e10; border-right: 1px solid var(--white-09); padding: 18px 12px; display: flex; flex-direction: column; gap: 2px; }
-.adm-logo { display: flex; align-items: center; gap: 8px; padding: 0 8px 16px; font-weight: 600; font-size: 13px; white-space: nowrap; color: #fff; }
-.adm-logo i { width: 24px; height: 24px; border-radius: 7px; background: linear-gradient(135deg, var(--b1), var(--b2)); }
+.adm-logo { display: flex; align-items: center; gap: 8px; padding: 0 8px 16px; font-weight: 600; font-size: 13px; line-height: 1.2; color: #fff; }
+.adm-logo i { flex: none; width: 24px; height: 24px; border-radius: 7px; background: linear-gradient(135deg, var(--b1), var(--b2)); }
 .adm-nav { height: 34px; border-radius: 8px; display: flex; align-items: center; gap: 10px; padding: 0 10px; color: var(--white-70); border: 1px solid transparent; }
 .adm-nav.on { background: rgb(255 255 255 / 0.05); border-color: var(--white-09); color: #fff; }
 .adm-nav.on .adm-ic { color: #fff; }
@@ -262,7 +261,7 @@
 .sw { height: 2rem; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0 0.75rem 0 0.375rem; border-radius: var(--radius-pill); border: 1px solid transparent; font-size: 0.8125rem; color: var(--white-70); transition: color var(--dur-ui) var(--ease-standard), background-color var(--dur-ui) var(--ease-standard); }
 .sw i { width: 1.25rem; height: 1.25rem; border-radius: 50%; box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.25); }
 .sw:hover { color: var(--white); }
-.sw[aria-pressed='true'] { background: var(--white-06); border-color: var(--white-12); color: var(--white); }
+.sw[aria-pressed='true'] { background: var(--white-09); color: var(--white); }
 
 /* ── Mini-widget: a piece of the screen at natural size on the screen background */
 .scr.scr-widget {
@@ -281,4 +280,77 @@
 @media (max-width: 25rem) {
   .phone-stage .phone,
   .gallery-phones .phone { --s: 0.5 !important; }
+}
+
+/* ── Parus home screen (home hero). Palette and type from paruspay.com, sized for the 402 × 874 screen. */
+/* default scale sits in a layer so page CSS (components layer) can override it per breakpoint */
+@layer components { .pp-phone { --s: 0.68; } }
+.pp-phone { position: relative; flex: none; width: calc(422px * var(--s)); height: calc(894px * var(--s)); }
+.pp-scr {
+  position: relative;
+  width: 402px;
+  height: 874px;
+  border-radius: 54px;
+  overflow: hidden;
+  padding: 64px 22px 0;
+  background: #fbfbfa;
+  color: #0b1836;
+  font-family: var(--font-manrope), Manrope, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.3;
+  text-align: left;
+}
+.pp-scr * { box-sizing: border-box; }
+.pp-scr p { margin: 0; }
+.pp-status { position: absolute; top: 22px; left: 40px; right: 34px; display: flex; justify-content: space-between; align-items: center; font-size: 16px; font-weight: 700; }
+.pp-sb { display: flex; gap: 6px; align-items: center; fill: currentColor; }
+.pp-head { display: flex; justify-content: space-between; align-items: center; margin: 6px 0 26px; }
+.pp-logo { display: flex; align-items: center; gap: 9px; font-size: 15px; font-weight: 800; letter-spacing: 0.06em; }
+.pp-sail { display: block; object-fit: contain; }
+.pp-avatar { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 13px; background: #eef0f2; color: #647087; font-size: 12px; font-weight: 800; }
+.pp-label { text-align: center; font-size: 13px; color: #8d94a0; }
+.pp-scr .pp-balance { margin: 6px 0 4px; text-align: center; font-size: 48px; font-weight: 800; letter-spacing: -0.05em; line-height: 1.1; }
+.pp-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 22px 0; }
+.pp-actions span { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; height: 76px; border-radius: 20px; background: #fff; border: 1px solid #ececef; color: #5f687a; font-size: 13px; font-weight: 600; }
+.pp-actions b { color: #ff6842; font-size: 20px; line-height: 1; }
+.pp-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  aspect-ratio: 1.62;
+  padding: 22px 24px;
+  border-radius: 24px;
+  background: #fff;
+  border: 1px solid #f0ece8;
+  box-shadow: 0 18px 40px rgb(22 31 51 / 0.13);
+}
+.pp-card::before { content: ''; position: absolute; top: -150px; right: -205px; width: 330px; height: 330px; border-radius: 50%; border: 1px solid rgb(255 104 66 / 0.28); box-shadow: 0 0 0 30px rgb(255 104 66 / 0.035), 0 0 0 60px rgb(255 104 66 / 0.025); }
+.pp-card::after { content: ''; position: absolute; right: 17px; bottom: 15px; width: 150px; height: 7px; border-radius: 100%; background: linear-gradient(90deg, transparent, #ff6842); opacity: 0.8; }
+.pp-card-row { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 800; letter-spacing: 0.08em; }
+.pp-card-brand { display: flex; align-items: center; gap: 8px; font-size: 15px; letter-spacing: 0.05em; }
+.pp-card-type { font-size: 11px; letter-spacing: 0.12em; color: #586278; }
+.pp-chip { position: relative; z-index: 1; display: flex; justify-content: center; align-items: center; gap: 4px; width: 48px; height: 34px; border-radius: 9px; background: linear-gradient(135deg, #e8c56f, #f6e7af); }
+.pp-chip i { width: 1px; height: 22px; background: rgb(111 85 28 / 0.28); transform: rotate(5deg); }
+.pp-visa { font-size: 24px; font-style: italic; font-weight: 900; letter-spacing: -0.06em; }
+.pp-hist { display: flex; justify-content: space-between; align-items: center; margin: 24px 0 6px; }
+.pp-hist b { font-size: 16px; font-weight: 800; }
+.pp-hist span { color: #ff6842; font-size: 13px; font-weight: 600; }
+.pp-tx { display: grid; grid-template-columns: 46px minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid #ececee; }
+.pp-tx:last-of-type { border-bottom: 0; }
+.pp-tx-logo { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 15px; background: #fff; border: 1px solid #eee; overflow: hidden; }
+.pp-tx-logo img { width: 26px; height: 26px; object-fit: contain; }
+.pp-tx-logo.is-chatgpt img { filter: brightness(0); }
+.pp-tx-logo.is-canva { background: #eef7ff; }
+.pp-tx-name b, .pp-tx-name small { display: block; }
+.pp-tx-name b { font-size: 15px; font-weight: 700; }
+.pp-tx-name small { margin-top: 3px; font-size: 12px; color: #9a9fa8; }
+.pp-tx strong { font-size: 15px; font-weight: 800; }
+.pp-home { position: absolute; left: 50%; bottom: 9px; width: 134px; height: 5px; border-radius: 3px; background: #0b1836; translate: -50% 0; opacity: 0.85; }
+
+/* Admin sidebar mark when a real logo replaces the gradient square (hero: Parus sail) */
+.adm-logo img { flex: none; width: 19px; height: 24px; object-fit: contain; }
+.admin-fade {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 84%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 84%, transparent 100%);
 }

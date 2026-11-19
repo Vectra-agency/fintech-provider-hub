@@ -1,7 +1,7 @@
 import type { Lang } from '@/lib/i18n';
 import { getDict } from '@/content';
 import { PageHero } from '@/components/patterns/PageHero';
-import { DemoNote, Note, SectionHead, Steps } from '@/components/ui/Bits';
+import { Note, SectionHead, Steps } from '@/components/ui/Bits';
 import { MiniWidget } from '@/components/mockups/MiniWidget';
 import { FeatureCard, PhoneStage, Section } from '@/components/sections/blocks';
 import { LeadSection } from '@/components/sections/LeadSection';
@@ -19,8 +19,8 @@ export function PaymentsPage({ lang }: { lang: Lang }) {
       <Section labelledBy="dir-h">
         <SectionHead heading={P.dirH} id="dir-h" />
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {P.dirs.map(([t, x, st]) => (
-            <FeatureCard key={t} status={st} statusLabel={d.status[st]} title={t} text={x} />
+          {P.dirs.map(([t, x]) => (
+            <FeatureCard key={t} title={t} text={x} />
           ))}
         </div>
         <Note className="mt-6">{P.note}</Note>
@@ -31,7 +31,6 @@ export function PaymentsPage({ lang }: { lang: Lang }) {
         <SectionHead heading={P.flowH} id="flow-h">
           <div className="bento-visual brandable !m-0 max-w-[24rem]">
             <MiniWidget kind="quote" lang={lang} />
-            <DemoNote className="bento-note">{d.demoNote}</DemoNote>
           </div>
         </SectionHead>
         <Steps steps={P.flow} />

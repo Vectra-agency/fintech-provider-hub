@@ -1,7 +1,6 @@
 import type { Lang } from '@/lib/i18n';
 import { getDict } from '@/content';
 import { PageHero } from '@/components/patterns/PageHero';
-import { DemoNote, Note } from '@/components/ui/Bits';
 import { Frame } from '@/components/ui/Frame';
 import { Phone } from '@/components/mockups/Phone';
 import { Section } from '@/components/sections/blocks';
@@ -39,10 +38,7 @@ export function ProjectsPage({ lang }: { lang: Lang }) {
             </li>
           ))}
         </ol>
-        <div className="mt-6 flex flex-col gap-4">
-          <DemoNote>{d.demoNote}</DemoNote>
-          <Note>{P.note}</Note>
-        </div>
+        <p className="mt-6 text-sm text-white/55">{P.note}</p>
       </Section>
 
       <LeadSection lang={lang} topic={0} />

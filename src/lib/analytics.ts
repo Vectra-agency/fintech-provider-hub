@@ -13,8 +13,7 @@ export type AnalyticsEvent =
   | 'contact_click'
   | 'lang_switch'
   | 'brand_preview'
-  | 'tab_select'
-  | 'hero_video_toggle';
+  | 'tab_select';
 
 type Props = Record<string, string | number | boolean | undefined>;
 type Adapter = (event: AnalyticsEvent, props: Props) => void;

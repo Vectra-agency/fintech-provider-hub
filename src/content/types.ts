@@ -5,7 +5,6 @@
  */
 import type { HeadingText } from '@/components/ui/TwoPartHeading';
 
-export type Status = 'core' | 'partner' | 'addon' | 'roadmap';
 export type SolutionId = 'wallet' | 'cards' | 'payments' | 'development';
 export type ScreenKey = 'wallet' | 'deposit' | 'issue' | 'setup' | 'cards' | 'freeze' | 'wdUsdt' | 'wdAlipay' | 'wdRub';
 export type BrandKey = 'ember' | 'ocean' | 'mint' | 'iris';
@@ -14,7 +13,6 @@ type Str = string;
 type List = readonly Str[];
 export type Pair = readonly [Str, Str];
 type Pairs = readonly Pair[];
-type WithStatus = readonly (readonly [Str, Str, Status])[];
 type Screens = readonly ScreenKey[];
 
 type PageHero = { eyebrow: Str; h1: Str; sub: Str };
@@ -26,9 +24,7 @@ export interface Dict {
   screens: Record<Exclude<ScreenKey, 'wdRub'>, Str> & { wdRub?: Str };
   meta: Record<'home' | 'wallet' | 'cards' | 'payments' | 'development' | 'projects' | 'about' | 'contact' | 'privacy' | 'terms' | '404', Str>;
   nav: Record<'solutions' | 'features' | 'projects' | 'about' | 'contact' | 'demo' | 'menu' | 'close' | 'skip', Str>;
-  sol: readonly { id: SolutionId; name: Str; short: Str; tag: Str }[];
-  status: Record<Status, Str>;
-  demoNote: Str;
+  sol: readonly { id: SolutionId; name: Str; short: Str }[];
   home: {
     eyebrow: Str;
     h1: HeadingText;
@@ -41,12 +37,12 @@ export interface Dict {
     show: {
       h2: HeadingText;
       sub: Str;
-      tabs: readonly { id: 'wallet' | 'issue' | 'manage' | 'pay'; label: Str; title: Str; pts: List; st: readonly Status[]; phones: Screens }[];
+      tabs: readonly { id: 'wallet' | 'issue' | 'manage' | 'pay'; label: Str; title: Str; pts: List; phones: Screens }[];
     };
     solutions: { h2: Str; sub: Str; more: Str };
-    features: { h2: Str; sub: Str; items: WithStatus };
+    features: { h2: Str; sub: Str; items: Pairs };
     how: { h2: Str; steps: Pairs };
-    managed: { h2: HeadingText; sub: Str; cols: readonly (readonly [Str, List])[]; adminT: Str; adminD: Str; adminNote: Str };
+    managed: { h2: HeadingText; sub: Str; cols: readonly (readonly [Str, List])[]; adminT: Str; adminD: Str };
     projects: { h2: Str; kicker: Str; title: Str; desc: Str; tags: List; note: Str; cta: Str };
     about: { h2: Str; p: Str; facts: Pairs; more: Str };
   };
@@ -83,14 +79,14 @@ export interface Dict {
       modelP: Str;
       modelKeep: Str;
       roadH: Str;
-      road: WithStatus;
+      road: Pairs;
       stepsH: Str;
     };
     cards: PageHero & {
       cta: Str;
       phones: Screens;
       typesH: Str;
-      types: WithStatus;
+      types: Pairs;
       binH: Str;
       binP: Str;
       bins: List;
@@ -104,7 +100,7 @@ export interface Dict {
       mgmtH: Str;
       mgmtPhones: Screens;
     };
-    payments: PageHero & { cta: Str; phones: Screens; dirH: Str; dirs: WithStatus; flowH: Str; flow: Pairs; note: Str };
+    payments: PageHero & { cta: Str; phones: Screens; dirH: Str; dirs: Pairs; flowH: Str; flow: Pairs; note: Str };
     development: PageHero & { cta: Str; capH: Str; caps: Pairs; procH: Str; proc: Pairs; stackH: Str; stack: List };
     projects: PageHero & { groups: readonly (readonly [Str, Str, Screens])[]; note: Str };
     about: PageHero & { doH: Str; dos: Pairs; notH: Str; notP: Str; forH: Str; fors: List; coH: Str; co: Pairs };

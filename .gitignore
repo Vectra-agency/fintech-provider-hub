@@ -11,7 +11,6 @@ playwright-report/
 test-results/
 .lighthouseci/
 # hero captures from extract-reference: frames (~750 MB) and near-lossless masters (45–70 MB each).
-# Regenerate with `pnpm extract:reference --only=hero`, or track the masters with Git LFS.
-# Web variants that ship live in public/media/hero/ and ARE committed.
+# Regenerate with `pnpm extract:reference --only=hero`. Reference material only: the site no longer ships a hero video.
 docs/design-reference/media/raw/
 docs/design-reference/media/*-master.mp4

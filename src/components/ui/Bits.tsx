@@ -16,16 +16,6 @@ export function Checks({ items, className = '' }: { items: readonly string[]; cl
   );
 }
 
-/** Demo-data disclosure next to every mockup and mini-widget (PRD §9.4). */
-export function DemoNote({ children, className = '' }: { children: ReactNode; className?: string }) {
-  return (
-    <p className={`demo-note ${className}`}>
-      <InfoIcon size={14} />
-      <span>{children}</span>
-    </p>
-  );
-}
-
 /** Boxed note (availability, disclaimers) — mandatory texts of PRD §9.3 use it. */
 export function Note({ children, className = '' }: { children: ReactNode; className?: string }) {
   return (

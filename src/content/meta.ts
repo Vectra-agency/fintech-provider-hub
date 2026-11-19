@@ -3,20 +3,29 @@ import type { PageKey } from '@/lib/routes';
 import { getDict } from './index';
 
 /**
- * PRD §8 `metaDesc`: defaults to the page `sub`. Where `sub` is longer than 160 characters it is
- * replaced by verbatim sentences from the prototype (no rewriting) — `check:headings` verifies that
- * every override occurs in the prototype text and fits the limit.
+ * PRD §8 `metaDesc`. Indexable pages have their own description written for search (≤ 160 chars,
+ * `check:content` enforces it); the legal drafts and 404 fall back to dictionary text.
  */
 export const META_DESC_OVERRIDES: Record<Lang, Partial<Record<PageKey, string>>> = {
   en: {
-    // first sentence of pages.wallet.sub
-    wallet: 'A branded crypto wallet in Telegram with cards and fiat on-ramp, run on our infrastructure.',
-    // first two sentences of home.about.p (pages.about.sub is a single 166-char sentence)
-    about: 'We are a Hong Kong fintech company. We build and run white-label financial products, develop custom fintech software and connect financial APIs.',
+    home: 'White-label crypto wallet for Telegram: USDT on 5 networks, virtual cards and payments through licensed partners, plus custom fintech development.',
+    wallet: 'A USDT wallet under your brand as a Telegram Mini App: 5 networks, virtual cards and fiat on-ramp through partners, admin panel included.',
+    cards: 'Virtual card programs through issuing partners: issue cards and top them up from the USDT balance via API, manage them inside your Telegram wallet.',
+    payments: 'Buy and sell USDT for USD and EUR, QR payments and CNY payouts to Alipay and WeChat through partner providers. Payout rate locked for 30 seconds.',
+    development: 'Telegram Mini Apps, fintech interfaces, admin panels and integrations with card issuers, on/off-ramps and AML/KYC providers, built to your spec.',
+    projects: 'A crypto wallet with virtual cards, built as a Telegram Mini App on our platform: USDT on 5 networks, card issuing, Alipay payouts.',
+    about: 'We build and run white-label financial products. We are not a bank or a card issuer: regulated services are provided by licensed partners.',
+    contact: 'Message us on Telegram and tell us what you want to launch: a white-label crypto wallet, a card program, payments or custom development.',
   },
   ru: {
-    wallet: 'Криптокошелёк под вашим брендом в Telegram с картами и покупкой USDT за рубли, на нашей инфраструктуре.',
-    about: 'Мы — финтех-компания из Гонконга. Разрабатываем и сопровождаем white-label финансовые продукты, делаем финтех-разработку на заказ и подключаем финансовые API.',
+    home: 'White-label криптокошелёк в Telegram: USDT в 5 сетях, виртуальные карты и платежи через лицензированных партнёров, финтех-разработка на заказ.',
+    wallet: 'USDT-кошелёк под вашим брендом в Telegram Mini App: 5 сетей, карты и покупка USDT за рубли через партнёров. Панель управления в комплекте.',
+    cards: 'Программы виртуальных карт через партнёров-эмитентов: выпуск и пополнение с баланса USDT по API, управление картами прямо в Telegram-кошельке.',
+    payments: 'Покупка и продажа USDT за рубли по СБП, доллары и евро, QR-платежи и выплаты в Alipay через партнёров. Курс выплаты фиксируется на 30 секунд.',
+    development: 'Разрабатываем по ТЗ Telegram Mini Apps, финтех-интерфейсы, панели управления и интеграции с эмитентами карт, on/off-ramp и AML/KYC-провайдерами.',
+    projects: 'Криптокошелёк с виртуальными картами в Telegram Mini App на нашей платформе: USDT в 5 сетях, выпуск карт, вывод по СБП и в Alipay.',
+    about: 'Разрабатываем и сопровождаем white-label финансовые продукты. Мы не банк и не эмитент карт: регулируемые услуги оказывают лицензированные партнёры.',
+    contact: 'Напишите нам в Telegram и расскажите, что хотите запустить: white-label криптокошелёк, карточную программу, платежи или разработку на заказ.',
   },
 };
 
